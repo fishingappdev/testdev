@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">FishingApp</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string-array name="navigation_drawer_items_array">
+        <item>MY PROFILE</item>
+        <item>MY FISH</item>
+        <item>MY FRIENDS</item>
+        <item>MY ALBUMS</item>
+        <item>MY FISHING LOG</item>
+        <item>MY EPISODE LIST</item>
+        <item>CHANGE PASSWORD</item>
+    </string-array>
+
+    <!--Login Screen-->
+    <string name="username_hint">Username</string>
+    <string name="password_hint">Password</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="signin_txt">Sign in</string>
+    <string name="or_txt">Or</string>
+    <string name="Signup_txt">Sign up</string>
+    <string name="new_user_txt">New user?</string>
+    <string name="watch_now_txt">Watch Now</string>
+    <string name="facebook_txt">Facebook</string>
+</resources>
