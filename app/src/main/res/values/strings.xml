@@ -23,4 +23,6 @@
     <string name="new_user_txt">New user?</string>
     <string name="watch_now_txt">Watch Now</string>
     <string name="facebook_txt">Facebook</string>
+    <string name="ok_txt">Ok</string>
+    <string name="network_error">Please check your internet connection!</string>
 </resources>
