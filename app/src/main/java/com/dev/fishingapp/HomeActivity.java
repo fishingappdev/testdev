@@ -15,6 +15,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.dev.fishingapp.fishinglog.fragment.FishingLog;
+import com.dev.fishingapp.fragments.ChangePassword;
 import com.dev.fishingapp.fragments.MyEpisodeList;
 import com.dev.fishingapp.myalbum.fragments.MyAlbum;
 import com.dev.fishingapp.myfish.fragment.MyFish;
@@ -184,7 +185,7 @@ public class HomeActivity extends AppCompatActivity {
                 fragment = new MyEpisodeList();
                 break;
             case 6:
-                fragment= new MyEpisodeList();
+                fragment= new ChangePassword();
                 break;
 
             default:
