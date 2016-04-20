@@ -1,23 +1,28 @@
 package com.dev.fishingapp;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
+import android.support.v4.app.LoaderManager;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.dev.fishingapp.LoaderCallbacks.LoginCallback;
+
 /**
  * Created by user on 4/19/2016.
  */
-public class LoginActivity extends Activity implements OnClickListener{
+public class LoginActivity extends AbstractActivity implements OnClickListener{
     private GradientDrawable loginBtnShape,fbBtnShape,watchBtnShape;
     private Button mLoginBtn,mFbBtn,mWatchNowBtn;
     private TextView mForgotPasswordView;
     private EditText mUserNameEdt,mPasswordEdt;
+    private LoaderManager loaderManager;
+    private String mUsername;
+    private String mPassword;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -27,6 +32,8 @@ public class LoginActivity extends Activity implements OnClickListener{
         mFbBtn=(Button)findViewById(R.id.fbBtn);
         mWatchNowBtn=(Button)findViewById(R.id.watchBtn);
         mForgotPasswordView=(TextView)findViewById(R.id.forgotPwd);
+        mUserNameEdt=(EditText)findViewById(R.id.username);
+        mPasswordEdt=(EditText)findViewById(R.id.password);
 
         loginBtnShape = (GradientDrawable)mLoginBtn.getBackground();
         loginBtnShape.setColor(getResources().getColor(R.color.drawer_bg));
@@ -39,6 +46,8 @@ public class LoginActivity extends Activity implements OnClickListener{
 
         mLoginBtn.setOnClickListener(this);
         mForgotPasswordView.setOnClickListener(this);
+
+        loaderManager=getSupportLoaderManager();
     }
 
     @Override
@@ -47,6 +56,11 @@ public class LoginActivity extends Activity implements OnClickListener{
             case R.id.loginBtn:
                 boolean IsValidate =validateFields();
                 if(IsValidate) {
+                    if(loaderManager.getLoader(R.id.loader_login)== null){
+                        loaderManager.initLoader(R.id.loader_login, null, new LoginCallback(this,true,mUsername,mPassword));
+                } else {
+                    loaderManager.restartLoader(R.id.loader_login, null, new LoginCallback(this,true,mUsername,mPassword));
+                }
                     Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                     startActivity(intent);
                 }
@@ -58,12 +72,12 @@ public class LoginActivity extends Activity implements OnClickListener{
     }
 
     private boolean validateFields(){
-        String userName=mUserNameEdt.getText().toString();
-        String password=mPasswordEdt.getText().toString();
-        if(userName.isEmpty()){
+        mUsername=mUserNameEdt.getText().toString();
+       mPassword=mPasswordEdt.getText().toString();
+        if(mUsername.isEmpty()){
             mUserNameEdt.setError(getResources().getString(R.string.empty_username));
             return false;
-        }else if(password.isEmpty()){
+        }else if(mPassword.isEmpty()){
             mPasswordEdt.setError(getResources().getString(R.string.empty_password));
             return  false;
         }
