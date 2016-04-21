@@ -6,4 +6,6 @@
     <color name="login_btn">#04A2E3</color>
     <color name="fb_btn">#3B5999</color>
     <color name="watch_now_btn">#828282</color>
+    <color name="light_overlay">#11FFFFFF</color>
+    <color name="colorPrimary">#FFFFFF</color>
 </resources>
