@@ -18,5 +18,4 @@
     <dimen name="photo_width">150dp</dimen>
     <dimen name="dp_150">150dp</dimen>
     <dimen name="actionbar_height">56dp</dimen>
->>>>>>> My fish layout integration
 </resources>

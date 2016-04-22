@@ -1,41 +1,40 @@
 <resources>
-<string name="app_name">FishingApp</string>
+    <string name="app_name">FishingApp</string>
 
-<string name="hello_world">Hello world!</string>
-<string name="action_settings">Settings</string>
-<string-array name="navigation_drawer_items_array">
-    <item>MY PROFILE</item>
-    <item>MY FISH</item>
-    <item>MY FRIENDS</item>
-    <item>MY ALBUMS</item>
-    <item>MY FISHING LOG</item>
-    <item>MY EPISODE LIST</item>
-    <item>CHANGE PASSWORD</item>
-</string-array>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string-array name="navigation_drawer_items_array">
+        <item>MY PROFILE</item>
+        <item>MY FISH</item>
+        <item>MY FRIENDS</item>
+        <item>MY ALBUMS</item>
+        <item>MY FISHING LOG</item>
+        <item>MY EPISODE LIST</item>
+        <item>CHANGE PASSWORD</item>
+    </string-array>
 
-<!--Login Screen-->
-<string name="username_hint">Username</string>
-<string name="password_hint">Password</string>
-<string name="forgot_password">Forgot Password?</string>
-<string name="signin_txt">Sign in</string>
-<string name="or_txt">Or</string>
-<string name="Signup_txt">Sign up</string>
-<string name="new_user_txt">New user?</string>
-<string name="watch_now_txt">Watch Now</string>
-<string name="facebook_txt">Facebook</string>
-<string name="ok_txt">Ok</string>
-<string name="network_error">Please check your internet connection!</string>
-<string name="submit_txt">Submit</string>
+    <!--Login Screen-->
+    <string name="username_hint">Username</string>
+    <string name="password_hint">Password</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="signin_txt">Sign in</string>
+    <string name="or_txt">Or</string>
+    <string name="Signup_txt">Sign up</string>
+    <string name="new_user_txt">New user?</string>
+    <string name="watch_now_txt">Watch Now</string>
+    <string name="facebook_txt">Facebook</string>
+    <string name="ok_txt">Ok</string>
+    <string name="network_error">Please check your internet connection!</string>
+    <string name="submit_txt">Submit</string>
 
-<!--Change Password Screen-->
-<string name="old_pwd_txt">Old Password</string>
-<string name="new_pwd_txt">New Password</string>
-<string name="confrm_pwd_txt">Confirm Password</string>
-<string name="change_pwd_title">Change Password</string>
-<string name="email_txt">Email</string>
+    <!--Change Password Screen-->
+    <string name="old_pwd_txt">Old Password</string>
+    <string name="new_pwd_txt">New Password</string>
+    <string name="confrm_pwd_txt">Confirm Password</string>
+    <string name="change_pwd_title">Change Password</string>
+    <string name="email_txt">Email</string>
 
     <!--Error Messages-->
-
     <string name="empty_email_id">E-Mail ID cannot be blank</string>
     <string name="empty_confirm_email_id">Confirm E-Mail ID cannot be blank</string>
     <string name="empty_first_name">First name cannot be blank</string>
@@ -297,20 +296,27 @@
         <item>Zambia</item>
         <item>Zimbabwe</item>
     </string-array>
-<!--Error Messages-->
-<string name="empty_username">Username cannot be blank</string>
-<string name="empty_password">Password cannot be blank</string>
-<string name="length_txt">Length:</string>
-<string name="weight_txt">Weight:</string>
-<string name="where_caught_txt">Where Caught:</string>
-<string name="length_text">LENGTH</string>
-<string name="weight_title">WEIGHT</string>
-<string name="add_detail_txt">Add Details</string>
-<string name="save_txt">Save</string>
-<string name="where_caught_text">WHERE CAUGHT</string>
-<string name="date_text">DATE</string>
-<string name="share_facebook">Share with Facebook</string>
-<string name="share_friend">Share with Friend</string>
-<string name="dummy_txt">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. /n/nIt has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. /n/nIt was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</string>
+    <!--Error Messages-->
+    <string name="empty_username">Username cannot be blank</string>
+    <string name="empty_password">Password cannot be blank</string>
+    <string name="length_txt">Length:</string>
+    <string name="weight_txt">Weight:</string>
+    <string name="where_caught_txt">Where Caught:</string>
+    <string name="length_text">LENGTH</string>
+    <string name="weight_title">WEIGHT</string>
+    <string name="add_detail_txt">Add Details</string>
+    <string name="save_txt">Save</string>
+    <string name="where_caught_text">WHERE CAUGHT</string>
+    <string name="date_text">DATE</string>
+    <string name="share_facebook">Share with Facebook</string>
+    <string name="share_friend">Share with Friend</string>
+    <string name="dummy_txt">Lorem Ipsum is simply dummy text of the printing and typesetting
+        industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s,
+        when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+        /n/nIt has survived not only five centuries, but also the leap into electronic typesetting,
+        remaining essentially unchanged. /n/nIt was popularised in the 1960s with the release of
+        Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing
+        software like Aldus PageMaker including versions of Lorem Ipsum.
+    </string>
     <string name="my_fish_header">My Fish</string>
 </resources>

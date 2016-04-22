@@ -2,8 +2,12 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+<<<<<<< HEAD
     android:background="@drawable/bg"
     android:id="@+id/">
+=======
+    android:background="@drawable/bg2">
+>>>>>>> profile pic code & signup layout
 
     <ScrollView
         android:id="@+id/scroll"
@@ -57,6 +61,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:backgroundTint="@color/edittext_bg"
+<<<<<<< HEAD
+=======
+                        android:drawableLeft="@drawable/msg_ic"
+>>>>>>> profile pic code & signup layout
                         android:drawablePadding="@dimen/dp_5"
                         android:hint="@string/email_address"
                         android:textColor="@color/white"
@@ -67,6 +75,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:backgroundTint="@color/edittext_bg"
+<<<<<<< HEAD
+=======
+                        android:drawableLeft="@drawable/msg_ic"
+>>>>>>> profile pic code & signup layout
                         android:drawablePadding="@dimen/dp_5"
                         android:hint="@string/confirm_email_address"
                         android:textColor="@color/white"
@@ -100,6 +112,7 @@
                         android:layout_height="wrap_content"
                         android:backgroundTint="@color/edittext_bg"
                         android:completionThreshold="1"
+                        android:drawableLeft="@drawable/country"
                         android:drawablePadding="@dimen/dp_5"
                         android:hint="@string/country"
                         android:textColorHint="@color/white" />
