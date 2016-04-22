@@ -2,11 +2,17 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
-
-    <FrameLayout
-        android:id="@+id/content_frame"
+  <!-- <RelativeLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent">&ndash;&gt;-->
+
+    <include layout="@layout/drawer_right_view" />
+   <!-- <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/actionbar_height" />-->
 
     <ListView
         android:id="@+id/left_drawer"
@@ -18,5 +24,5 @@
         android:divider="@android:color/white"
         android:dividerHeight="1dp"
         />
-
+   <!-- </RelativeLayout>-->
 </android.support.v4.widget.DrawerLayout>

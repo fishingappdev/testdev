@@ -13,7 +13,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:background="@drawable/bg"
-        android:paddingTop="@dimen/dp_200">
+        android:paddingTop="@dimen/dp_150">
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"

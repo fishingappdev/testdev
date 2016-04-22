@@ -6,19 +6,22 @@ import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.dev.fishingapp.fishinglog.fragment.FishingLog;
 import com.dev.fishingapp.fragments.ChangePassword;
 import com.dev.fishingapp.fragments.MyEpisodeList;
 import com.dev.fishingapp.myalbum.fragments.MyAlbum;
-import com.dev.fishingapp.myfish.fragment.MyFish;
+import com.dev.fishingapp.myfish.fragment.MyFishFragment;
 import com.dev.fishingapp.myfriends.fragments.MyFriends;
 import com.dev.fishingapp.myprofile.fragments.MyProfile;
 import com.dev.fishingapp.support.DrawerItemAdapter;
@@ -37,6 +40,7 @@ public class HomeActivity extends AppCompatActivity {
     private DrawerItemAdapter mAdapter;
     private ActionBarDrawerToggle mDrawerToggle;
     private CharSequence mDrawerTitle;
+    private TextView mHeader;
 
     // used to store app title
     private CharSequence mTitle;
@@ -44,6 +48,20 @@ public class HomeActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        // Always cast your custom Toolbar here, and set it as the ActionBar.
+        Toolbar tb = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(tb);
+
+        // Get the ActionBar here to configure the way it behaves.
+        final ActionBar ab = getSupportActionBar();
+        //ab.setHomeAsUpIndicator(R.drawable.ic_menu); // set a custom icon for the default home button
+        ab.setDisplayShowHomeEnabled(true); // show or hide the default home button
+        ab.setDisplayHomeAsUpEnabled(true);
+        ab.setDisplayShowCustomEnabled(true); // enable overriding the default toolbar layout
+        ab.setDisplayShowTitleEnabled(false);
+
+        mHeader=(TextView)tb.findViewById(R.id.title);
+
         mTitle = mDrawerTitle = getTitle();
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
@@ -113,6 +131,10 @@ public class HomeActivity extends AppCompatActivity {
         getSupportActionBar().setTitle(mTitle);
     }
 
+    public void setToolBarTitle(String title) {
+        mHeader.setText(title);
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
@@ -154,8 +176,9 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         // if nav drawer is opened, hide the action items
+
         boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
-        menu.findItem(R.id.action_settings).setVisible(!drawerOpen);
+        menu.findItem(R.id.action_settings).setVisible(false);
         return super.onPrepareOptionsMenu(menu);
     }
 
@@ -170,7 +193,7 @@ public class HomeActivity extends AppCompatActivity {
                 fragment = new MyProfile();
                 break;
             case 1:
-                fragment = new MyFish();
+                fragment = new MyFishFragment();
                 break;
             case 2:
                 fragment = new MyFriends();
@@ -185,7 +208,7 @@ public class HomeActivity extends AppCompatActivity {
                 fragment = new MyEpisodeList();
                 break;
             case 6:
-                fragment= new ChangePassword();
+                fragment = new ChangePassword();
                 break;
 
             default:
@@ -199,7 +222,9 @@ public class HomeActivity extends AppCompatActivity {
             mDrawerList.setItemChecked(position, true);
             mDrawerList.setSelection(position);
             setTitle(navMenuTitles[position]);
-            mDrawerLayout.closeDrawer(mDrawerList);
+             mDrawerLayout.closeDrawer(mDrawerList);
+
+
         } else {
             // error in creating fragment
             Log.e("MainActivity", "Error in creating fragment");

@@ -10,8 +10,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.dev.fishingapp.LoaderCallbacks.LoginCallback;
-
 /**
  * Created by user on 4/19/2016.
  */
@@ -56,13 +54,14 @@ public class LoginActivity extends AbstractActivity implements OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.loginBtn:
-                boolean IsValidate = validateFields();
-                if (IsValidate) {
-                    if (loaderManager.getLoader(R.id.loader_login) == null) {
-                        loaderManager.initLoader(R.id.loader_login, null, new LoginCallback(this, true, mUsername, mPassword));
-                    } else {
-                        loaderManager.restartLoader(R.id.loader_login, null, new LoginCallback(this, true, mUsername, mPassword));
-                    }
+
+                boolean IsValidate =validateFields();
+                if(IsValidate) {
+                    /*if(loaderManager.getLoader(R.id.loader_login)== null){
+                        loaderManager.initLoader(R.id.loader_login, null, new LoginCallback(this,true,mUsername,mPassword));
+                } else {
+                    loaderManager.restartLoader(R.id.loader_login, null, new LoginCallback(this,true,mUsername,mPassword));
+                }*/
                     Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                     startActivity(intent);
                 }
@@ -82,13 +81,6 @@ public class LoginActivity extends AbstractActivity implements OnClickListener {
     private boolean validateFields() {
         mUsername = mUserNameEdt.getText().toString();
         mPassword = mPasswordEdt.getText().toString();
-        if (mUsername.isEmpty()) {
-            mUserNameEdt.setError(getResources().getString(R.string.empty_username));
-            return false;
-        } else if (mPassword.isEmpty()) {
-            mPasswordEdt.setError(getResources().getString(R.string.empty_password));
-            return false;
-        }
         return true;
     }
 }
