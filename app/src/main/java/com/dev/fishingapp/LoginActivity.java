@@ -54,8 +54,6 @@ public class LoginActivity extends AbstractActivity implements OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.loginBtn:
-<<<<<<< HEAD
-
                 boolean IsValidate =validateFields();
                 if(IsValidate) {
                     /*if(loaderManager.getLoader(R.id.loader_login)== null){
@@ -63,15 +61,6 @@ public class LoginActivity extends AbstractActivity implements OnClickListener {
                 } else {
                     loaderManager.restartLoader(R.id.loader_login, null, new LoginCallback(this,true,mUsername,mPassword));
                 }*/
-=======
-                boolean IsValidate = validateFields();
-                if (IsValidate) {
-                    if (loaderManager.getLoader(R.id.loader_login) == null) {
-                        loaderManager.initLoader(R.id.loader_login, null, new LoginCallback(this, true, mUsername, mPassword));
-                    } else {
-                        loaderManager.restartLoader(R.id.loader_login, null, new LoginCallback(this, true, mUsername, mPassword));
-                    }
->>>>>>> profile pic code & signup layout
                     Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                     startActivity(intent);
                 }
