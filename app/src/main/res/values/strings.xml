@@ -348,6 +348,17 @@
         <item>Goldfish</item>
 
     </string-array>
+    <string-array name="moon_type_array">
+        <item>Moon</item>
+
+
+
+    </string-array>
+    <string-array name="tide_type_array">
+        <item>Tide</item>
+
+
+    </string-array>
 
     <!--Page Haeder-->
     <string name="header_episode_list">EPISODE LIST</string>
@@ -363,4 +374,5 @@
     <string name="my_albums_txt">My Albums</string>
     <string name="my_friends_txt">My Friends</string>
     <string name="my_fishing_log_txt">My Fishing Log</string>
+
 </resources>

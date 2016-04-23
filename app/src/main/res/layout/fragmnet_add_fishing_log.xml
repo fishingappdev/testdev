@@ -39,14 +39,23 @@
             android:textColorHint="@color/black"
             android:hint="@string/date_text"/>
             <Spinner
+                android:id="@+id/tide_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_10"></Spinner>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_1"
+                android:background="@color/grey_bg"></LinearLayout>
             <Spinner
+                android:id="@+id/moon_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_10"></Spinner>
-
+                android:layout_marginTop="@dimen/dp_20"></Spinner>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_1"
+                android:background="@color/grey_bg"></LinearLayout>
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
