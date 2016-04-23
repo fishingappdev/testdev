@@ -8,11 +8,13 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white">
+        android:background="@color/white"
+        android:padding="@dimen/dp_10">
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"
+        android:layout_marginBottom="@dimen/dp_10"
         android:layout_above="@+id/save_btn">
         <RelativeLayout
             android:layout_width="match_parent"
@@ -27,12 +29,16 @@
                 android:id="@+id/fishType"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:backgroundTint="@color/grey_bg"
                 android:layout_below="@id/fish_img"></Spinner>
             <EditText
                 android:id="@+id/pbTxt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/fishType"/>
+                android:layout_below="@id/fishType"
+                android:hint="@string/pb_hint"
+                android:singleLine="true"
+                android:backgroundTint="@color/grey_bg"/>
             <LinearLayout
                 android:id="@+id/detail_view"
                 android:layout_width="match_parent"
@@ -45,7 +51,6 @@
 
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
                 android:orientation="horizontal"
                 >
                 <LinearLayout
@@ -60,9 +65,12 @@
                         android:text="@string/date_text"
                         android:textColor="@color/black"/>
                     <EditText
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:id="@+id/date"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dp_30"
                         android:background="@color/white"
+                        android:singleLine="true"
+                        android:padding="@dimen/dp_5"
 
                         />
                 </LinearLayout>
@@ -79,22 +87,28 @@
                         android:text="@string/where_caught_text"
                         android:textColor="@color/black"/>
                     <EditText
-                        android:layout_width="wrap_content"
+                        android:id="@+id/where_caught"
+                        android:layout_width="match_parent"
                         android:layout_height="@dimen/dp_30"
+                        android:singleLine="true"
+                        android:padding="@dimen/dp_5"
                         android:background="@color/white"/>
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:layout_weight="0.4">
+                    android:layout_weight="0.4"
+                    android:layout_marginLeft="@dimen/dp_10">
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textColor="@color/black"
                         android:text="PUBLIC"/>
                     <CheckBox
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="match_parent"
+                        android:button="@drawable/checbox_selector"/>
                 </LinearLayout>
 
             </LinearLayout>
@@ -110,23 +124,34 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:textColor="@color/black"
                             android:text="@string/length_text"/>
                         <EditText
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
+                            android:id="@+id/length"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/dp_30"
+                            android:singleLine="true"
+                            android:padding="@dimen/dp_5"
+                            android:background="@color/white"/>
                     </LinearLayout>
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:layout_marginLeft="@dimen/dp_20"
                         android:orientation="vertical">
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:textColor="@color/black"
                             android:text="@string/weight_title"/>
                         <EditText
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
+                            android:id="@+id/weight"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/dp_30"
+                            android:singleLine="true"
+                            android:padding="@dimen/dp_5"
+                            android:background="@color/white"/>
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
@@ -134,6 +159,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_100"
                 android:hint="@string/add_detail_txt"
+                android:background="@color/grey_bg"
+                android:gravity="top|left"
+                android:layout_marginTop="@dimen/dp_10"
+                android:padding="@dimen/dp_10"
                 android:layout_below="@+id/detail_view"/>
 
         </RelativeLayout>
@@ -145,6 +174,7 @@
             android:layout_height="wrap_content"
             android:text="@string/save_txt"
             android:background="@color/drawer_bg"
+            android:textColor="@color/white"
             android:layout_alignParentBottom="true"/>
     </RelativeLayout>
 </LinearLayout>

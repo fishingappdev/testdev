@@ -305,6 +305,7 @@
     <string name="length_text">LENGTH</string>
     <string name="weight_title">WEIGHT</string>
     <string name="add_detail_txt">Add Details</string>
+    <string name="description_txt">Description</string>
     <string name="save_txt">Save</string>
     <string name="where_caught_text">WHERE CAUGHT</string>
     <string name="date_text">DATE</string>
@@ -319,4 +320,18 @@
         software like Aldus PageMaker including versions of Lorem Ipsum.
     </string>
     <string name="my_fish_header">My Fish</string>
+    <string name="pb_hint">PB for this Species</string>
+    <string name="temp_desc">SYDNEY \nSYNDNEY Local Street SYDNEY-558 \nAustralia</string>
+    <string name="latitude_txt">Latitude</string>
+    <string name="longitude_txt">Longitude</string>
+    <string name="comment_txt">Comments</string>
+    <string name="add_comment_txt">Add Comments</string>
+    <string-array name="fish_type_array">
+        <item>American sole</item>
+        <item>Baikal oilfish</item>
+        <item>Chimaera</item>
+        <item>Duckbill</item>
+        <item>Goldfish</item>
+
+    </string-array>
 </resources>

@@ -68,12 +68,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/where_caught_text"
+                    android:singleLine="true"
                     android:textColor="@color/drawer_bg"
                     android:layout_marginTop="@dimen/dp_10"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="USA"
+                    android:singleLine="true"
                     android:layout_marginBottom="@dimen/dp_10"
                     android:textColor="@color/black"/>
             </LinearLayout>
@@ -89,12 +91,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/weight_title"
+                    android:singleLine="true"
                     android:layout_marginTop="@dimen/dp_10"
                     android:textColor="@color/drawer_bg"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="0.80KG"
+                    android:singleLine="true"
                     android:layout_marginBottom="@dimen/dp_10"
                     android:textColor="@color/black"/>
             </LinearLayout>
@@ -110,12 +114,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/length_text"
+                    android:singleLine="true"
                     android:layout_marginTop="@dimen/dp_10"
                     android:textColor="@color/drawer_bg"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="5 TO 6 INCHES"
+                    android:singleLine="true"
                     android:layout_marginBottom="@dimen/dp_10"
                     android:textColor="@color/black"/>
             </LinearLayout>

@@ -17,9 +17,25 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:textColor="@color/drawer_bg"/>
-
-
+            android:textColor="@color/drawer_bg"
+            android:layout_toLeftOf="@+id/add_fish"
+            android:layout_marginRight="@dimen/dp_20"/>
+        <Button
+            android:id="@+id/add_fish"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/add_fish_btn"
+            android:gravity="right|center_vertical"
+            android:text="Add Fish"
+            android:paddingLeft="@dimen/dp_40"
+            android:paddingRight="@dimen/dp_10"
+            android:layout_marginTop="@dimen/dp_10"
+            android:layout_marginBottom="@dimen/dp_10"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/dp_20"
+            android:textColor="@color/white"
+            />
 
     </RelativeLayout>
 </android.support.v7.widget.Toolbar>

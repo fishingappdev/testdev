@@ -36,6 +36,14 @@ public class MyFishFragment extends Fragment implements AdapterView.OnItemClickL
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ((HomeActivity) getActivity()).setToolBarTitle(getResources().getString(R.string.my_fish_header));
+        ((HomeActivity) getActivity()).mAddFishBtn.setVisibility(View.VISIBLE);
+        ((HomeActivity) getActivity()).mAddFishBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager fm= getActivity().getSupportFragmentManager();
+                fm.beginTransaction().replace(R.id.content_frame,new AddFishFragment()).commit();
+            }
+        });
         mFishList=(ListView)view.findViewById(R.id.myfish_list);
         myFishArrayList=new ArrayList<>();
         for(int i=0;i<5;i++){

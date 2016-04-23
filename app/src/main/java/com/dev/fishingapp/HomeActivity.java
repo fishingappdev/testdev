@@ -14,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -41,6 +42,7 @@ public class HomeActivity extends AppCompatActivity {
     private ActionBarDrawerToggle mDrawerToggle;
     private CharSequence mDrawerTitle;
     private TextView mHeader;
+    public Button mAddFishBtn;
 
     // used to store app title
     private CharSequence mTitle;
@@ -61,6 +63,7 @@ public class HomeActivity extends AppCompatActivity {
         ab.setDisplayShowTitleEnabled(false);
 
         mHeader=(TextView)tb.findViewById(R.id.title);
+        mAddFishBtn=(Button)tb.findViewById(R.id.add_fish);
 
         mTitle = mDrawerTitle = getTitle();
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
