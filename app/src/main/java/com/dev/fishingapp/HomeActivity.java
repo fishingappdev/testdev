@@ -52,16 +52,19 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     private ActionBarDrawerToggle mDrawerToggle;
     private CharSequence mDrawerTitle;
     private TextView mHeader;
-    public Button mAddFishBtn,mAddLogBtn;
+    private Button mAddFishBtn, mAddLogBtn;
     private ImageView mRightOption;
     private ImageView mEdit;
     private ImageView mProfilePic;
+    private Button logoutbtn;
 
     // used to store app title
     private CharSequence mTitle;
     public static final int CAMERA_OPTION = 0;
     public static final int EDIT_OPTION = 1;
     public static final int SEARCH_OPTION = 2;
+    public static final int ADD_FISH_OPTION = 3;
+    public static final int ADD_LOG_OPTION = 4;
     UpdateImageUtil updateImageUtil;
 
     @Override
@@ -79,11 +82,13 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         ab.setDisplayHomeAsUpEnabled(true);
         ab.setDisplayShowCustomEnabled(true); // enable overriding the default toolbar layout
         ab.setDisplayShowTitleEnabled(false);
-        mHeader=(TextView)tb.findViewById(R.id.title);
-        mAddFishBtn=(Button)tb.findViewById(R.id.add_fish);
-        mAddLogBtn=(Button)tb.findViewById(R.id.add_log);
+        mHeader = (TextView) tb.findViewById(R.id.title);
+        mAddFishBtn = (Button) tb.findViewById(R.id.add_fish);
+        mAddLogBtn = (Button) tb.findViewById(R.id.add_log);
         updateImageUtil = UpdateImageUtil.getInstance(this);
         mRightOption = (ImageView) tb.findViewById(R.id.iv_right);
+        logoutbtn = (Button) findViewById(R.id.logout);
+        logoutbtn.setOnClickListener(this);
 
         mTitle = mDrawerTitle = getTitle();
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -173,6 +178,12 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         switch (view.getId()) {
             case R.id.profile_pic_edit: {
                 showImageOptions();
+            }
+            break;
+            case R.id.logout: {
+                Intent intent = new Intent(this, LoginActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
             }
             break;
         }
@@ -271,25 +282,40 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
     public void resetOptions() {
         mRightOption.setVisibility(View.GONE);
+        mAddFishBtn.setVisibility(View.GONE);
+        mAddLogBtn.setVisibility(View.GONE);
     }
 
     public void showRightOption(int option, View.OnClickListener listener) {
-        mRightOption.setVisibility(View.VISIBLE);
-        mRightOption.setOnClickListener(listener);
         switch (option) {
             case CAMERA_OPTION: {
+                mRightOption.setVisibility(View.VISIBLE);
                 mRightOption.setImageResource(R.drawable.add_photo);
+                mRightOption.setOnClickListener(listener);
             }
             break;
             case EDIT_OPTION: {
+                mRightOption.setVisibility(View.VISIBLE);
                 mRightOption.setImageResource(R.drawable.edit_ic);
+                mRightOption.setOnClickListener(listener);
             }
             break;
             case SEARCH_OPTION: {
+                mRightOption.setVisibility(View.VISIBLE);
                 mRightOption.setImageResource(R.drawable.search_ic);
+                mRightOption.setOnClickListener(listener);
             }
             break;
-
+            case ADD_LOG_OPTION: {
+                mAddLogBtn.setVisibility(View.VISIBLE);
+                mAddLogBtn.setOnClickListener(listener);
+            }
+            break;
+            case ADD_FISH_OPTION: {
+                mAddFishBtn.setVisibility(View.VISIBLE);
+                mAddFishBtn.setOnClickListener(listener);
+            }
+            break;
         }
     }
 

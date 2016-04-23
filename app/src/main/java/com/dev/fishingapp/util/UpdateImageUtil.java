@@ -168,6 +168,7 @@ public class UpdateImageUtil {
                         .showImageOnFail(R.drawable.user_icon)
                         .cacheInMemory(true).cacheOnDisc(true)
                         .bitmapConfig(Bitmap.Config.RGB_565).build();
+                FishingAppHelper.removeImageFromCache(finalUri.toString());
                 FishingAppHelper.getImageLoader().displayImage(finalUri.toString(), imageView, displayImageOptions);
             }
 

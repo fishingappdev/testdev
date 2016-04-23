@@ -2,7 +2,7 @@ package com.dev.fishingapp.myalbum.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,13 +13,14 @@ import com.dev.fishingapp.HomeActivity;
 import com.dev.fishingapp.R;
 import com.dev.fishingapp.data.model.MyAlbum;
 import com.dev.fishingapp.myalbum.support.MyAlbumListAdapter;
+import com.dev.fishingapp.support.BaseToolbarFragment;
 
 import java.util.ArrayList;
 
 /**
  * Created by user on 4/18/2016.
  */
-public class MyAlbumFragment extends Fragment implements AdapterView.OnItemClickListener {
+public class MyAlbumFragment extends BaseToolbarFragment implements AdapterView.OnItemClickListener {
     private ListView mAlbumList;
     private ArrayList<MyAlbum> myAlbumArraylist;
     private MyAlbumListAdapter myAlbumListAdapter;
@@ -58,6 +59,8 @@ public class MyAlbumFragment extends Fragment implements AdapterView.OnItemClick
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        FragmentManager fm= getActivity().getSupportFragmentManager();
+        fm.beginTransaction().add(R.id.content_frame,new AlbumDetailFragment()).addToBackStack(null).commit();
 
     }
 }

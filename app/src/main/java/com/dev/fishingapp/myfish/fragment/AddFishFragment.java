@@ -4,7 +4,6 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,13 +11,13 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 
-import com.dev.fishingapp.HomeActivity;
 import com.dev.fishingapp.R;
+import com.dev.fishingapp.support.BaseToolbarFragment;
 
 /**
  * Created by user on 4/21/2016.
  */
-public class AddFishFragment extends Fragment {
+public class AddFishFragment extends BaseToolbarFragment {
     private EditText mDate,mLengthEdt,mWeightEdt,mLocationEdt;
     private Spinner mTypeFishSpinner;
     @Nullable
@@ -30,8 +29,6 @@ public class AddFishFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ((HomeActivity) getActivity()).mAddFishBtn.setVisibility(View.GONE);
-
         mDate=(EditText)view.findViewById(R.id.date);
         mLengthEdt=(EditText)view.findViewById(R.id.length);
         mWeightEdt=(EditText)view.findViewById(R.id.weight);

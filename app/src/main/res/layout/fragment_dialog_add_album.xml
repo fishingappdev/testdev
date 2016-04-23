@@ -93,7 +93,6 @@
                     android:backgroundTint="@color/edittext_bg"
                     android:completionThreshold="1"
                     android:drawableLeft="@drawable/country"
-                    android:drawablePadding="@dimen/dp_5"
                     android:hint="@string/country"
                     android:textColor="@color/black"
                     android:textColorHint="@color/black" />

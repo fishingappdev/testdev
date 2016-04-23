@@ -1,7 +1,6 @@
 package com.dev.fishingapp.myfish.fragment;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,13 +12,14 @@ import com.dev.fishingapp.HomeActivity;
 import com.dev.fishingapp.R;
 import com.dev.fishingapp.data.model.MyFish;
 import com.dev.fishingapp.myfish.support.FishListAdapter;
+import com.dev.fishingapp.support.BaseToolbarFragment;
 
 import java.util.ArrayList;
 
 /**
  * Created by user on 4/18/2016.
  */
-public class MyFishFragment extends Fragment implements AdapterView.OnItemClickListener{
+public class MyFishFragment extends BaseToolbarFragment implements AdapterView.OnItemClickListener{
     private ListView mFishList;
     private ArrayList<MyFish> myFishArrayList;
     private FishListAdapter mFishListAdapter;
@@ -36,8 +36,7 @@ public class MyFishFragment extends Fragment implements AdapterView.OnItemClickL
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ((HomeActivity) getActivity()).setToolBarTitle(getResources().getString(R.string.my_fish_header));
-        ((HomeActivity) getActivity()).mAddFishBtn.setVisibility(View.VISIBLE);
-        ((HomeActivity) getActivity()).mAddFishBtn.setOnClickListener(new View.OnClickListener() {
+        ((HomeActivity) getActivity()).showRightOption(HomeActivity.ADD_FISH_OPTION, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 FragmentManager fm= getActivity().getSupportFragmentManager();

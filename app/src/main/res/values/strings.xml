@@ -374,5 +374,6 @@
     <string name="my_albums_txt">My Albums</string>
     <string name="my_friends_txt">My Friends</string>
     <string name="my_fishing_log_txt">My Fishing Log</string>
-
+    <string name="logout">Logout</string>
+    <string name="countries">Countries</string>
 </resources>

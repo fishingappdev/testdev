@@ -1,7 +1,6 @@
 package com.dev.fishingapp.myprofile.fragments;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,11 +10,12 @@ import android.widget.LinearLayout;
 
 import com.dev.fishingapp.HomeActivity;
 import com.dev.fishingapp.R;
+import com.dev.fishingapp.support.BaseToolbarFragment;
 
 /**
  * Created by user on 4/18/2016.
  */
-public class MyProfile extends Fragment {
+public class MyProfile extends BaseToolbarFragment {
     EditText etAboutMe;
     LinearLayout checkboxContainer;
     Button saveBtn;

@@ -40,8 +40,8 @@
                 android:id="@+id/profile_pic_edit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignRight="@+id/profile_pic"
                 android:layout_alignBottom="@id/profile_pic"
+                android:layout_alignRight="@+id/profile_pic"
                 android:padding="@dimen/dp_20"
                 android:src="@drawable/edit_profile_ic" />
         </RelativeLayout>
@@ -63,11 +63,27 @@
             android:id="@+id/left_drawer"
             android:layout_width="@dimen/dp_240"
             android:layout_height="match_parent"
+            android:layout_above="@+id/logout"
             android:layout_below="@id/username"
             android:layout_gravity="start"
             android:choiceMode="singleChoice"
             android:divider="@android:color/white"
             android:dividerHeight="1dp" />
+
+        <Button
+            android:id="@+id/logout"
+            android:text="@string/logout"
+            style="@style/ButtonStyle"
+            android:paddingLeft="@dimen/dp_20"
+            android:paddingRight="@dimen/dp_20"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/dp_20"
+            android:layout_marginTop="@dimen/dp_20"
+            android:background="@drawable/rounded_white"
+            android:textColor="@color/drawer_bg" />
     </RelativeLayout>
     <!-- </RelativeLayout>-->
 </android.support.v4.widget.DrawerLayout>

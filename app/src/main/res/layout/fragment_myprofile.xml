@@ -55,15 +55,15 @@
                     <CheckBox
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="fill"
                         android:layout_weight="1"
-                        android:minLines="2"
                         android:text="@string/bait_fishing" />
 
                     <CheckBox
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="fill"
                         android:layout_weight="1"
-                        android:minLines="2"
                         android:text="@string/exotic_fishing" />
                 </LinearLayout>
 
@@ -75,15 +75,15 @@
                     <CheckBox
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="fill"
                         android:layout_weight="1"
-                        android:minLines="2"
                         android:text="@string/freshwater_fishing" />
 
                     <CheckBox
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="fill"
                         android:layout_weight="1"
-                        android:minLines="2"
                         android:text="@string/freshwater_flyfishing" />
                 </LinearLayout>
 
@@ -95,12 +95,14 @@
                     <CheckBox
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="fill"
                         android:layout_weight="1"
                         android:text="@string/game_fishing" />
 
                     <CheckBox
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="fill"
                         android:layout_weight="1"
                         android:text="@string/jigging_fishing" />
                 </LinearLayout>
@@ -113,12 +115,14 @@
                     <CheckBox
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="fill"
                         android:layout_weight="1"
                         android:text="@string/lure_fishing" />
 
                     <CheckBox
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="fill"
                         android:layout_weight="1"
                         android:text="@string/popper_fishing" />
                 </LinearLayout>
@@ -131,12 +135,14 @@
                     <CheckBox
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="fill"
                         android:layout_weight="1"
                         android:text="@string/saltwaterfly_fishing" />
 
                     <CheckBox
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="fill"
                         android:layout_weight="1"
                         android:text="@string/soft_plastic_lure_fishing" />
                 </LinearLayout>
@@ -148,12 +154,14 @@
                     <CheckBox
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="fill"
                         android:layout_weight="1"
                         android:text="@string/sport_fishing" />
 
                     <CheckBox
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="fill"
                         android:layout_weight="1"
                         android:text=""
                         android:visibility="gone" />

@@ -2,7 +2,6 @@ package com.dev.fishingapp.fishinglog.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,11 +10,12 @@ import android.widget.Spinner;
 
 import com.dev.fishingapp.HomeActivity;
 import com.dev.fishingapp.R;
+import com.dev.fishingapp.support.BaseToolbarFragment;
 
 /**
  * Created by user on 4/23/2016.
  */
-public class AddFishingLog extends Fragment {
+public class AddFishingLog extends BaseToolbarFragment {
     private Spinner mMoonSpinner,mtideSpinner;
     @Nullable
     @Override
