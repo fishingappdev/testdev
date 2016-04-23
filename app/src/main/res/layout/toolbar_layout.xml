@@ -34,6 +34,24 @@
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
             android:layout_marginRight="@dimen/dp_20"
+            android:visibility="gone"
+            android:textColor="@color/white"
+            />
+        <Button
+            android:id="@+id/add_log"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/add_fish_btn"
+            android:gravity="right|center_vertical"
+            android:text="Add Log"
+            android:paddingLeft="@dimen/dp_40"
+            android:paddingRight="@dimen/dp_10"
+            android:layout_marginTop="@dimen/dp_10"
+            android:layout_marginBottom="@dimen/dp_10"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/dp_20"
+            android:visibility="gone"
             android:textColor="@color/white"
             />
 

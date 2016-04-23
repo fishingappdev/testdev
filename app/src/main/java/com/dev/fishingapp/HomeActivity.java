@@ -42,7 +42,7 @@ public class HomeActivity extends AppCompatActivity {
     private ActionBarDrawerToggle mDrawerToggle;
     private CharSequence mDrawerTitle;
     private TextView mHeader;
-    public Button mAddFishBtn;
+    public Button mAddFishBtn,mAddLogBtn;
 
     // used to store app title
     private CharSequence mTitle;
@@ -64,6 +64,7 @@ public class HomeActivity extends AppCompatActivity {
 
         mHeader=(TextView)tb.findViewById(R.id.title);
         mAddFishBtn=(Button)tb.findViewById(R.id.add_fish);
+        mAddLogBtn=(Button)tb.findViewById(R.id.add_log);
 
         mTitle = mDrawerTitle = getTitle();
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);

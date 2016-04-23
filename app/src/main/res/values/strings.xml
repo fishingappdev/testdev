@@ -334,4 +334,9 @@
         <item>Goldfish</item>
 
     </string-array>
+
+    <!--Page Haeder-->
+    <string name="header_episode_list">EPISODE LIST</string>
+    <string name="header_fishinglog">FISHING LOG</string>
+    <string name="header_my_fishinglog">MY FISHING LOG</string>
 </resources>

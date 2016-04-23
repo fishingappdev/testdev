@@ -23,11 +23,14 @@
                 android:textColorHint="@color/black"
                 android:layout_marginTop="@dimen/dp_10"
                 android:backgroundTint="@color/grey_bg"/>
-            <Spinner
+            <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/grey_bg"
-                android:layout_marginTop="@dimen/dp_10"></Spinner>
+                android:hint="Location name"
+                android:textColor="@color/black"
+                android:textColorHint="@color/black"
+                android:layout_marginTop="@dimen/dp_10"
+                android:backgroundTint="@color/grey_bg"/>
             <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

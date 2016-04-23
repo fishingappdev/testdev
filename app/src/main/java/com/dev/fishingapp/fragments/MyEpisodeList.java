@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import com.dev.fishingapp.HomeActivity;
 import com.dev.fishingapp.R;
 import com.dev.fishingapp.support.EpisodeListAdapter;
 
@@ -30,6 +31,8 @@ public class MyEpisodeList extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        ((HomeActivity) getActivity()).setToolBarTitle(getResources().getString(R.string.header_episode_list));
+
         mEpisodeList=(ListView)view.findViewById(R.id.episode_list);
         episodeTitleList=new ArrayList<>();
         for(int i=0 ;i<6;i++){
