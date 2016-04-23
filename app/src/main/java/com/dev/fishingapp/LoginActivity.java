@@ -15,9 +15,25 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.facebook.AccessToken;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookAuthorizationException;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.login.LoginManager;
+import com.facebook.login.LoginResult;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
 
 /**
  * Created by user on 4/19/2016.
@@ -30,6 +46,7 @@ public class LoginActivity extends AbstractActivity implements OnClickListener {
     private LoaderManager loaderManager;
     private String mUsername;
     private String mPassword;
+    CallbackManager callbackManager;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -55,8 +72,59 @@ public class LoginActivity extends AbstractActivity implements OnClickListener {
         mLoginBtn.setOnClickListener(this);
         mForgotPasswordView.setOnClickListener(this);
         msSignup.setOnClickListener(this);
+        mFbBtn.setOnClickListener(this);
         printKeyHash(this);
         loaderManager = getSupportLoaderManager();
+
+        FacebookSdk.sdkInitialize(getApplicationContext());
+        callbackManager = CallbackManager.Factory.create();
+        LoginManager.getInstance().getLoginBehavior();
+        LoginManager.getInstance().registerCallback(callbackManager,
+                new FacebookCallback<LoginResult>() {
+                    @Override
+                    public void onSuccess(final LoginResult loginResult) {
+                        GraphRequest request = GraphRequest.newMeRequest(loginResult.getAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
+                            @Override
+                            public void onCompleted(
+                                    JSONObject object,
+                                    GraphResponse response) {
+                                // Application code
+                                try {
+                                    Log.v("LoginActivity", response.toString());
+                                   String str_id = object.getString("id");
+                                    Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                                    startActivity(intent);
+
+                                } catch (JSONException e) {
+                                    if (e.getMessage().equals("No value for email")) {
+                                    }
+                                    e.printStackTrace();
+                                }
+
+                            }
+                        });
+                        Bundle parameters = new Bundle();
+                        parameters.putString("fields", "id,name,email,first_name,last_name");
+                        request.setParameters(parameters);
+                        request.executeAsync();
+                    }
+
+                    @Override
+                    public void onCancel() {
+                        Log.d("cancel", "cancel" + "");
+                    }
+
+                    @Override
+                    public void onError(FacebookException exception) {
+                        if (exception instanceof FacebookAuthorizationException) {
+                            if (AccessToken.getCurrentAccessToken() != null) {
+                                Toast.makeText(LoginActivity.this,"Some Error Occured",Toast.LENGTH_LONG).show();
+                                LoginManager.getInstance().logOut();
+                            }
+                        }
+                        Log.d("exception", exception + "");
+                    }
+                });
     }
 
     @Override
@@ -82,6 +150,9 @@ public class LoginActivity extends AbstractActivity implements OnClickListener {
                 Intent signupIntent = new Intent(LoginActivity.this, SignUpActivity.class);
                 startActivity(signupIntent);
                 finish();
+                break;
+            case R.id.fbBtn:
+                LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile", "email"));
                 break;
         }
     }
@@ -132,4 +203,13 @@ public class LoginActivity extends AbstractActivity implements OnClickListener {
         return key;
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK) {
+            Log.d("onActivityResult", "After fb login");
+             callbackManager.onActivityResult(requestCode, resultCode, data);
+        }
+
+    }
 }

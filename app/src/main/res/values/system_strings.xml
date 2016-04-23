@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="api.fishingapp">http://myfishingplace.com.au</string>
+    <string name="facebook_app_id">1553423424951202</string>
 </resources>
