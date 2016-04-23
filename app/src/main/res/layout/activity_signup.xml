@@ -105,6 +105,7 @@
                         android:drawableLeft="@drawable/country"
                         android:drawablePadding="@dimen/dp_5"
                         android:hint="@string/country"
+                        android:textColor="@color/white"
                         android:textColorHint="@color/white" />
 
                     <Button
@@ -113,7 +114,7 @@
                         android:layout_height="@dimen/dp_40"
                         android:layout_marginTop="@dimen/dp_30"
                         android:background="@drawable/button_oval_shape"
-                        android:text="@string/signin_txt"
+                        android:text="@string/Signup_txt"
                         android:textColor="@color/white" />
 
                 </LinearLayout>

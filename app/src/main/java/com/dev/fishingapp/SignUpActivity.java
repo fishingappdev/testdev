@@ -38,13 +38,14 @@ public class SignUpActivity extends Activity implements OnClickListener {
         mCountry = (AutoCompleteTextView) findViewById(R.id.country);
         values = getResources().getStringArray(R.array.countries_array);
         ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, values);
-        spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // The drop down view
+        spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mCountry.setAdapter(spinnerArrayAdapter);
         loginBtnShape = (GradientDrawable) mSignUpBtn.getBackground();
         loginBtnShape.setColor(getResources().getColor(R.color.drawer_bg));
 
         mSignUpBtn.setOnClickListener(this);
         msigninClick.setOnClickListener(this);
+        mCountry.setOnClickListener(this);
     }
 
     @Override
@@ -62,6 +63,9 @@ public class SignUpActivity extends Activity implements OnClickListener {
                 Intent signInIntent = new Intent(SignUpActivity.this, LoginActivity.class);
                 startActivity(signInIntent);
                 finish();
+                break;
+            case R.id.country:
+                mCountry.showDropDown();
                 break;
         }
     }

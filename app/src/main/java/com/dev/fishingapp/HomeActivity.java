@@ -1,12 +1,17 @@
 package com.dev.fishingapp;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -15,27 +20,32 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.dev.fishingapp.fishinglog.fragment.FishingLog;
 import com.dev.fishingapp.fragments.ChangePassword;
 import com.dev.fishingapp.fragments.MyEpisodeList;
-import com.dev.fishingapp.myalbum.fragments.MyAlbum;
+import com.dev.fishingapp.myalbum.fragments.MyAlbumFragment;
 import com.dev.fishingapp.myfish.fragment.MyFishFragment;
-import com.dev.fishingapp.myfriends.fragments.MyFriends;
+import com.dev.fishingapp.myfriends.fragments.MyFriendsFragment;
 import com.dev.fishingapp.myprofile.fragments.MyProfile;
 import com.dev.fishingapp.support.DrawerItemAdapter;
 import com.dev.fishingapp.support.NavDrawerItem;
+import com.dev.fishingapp.util.UpdateImageUtil;
 
 import java.util.ArrayList;
+
 
 /**
  * Created by user on 4/18/2016.
  */
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity implements View.OnClickListener {
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
+    private RelativeLayout mRelativeDrawerLayout;
     private ArrayList<NavDrawerItem> navDrawerItems;
     private String[] navMenuTitles;
     private DrawerItemAdapter mAdapter;
@@ -43,9 +53,17 @@ public class HomeActivity extends AppCompatActivity {
     private CharSequence mDrawerTitle;
     private TextView mHeader;
     public Button mAddFishBtn,mAddLogBtn;
+    private ImageView mRightOption;
+    private ImageView mEdit;
+    private ImageView mProfilePic;
 
     // used to store app title
     private CharSequence mTitle;
+    public static final int CAMERA_OPTION = 0;
+    public static final int EDIT_OPTION = 1;
+    public static final int SEARCH_OPTION = 2;
+    UpdateImageUtil updateImageUtil;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,16 +79,21 @@ public class HomeActivity extends AppCompatActivity {
         ab.setDisplayHomeAsUpEnabled(true);
         ab.setDisplayShowCustomEnabled(true); // enable overriding the default toolbar layout
         ab.setDisplayShowTitleEnabled(false);
-
         mHeader=(TextView)tb.findViewById(R.id.title);
         mAddFishBtn=(Button)tb.findViewById(R.id.add_fish);
         mAddLogBtn=(Button)tb.findViewById(R.id.add_log);
+        updateImageUtil = UpdateImageUtil.getInstance(this);
+        mRightOption = (ImageView) tb.findViewById(R.id.iv_right);
 
         mTitle = mDrawerTitle = getTitle();
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
+        mRelativeDrawerLayout = (RelativeLayout) findViewById(R.id.rl_DrawerLayout);
+        mProfilePic = (ImageView) findViewById(R.id.profile_pic);
+        mEdit = (ImageView) findViewById(R.id.profile_pic_edit);
         mDrawerList.setOnItemClickListener(new SlideMenuClickListener());
-
+        mProfilePic.setOnClickListener(this);
+        mEdit.setOnClickListener(this);
         navDrawerItems = new ArrayList<NavDrawerItem>();
         navMenuTitles = getResources().getStringArray(R.array.navigation_drawer_items_array);
 
@@ -88,15 +111,15 @@ public class HomeActivity extends AppCompatActivity {
                 navDrawerItems);
         mDrawerList.setAdapter(mAdapter);
 
-        mDrawerToggle = new ActionBarDrawerToggle(HomeActivity.this, mDrawerLayout, R.drawable.prv_btn, R.string.app_name,R.string.hello_world){
+        mDrawerToggle = new ActionBarDrawerToggle(HomeActivity.this, mDrawerLayout, R.drawable.prv_btn, R.string.app_name, R.string.hello_world) {
             public void onDrawerClosed(View view) {
-              //  getSupportActionBar().setTitle(mDrawerTitle);
+                //  getSupportActionBar().setTitle(mDrawerTitle);
                 // calling onPrepareOptionsMenu() to show action bar icons
                 invalidateOptionsMenu();
             }
 
             public void onDrawerOpened(View drawerView) {
-              //  getSupportActionBar().setTitle(mDrawerTitle);
+                //  getSupportActionBar().setTitle(mDrawerTitle);
                 // calling onPrepareOptionsMenu() to hide action bar icons
                 invalidateOptionsMenu();
             }
@@ -113,7 +136,7 @@ public class HomeActivity extends AppCompatActivity {
             // on first time display view for first nav item
             displayView(0);
         }
-           }
+    }
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
@@ -145,10 +168,20 @@ public class HomeActivity extends AppCompatActivity {
         return true;
     }
 
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.profile_pic_edit: {
+                showImageOptions();
+            }
+            break;
+        }
+    }
+
 
     /**
      * Slide menu item click listener
-     * */
+     */
     private class SlideMenuClickListener implements
             ListView.OnItemClickListener {
         @Override
@@ -181,14 +214,14 @@ public class HomeActivity extends AppCompatActivity {
     public boolean onPrepareOptionsMenu(Menu menu) {
         // if nav drawer is opened, hide the action items
 
-        boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
+        boolean drawerOpen = mDrawerLayout.isDrawerOpen(mRelativeDrawerLayout);
         menu.findItem(R.id.action_settings).setVisible(false);
         return super.onPrepareOptionsMenu(menu);
     }
 
     /**
      * Diplaying fragment view for selected nav drawer list item
-     * */
+     */
     private void displayView(int position) {
         // update the main content by replacing fishinglog
         Fragment fragment = null;
@@ -200,10 +233,10 @@ public class HomeActivity extends AppCompatActivity {
                 fragment = new MyFishFragment();
                 break;
             case 2:
-                fragment = new MyFriends();
+                fragment = new MyFriendsFragment();
                 break;
             case 3:
-                fragment = new MyAlbum();
+                fragment = new MyAlbumFragment();
                 break;
             case 4:
                 fragment = new FishingLog();
@@ -220,19 +253,80 @@ public class HomeActivity extends AppCompatActivity {
         }
 
         if (fragment != null) {
-            FragmentManager fm= getSupportFragmentManager();
-            fm.beginTransaction().replace(R.id.content_frame,fragment).commit();
+            FragmentManager fm = getSupportFragmentManager();
+            fm.beginTransaction().replace(R.id.content_frame, fragment).commit();
             // update selected item and title, then close the drawer
             mDrawerList.setItemChecked(position, true);
             mDrawerList.setSelection(position);
             setTitle(navMenuTitles[position]);
-             mDrawerLayout.closeDrawer(mDrawerList);
+            mDrawerLayout.closeDrawer(mRelativeDrawerLayout);
 
 
         } else {
             // error in creating fragment
             Log.e("MainActivity", "Error in creating fragment");
         }
+    }
+
+
+    public void resetOptions() {
+        mRightOption.setVisibility(View.GONE);
+    }
+
+    public void showRightOption(int option, View.OnClickListener listener) {
+        mRightOption.setVisibility(View.VISIBLE);
+        mRightOption.setOnClickListener(listener);
+        switch (option) {
+            case CAMERA_OPTION: {
+                mRightOption.setImageResource(R.drawable.add_photo);
+            }
+            break;
+            case EDIT_OPTION: {
+                mRightOption.setImageResource(R.drawable.edit_ic);
+            }
+            break;
+            case SEARCH_OPTION: {
+                mRightOption.setImageResource(R.drawable.search_ic);
+            }
+            break;
+
+        }
+    }
+
+    public void executeFragment(DialogFragment errorDialog) {
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.add(errorDialog, null);
+        ft.commitAllowingStateLoss();
+    }
+
+    private void showImageOptions() {
+        final CharSequence[] items = {
+                "Gallery", "Camera"
+        };
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Make your selection");
+        builder.setItems(items, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int item) {
+                switch (item) {
+                    case 0: {
+                        updateImageUtil.updateProfilePic(UpdateImageUtil.GALLERY_CAPTURE_IMAGE_REQUEST_CODE, mProfilePic);
+                    }
+                    break;
+                    case 1: {
+                        updateImageUtil.updateProfilePic(UpdateImageUtil.CAMERA_CAPTURE_IMAGE_REQUEST_CODE, mProfilePic);
+                    }
+                    break;
+                }
+            }
+        });
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        updateImageUtil.onActivityResult(requestCode, resultCode, data);
     }
 
 }

@@ -53,6 +53,20 @@
     <!-- My Profile -->
     <string name="about_me">About Me</string>
     <string name="fishing_preferences">Fishing Preferences</string>
+    <string name="bait_fishing">Bait Fishing</string>
+    <string name="exotic_fishing">Exotic Fishing</string>
+    <string name="freshwater_fishing">Freshwater Fishing</string>
+    <string name="freshwater_flyfishing">Freshwater Flyfishing</string>
+    <string name="game_fishing">Game Fishing</string>
+    <string name="jigging_fishing">Jigging Fishing</string>
+    <string name="lure_fishing">Lure Fishing</string>
+    <string name="popper_fishing">Popper Fishing</string>
+    <string name="saltwaterfly_fishing">Saltwaterfly Fishing</string>
+    <string name="soft_plastic_lure_fishing">Soft Plastic Lure Fishing</string>
+    <string name="sport_fishing">Sport Fishing</string>
+
+    <string name="ok">Ok</string>
+    <string name="my_profile_txt">My Profile</string>
     <string-array name="countries_array">
         <item>Afghanistan</item>
         <item>Albania</item>
@@ -339,4 +353,14 @@
     <string name="header_episode_list">EPISODE LIST</string>
     <string name="header_fishinglog">FISHING LOG</string>
     <string name="header_my_fishinglog">MY FISHING LOG</string>
+    <string name="title_txt">Title</string>
+    <string name="location_name_txt">Location name</string>
+    <string name="street_address_txt">Street, Address</string>
+    <string name="select_nultiple_countries">Select Multiple Countries</string>
+    <string name="my_friends_header">MY FRIENDS</string>
+    <string name="my_albums_header">MY ALBUMS</string>
+    <string name="add_friend">Add Friend</string>
+    <string name="my_albums_txt">My Albums</string>
+    <string name="my_friends_txt">My Friends</string>
+    <string name="my_fishing_log_txt">My Fishing Log</string>
 </resources>

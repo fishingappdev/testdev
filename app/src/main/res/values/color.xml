@@ -14,4 +14,8 @@
     <color name="grey_dark">#C3C3C3</color>
     <color name="toolbar_bg">#11212E</color>
     <color name="commment_bg">#383838</color>
+    <color name="red">#FF0000</color>
+    <color name="lighter_gray">#ddd</color>
+    <color name="set_label_color">#B33c3c3b</color>
+    <color name="divider">#B3c8c7cc</color>
 </resources>

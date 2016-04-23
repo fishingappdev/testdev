@@ -10,8 +10,12 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.dev.fishingapp.R;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.soundcloud.android.crop.Crop;
 
 import java.io.File;
@@ -31,8 +35,9 @@ public class UpdateImageUtil {
     public static final int CAMERA_CAPTURE_IMAGE_REQUEST_CODE = 100;
     public static final int GALLERY_CAPTURE_IMAGE_REQUEST_CODE = 101;
     public static final int MEDIA_TYPE_IMAGE = 1;
-    private static final String IMAGE_DIRECTORY_NAME = "CustomFit";
+    private static final String IMAGE_DIRECTORY_NAME = "FishingApp";
     private Object mParent;
+    private ImageView imageView;
 
     /**
      * @param parent parent should be an activity or a fragment
@@ -52,7 +57,8 @@ public class UpdateImageUtil {
         }
     }
 
-    public void updateProfilePic(int what) {
+    public void updateProfilePic(int what, ImageView imageView) {
+        this.imageView = imageView;
         if (!isDeviceSupportCamera()) {
             Toast.makeText(getContext().getApplicationContext(),
                     "Sorry!! Your device doesn't support Camera",
@@ -155,8 +161,14 @@ public class UpdateImageUtil {
         if (resultCode == Activity.RESULT_OK) {
             Uri finalUri = Crop.getOutput(result);
             if (finalUri != null) {
-                //TODO process finalURI
-//                EventBus.getDefault().postSticky(new UpdateImageSelectedEvent(UpdateImageSelectedEvent.IMAGE_SELECTED, finalUri));
+                final DisplayImageOptions displayImageOptions = new DisplayImageOptions.Builder()
+                        .displayer(new RoundedBitmapDisplayer((int) getContext().getResources().getDimension(R.dimen.dp_100)))
+                        .showImageOnLoading(R.drawable.user_icon)
+                        .showImageForEmptyUri(R.drawable.user_icon)
+                        .showImageOnFail(R.drawable.user_icon)
+                        .cacheInMemory(true).cacheOnDisc(true)
+                        .bitmapConfig(Bitmap.Config.RGB_565).build();
+                FishingAppHelper.getImageLoader().displayImage(finalUri.toString(), imageView, displayImageOptions);
             }
 
         } else if (resultCode == Crop.RESULT_ERROR) {
