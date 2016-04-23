@@ -41,7 +41,7 @@ public class MyFishFragment extends Fragment implements AdapterView.OnItemClickL
             @Override
             public void onClick(View v) {
                 FragmentManager fm= getActivity().getSupportFragmentManager();
-                fm.beginTransaction().replace(R.id.content_frame,new AddFishFragment()).commit();
+                fm.beginTransaction().add(R.id.content_frame, new AddFishFragment()).addToBackStack(null).commit();
             }
         });
         mFishList=(ListView)view.findViewById(R.id.myfish_list);
@@ -59,7 +59,7 @@ public class MyFishFragment extends Fragment implements AdapterView.OnItemClickL
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         FragmentManager fm= getActivity().getSupportFragmentManager();
-        fm.beginTransaction().replace(R.id.content_frame,new FishDetailFragment()).commit();
+        fm.beginTransaction().add(R.id.content_frame,new FishDetailFragment()).addToBackStack(null).commit();
 
     }
 }

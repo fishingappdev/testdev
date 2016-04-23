@@ -24,11 +24,12 @@ public class FishDetailFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        ((HomeActivity) getActivity()).mAddFishBtn.setVisibility(View.VISIBLE);
         ((HomeActivity) getActivity()).mAddFishBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 FragmentManager fm = getActivity().getSupportFragmentManager();
-                fm.beginTransaction().replace(R.id.content_frame, new AddFishFragment()).commit();
+                fm.beginTransaction().add(R.id.content_frame, new AddFishFragment()).addToBackStack(null).commit();
             }
         });
     }
