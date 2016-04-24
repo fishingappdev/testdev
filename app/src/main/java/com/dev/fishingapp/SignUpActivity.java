@@ -1,9 +1,9 @@
 package com.dev.fishingapp;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -11,23 +11,32 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 /**
  * Created by user on 4/19/2016.
  */
-public class SignUpActivity extends Activity implements OnClickListener {
+public class SignUpActivity extends AbstractActivity implements OnClickListener {
     private GradientDrawable loginBtnShape;
     private Button mSignUpBtn;
     private TextView msigninClick;
     private EditText mUserNameEdt, mEmailIdEdt, mConfirmEmailId, mFirstName, mLastName;
     private AutoCompleteTextView mCountry;
     private String[] values;
+    private TextView mHeader;
+    private ImageView center_logo;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
+        Toolbar tb = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(tb);
+        mHeader = (TextView) tb.findViewById(R.id.title);
+        center_logo = (ImageView) tb.findViewById(R.id.center_logo);
+        mHeader.setText(R.string.Signup_txt);
+        setToolBarImage();
         mSignUpBtn = (Button) findViewById(R.id.signUpBtn);
         msigninClick = (TextView) findViewById(R.id.signin_click);
         mUserNameEdt = (EditText) findViewById(R.id.username);
@@ -96,5 +105,10 @@ public class SignUpActivity extends Activity implements OnClickListener {
             return false;
         }
         return true;
+    }
+
+    public void setToolBarImage() {
+        mHeader.setVisibility(View.GONE);
+        center_logo.setVisibility(View.VISIBLE);
     }
 }

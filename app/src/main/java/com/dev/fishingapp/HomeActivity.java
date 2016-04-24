@@ -56,7 +56,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     private ImageView mRightOption;
     private ImageView mEdit;
     private ImageView mProfilePic;
-    private Button logoutbtn;
+    private TextView logoutbtn;
 
     // used to store app title
     private CharSequence mTitle;
@@ -66,6 +66,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     public static final int ADD_FISH_OPTION = 3;
     public static final int ADD_LOG_OPTION = 4;
     UpdateImageUtil updateImageUtil;
+    private ImageView center_logo;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -74,7 +75,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         // Always cast your custom Toolbar here, and set it as the ActionBar.
         Toolbar tb = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(tb);
-
+        center_logo = (ImageView) tb.findViewById(R.id.center_logo);
         // Get the ActionBar here to configure the way it behaves.
         final ActionBar ab = getSupportActionBar();
         //ab.setHomeAsUpIndicator(R.drawable.ic_menu); // set a custom icon for the default home button
@@ -87,7 +88,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         mAddLogBtn = (Button) tb.findViewById(R.id.add_log);
         updateImageUtil = UpdateImageUtil.getInstance(this);
         mRightOption = (ImageView) tb.findViewById(R.id.iv_right);
-        logoutbtn = (Button) findViewById(R.id.logout);
+        logoutbtn = (TextView) findViewById(R.id.logout);
         logoutbtn.setOnClickListener(this);
 
         mTitle = mDrawerTitle = getTitle();
@@ -165,6 +166,12 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
     public void setToolBarTitle(String title) {
         mHeader.setText(title);
+    }
+
+    public void setToolBarImage() {
+        mHeader.setVisibility(View.GONE);
+        mHeader.setText("");
+        center_logo.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -281,6 +288,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
 
     public void resetOptions() {
+        center_logo.setVisibility(View.GONE);
         mRightOption.setVisibility(View.GONE);
         mAddFishBtn.setVisibility(View.GONE);
         mAddLogBtn.setVisibility(View.GONE);

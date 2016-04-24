@@ -8,12 +8,14 @@ import android.content.pm.Signature;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
+import android.support.v7.widget.Toolbar;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -47,11 +49,18 @@ public class LoginActivity extends AbstractActivity implements OnClickListener {
     private String mUsername;
     private String mPassword;
     CallbackManager callbackManager;
+    private TextView mHeader;
+    private ImageView center_logo;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        Toolbar tb = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(tb);
+        mHeader = (TextView) tb.findViewById(R.id.title);
+        center_logo = (ImageView) tb.findViewById(R.id.center_logo);
+        setToolBarImage();
         mLoginBtn = (Button) findViewById(R.id.loginBtn);
         mFbBtn = (Button) findViewById(R.id.fbBtn);
         mWatchNowBtn = (Button) findViewById(R.id.watchBtn);
@@ -211,5 +220,10 @@ public class LoginActivity extends AbstractActivity implements OnClickListener {
              callbackManager.onActivityResult(requestCode, resultCode, data);
         }
 
+    }
+
+    public void setToolBarImage() {
+        mHeader.setVisibility(View.GONE);
+        center_logo.setVisibility(View.VISIBLE);
     }
 }

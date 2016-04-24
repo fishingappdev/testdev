@@ -11,6 +11,14 @@
         android:paddingLeft="@dimen/dp_10">
 
         <!-- This is a centered logo -->
+        <ImageView
+            android:id="@+id/center_logo"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:src="@drawable/nav_logo" />
+
         <TextView
             android:id="@+id/title"
             android:layout_width="match_parent"
