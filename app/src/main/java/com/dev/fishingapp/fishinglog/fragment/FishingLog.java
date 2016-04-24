@@ -40,7 +40,7 @@ public class FishingLog extends BaseToolbarFragment implements OnItemClickListen
             @Override
             public void onClick(View v) {
                 FragmentManager fm = getActivity().getSupportFragmentManager();
-                fm.beginTransaction().replace(R.id.content_frame, new AddFishingLog()).commit();
+                fm.beginTransaction().replace(R.id.content_frame, new AddFishingLog()).hide(FishingLog.this).addToBackStack(null).commit();
             }
         });
 
@@ -58,7 +58,21 @@ public class FishingLog extends BaseToolbarFragment implements OnItemClickListen
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         FragmentManager fm = getActivity().getSupportFragmentManager();
-        fm.beginTransaction().replace(R.id.content_frame, new FishingLogDetail()).commit();
+        fm.beginTransaction().add(R.id.content_frame, new FishingLogDetail()).hide(this).addToBackStack(null).commit();
 
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if(!hidden){
+            ((HomeActivity) getActivity()).showRightOption(HomeActivity.ADD_LOG_OPTION, new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    FragmentManager fm = getActivity().getSupportFragmentManager();
+                    fm.beginTransaction().add(R.id.content_frame, new AddFishingLog()).hide(FishingLog.this).addToBackStack(null).commit();
+                }
+            });
+        }
     }
 }

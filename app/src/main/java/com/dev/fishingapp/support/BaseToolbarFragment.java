@@ -15,4 +15,6 @@ public class BaseToolbarFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         ((HomeActivity) getActivity()).resetOptions();
     }
+
+
 }

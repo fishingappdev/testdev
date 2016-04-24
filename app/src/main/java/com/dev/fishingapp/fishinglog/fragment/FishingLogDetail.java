@@ -25,15 +25,31 @@ public class FishingLogDetail extends BaseToolbarFragment{
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ((HomeActivity) getActivity()).setToolBarTitle(getResources().getString(R.string.header_my_fishinglog));
-        ((HomeActivity) getActivity()).showRightOption(HomeActivity.ADD_FISH_OPTION, new View.OnClickListener() {
+        ((HomeActivity) getActivity()).showRightOption(HomeActivity.ADD_LOG_OPTION, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 FragmentManager fm = getActivity().getSupportFragmentManager();
-                fm.beginTransaction().replace(R.id.content_frame, new AddFishingLog()).commit();
+                fm.beginTransaction().add(R.id.content_frame, new AddFishingLog()).hide(FishingLogDetail.this).addToBackStack(null).commit();
 
             }
         });
 
+
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if(!hidden){
+            ((HomeActivity) getActivity()).showRightOption(HomeActivity.ADD_LOG_OPTION, new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    FragmentManager fm = getActivity().getSupportFragmentManager();
+                    fm.beginTransaction().add(R.id.content_frame, new AddFishingLog()).hide(FishingLogDetail.this).addToBackStack(null).commit();
+
+                }
+            });
+        }
 
     }
 }

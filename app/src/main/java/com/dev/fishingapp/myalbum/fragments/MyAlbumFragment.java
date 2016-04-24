@@ -60,7 +60,25 @@ public class MyAlbumFragment extends BaseToolbarFragment implements AdapterView.
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         FragmentManager fm= getActivity().getSupportFragmentManager();
-        fm.beginTransaction().add(R.id.content_frame,new AlbumDetailFragment()).addToBackStack(null).commit();
+        fm.beginTransaction().add(R.id.content_frame,new AlbumDetailFragment()).hide(this).addToBackStack(null).commit();
 
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden) {
+            ((HomeActivity) getActivity()).showRightOption(HomeActivity.CAMERA_OPTION, new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    AddAlbumDialogFragment performDialogFragment = new AddAlbumDialogFragment();
+                    performDialogFragment.setStyle(DialogFragment.STYLE_NO_TITLE, android.R.style.Theme_Holo_Dialog);
+                    performDialogFragment.setCancelable(true);
+                    performDialogFragment.setTargetFragment(MyAlbumFragment.this, 1001);
+                    ((HomeActivity) getActivity()).executeFragment(performDialogFragment);
+
+                }
+            });
+        }
     }
 }

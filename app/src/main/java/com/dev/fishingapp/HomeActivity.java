@@ -140,7 +140,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
         if (savedInstanceState == null) {
             // on first time display view for first nav item
-            displayView(0);
+            displayView(1);
         }
     }
 
@@ -279,7 +279,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             setTitle(navMenuTitles[position]);
             mDrawerLayout.closeDrawer(mRelativeDrawerLayout);
 
-
         } else {
             // error in creating fragment
             Log.e("MainActivity", "Error in creating fragment");
@@ -362,5 +361,12 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         updateImageUtil.onActivityResult(requestCode, resultCode, data);
     }
-
+    @Override
+    public void onBackPressed() {
+        if (getFragmentManager().getBackStackEntryCount() > 0) {
+            getFragmentManager().popBackStack();
+        } else {
+            super.onBackPressed();
+        }
+    }
 }

@@ -28,8 +28,22 @@ public class FishDetailFragment extends BaseToolbarFragment {
             @Override
             public void onClick(View v) {
                 FragmentManager fm = getActivity().getSupportFragmentManager();
-                fm.beginTransaction().add(R.id.content_frame, new AddFishFragment()).addToBackStack(null).commit();
+                fm.beginTransaction().add(R.id.content_frame, new AddFishFragment()).hide(FishDetailFragment.this).addToBackStack(null).commit();
             }
         });
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if(!hidden){
+            ((HomeActivity) getActivity()).showRightOption(HomeActivity.ADD_FISH_OPTION, new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    FragmentManager fm = getActivity().getSupportFragmentManager();
+                    fm.beginTransaction().add(R.id.content_frame, new AddFishFragment()).hide(FishDetailFragment.this).addToBackStack(null).commit();
+                }
+            });
+        }
     }
 }

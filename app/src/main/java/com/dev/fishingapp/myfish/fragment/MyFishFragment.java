@@ -2,6 +2,7 @@ package com.dev.fishingapp.myfish.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,8 +40,9 @@ public class MyFishFragment extends BaseToolbarFragment implements AdapterView.O
         ((HomeActivity) getActivity()).showRightOption(HomeActivity.ADD_FISH_OPTION, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentManager fm= getActivity().getSupportFragmentManager();
-                fm.beginTransaction().add(R.id.content_frame, new AddFishFragment()).addToBackStack(null).commit();
+                FragmentManager fm = getActivity().getSupportFragmentManager();
+                android.support.v4.app.FragmentTransaction fragmentTransaction = fm.beginTransaction();
+                fragmentTransaction.add(R.id.content_frame, new AddFishFragment()).hide(MyFishFragment.this).addToBackStack(null).commit();
             }
         });
         mFishList=(ListView)view.findViewById(R.id.myfish_list);
@@ -58,7 +60,24 @@ public class MyFishFragment extends BaseToolbarFragment implements AdapterView.O
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         FragmentManager fm= getActivity().getSupportFragmentManager();
-        fm.beginTransaction().add(R.id.content_frame,new FishDetailFragment()).addToBackStack(null).commit();
+        fm.beginTransaction().add(R.id.content_frame,new FishDetailFragment()).hide(this).addToBackStack(null).commit();
+
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        Log.d("setUserVisibleHint", "MyFish Fragment"+hidden);
+        if (!hidden) {
+            ((HomeActivity) getActivity()).showRightOption(HomeActivity.ADD_FISH_OPTION, new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    FragmentManager fm = getActivity().getSupportFragmentManager();
+                    android.support.v4.app.FragmentTransaction fragmentTransaction = fm.beginTransaction();
+                    fragmentTransaction.add(R.id.content_frame, new AddFishFragment()).hide(MyFishFragment.this).addToBackStack(null).commit();
+                }
+            });
+        }
 
     }
 }
