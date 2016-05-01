@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.dev.fishingapp.LoaderCallbacks.LoginCallback;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookAuthorizationException;
@@ -142,13 +143,13 @@ public class LoginActivity extends AbstractActivity implements OnClickListener {
             case R.id.loginBtn:
                 boolean IsValidate =validateFields();
                 if(IsValidate) {
-                    /*if(loaderManager.getLoader(R.id.loader_login)== null){
+                    if(loaderManager.getLoader(R.id.loader_login)== null){
                         loaderManager.initLoader(R.id.loader_login, null, new LoginCallback(this,true,mUsername,mPassword));
                 } else {
                     loaderManager.restartLoader(R.id.loader_login, null, new LoginCallback(this,true,mUsername,mPassword));
-                }*/
-                    Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-                    startActivity(intent);
+                }
+                    /*Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                    startActivity(intent);*/
                 }
                 break;
             case R.id.forgotPwd:

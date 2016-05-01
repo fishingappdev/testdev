@@ -27,6 +27,8 @@ public class FishingRestApi {
         if (mRestAdapter == null) {
             OkHttpClient okHttpClient = new OkHttpClient();
 
+
+
             mRestAdapter = new RestAdapter.Builder().setEndpoint(baseUrl)
                     .setConverter(new GsonConverter(new Gson()))
                     .setRequestInterceptor(new RequestInterceptor() {

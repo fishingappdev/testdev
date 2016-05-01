@@ -67,6 +67,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     public static final int ADD_LOG_OPTION = 4;
     UpdateImageUtil updateImageUtil;
     private ImageView center_logo;
+    Fragment currentFragment=null;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -272,12 +273,13 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
         if (fragment != null) {
             FragmentManager fm = getSupportFragmentManager();
-            fm.beginTransaction().replace(R.id.content_frame, fragment).commit();
+            fm.beginTransaction().replace(R.id.content_frame, fragment).addToBackStack(null).commit();
             // update selected item and title, then close the drawer
             mDrawerList.setItemChecked(position, true);
             mDrawerList.setSelection(position);
             setTitle(navMenuTitles[position]);
             mDrawerLayout.closeDrawer(mRelativeDrawerLayout);
+            currentFragment=fragment;
 
         } else {
             // error in creating fragment
@@ -363,10 +365,21 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     }
     @Override
     public void onBackPressed() {
-        if (getFragmentManager().getBackStackEntryCount() > 0) {
-            getFragmentManager().popBackStack();
+        if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
+            if(currentFragment instanceof MyFishFragment){
+                super.onBackPressed();
+            }else{
+                FragmentManager fm = getSupportFragmentManager();
+                fm.beginTransaction().replace(R.id.content_frame, new MyFishFragment()).addToBackStack(null).commit();
+                // update selected item and title, then close the drawer
+                mDrawerList.setItemChecked(1, true);
+                mDrawerList.setSelection(1);
+                setTitle(navMenuTitles[1]);
+                mDrawerLayout.closeDrawer(mRelativeDrawerLayout);
+            }
         } else {
             super.onBackPressed();
+
         }
     }
 }

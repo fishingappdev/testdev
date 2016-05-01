@@ -46,74 +46,14 @@
                     android:paddingLeft="@dimen/dp_60"
                     android:paddingRight="@dimen/dp_60">
 
-                    <EditText
-                        android:id="@+id/username"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:backgroundTint="@color/edittext_bg"
-                        android:drawableLeft="@drawable/username"
-                        android:drawablePadding="@dimen/dp_5"
-                        android:singleLine="true"
-                        android:hint="@string/username_hint"
-                        android:textColor="@color/white"
-                        android:textColorHint="@color/white" />
-
-                    <EditText
-                        android:id="@+id/email_id"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:backgroundTint="@color/edittext_bg"
-                        android:drawableLeft="@drawable/msg_ic"
-                        android:drawablePadding="@dimen/dp_5"
-                        android:singleLine="true"
-                        android:inputType="textEmailAddress"
-                        android:hint="@string/email_address"
-                        android:textColor="@color/white"/>
-                    <EditText
-                        android:id="@+id/confirm_email_id"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:singleLine="true"
-                        android:inputType="textEmailAddress"
-                        android:backgroundTint="@color/edittext_bg"
-                        android:drawableLeft="@drawable/msg_ic"
-                        android:drawablePadding="@dimen/dp_5"
-                        android:hint="@string/confirm_email_address"
-                        android:textColor="@color/white"
-                        android:textColorHint="@color/white" />
-
-                    <EditText
-                        android:id="@+id/first_name"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:backgroundTint="@color/edittext_bg"
-                        android:drawableLeft="@drawable/username"
-                        android:drawablePadding="@dimen/dp_5"
-                        android:hint="@string/first_name"
-                        android:singleLine="true"
-                        android:textColor="@color/white"
-                        android:textColorHint="@color/white" />
-
-                    <EditText
-                          android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:backgroundTint="@color/edittext_bg"
-                        android:drawableLeft="@drawable/username"
-                        android:singleLine="true"
-                        android:drawablePadding="@dimen/dp_5"
-                        android:hint="@string/last_name"
-                        android:textColor="@color/white"
-                        android:textColorHint="@color/white" />
-
-                    <AutoCompleteTextView
-                        android:id="@+id/country"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="bottom|center_horizontal"
                         android:orientation="vertical"
-                        android:paddingBottom="20dp"/>
+                        android:paddingBottom="20dp">
 
-                        <!--<EditText
+                        <EditText
                             android:id="@+id/username"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -178,7 +118,7 @@
                             android:drawablePadding="@dimen/dp_5"
                             android:hint="@string/country"
                             android:textColor="@color/white"
-                            android:textColorHint="@color/white" />-->
+                            android:textColorHint="@color/white" />
 
                         <Button
                             android:id="@+id/signUpBtn"
@@ -189,6 +129,7 @@
                             android:text="@string/Signup_txt"
                             android:textColor="@color/white" />
 
+                    </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
         </ScrollView>
