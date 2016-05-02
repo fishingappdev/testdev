@@ -26,6 +26,7 @@
     <string name="ok_txt">Ok</string>
     <string name="network_error">Please check your internet connection!</string>
     <string name="submit_txt">Submit</string>
+    <string name="error_txt">Error</string>
 
     <!--Change Password Screen-->
     <string name="old_pwd_txt">Old Password</string>
@@ -40,6 +41,7 @@
     <string name="empty_first_name">First name cannot be blank</string>
     <string name="empty_last_name">Last name cannot be blank</string>
     <string name="email_confirm_doesnot_match">Email ID and confirm Email ID doesn\'t match</string>
+    <string name="login_error">Email password doesnt match</string>
 
     <!-- Signup Screen-->
     <string name="if_registered">If you are a registered user?</string>

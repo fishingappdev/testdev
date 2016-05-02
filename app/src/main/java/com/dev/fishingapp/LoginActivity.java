@@ -1,13 +1,17 @@
 package com.dev.fishingapp;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
 import android.util.Log;
@@ -20,6 +24,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dev.fishingapp.LoaderCallbacks.LoginCallback;
+import com.dev.fishingapp.data.model.Login;
+import com.dev.fishingapp.util.AlertMessageDialog;
+import com.dev.fishingapp.util.AppConstants;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookAuthorizationException;
@@ -52,6 +59,7 @@ public class LoginActivity extends AbstractActivity implements OnClickListener {
     CallbackManager callbackManager;
     private TextView mHeader;
     private ImageView center_logo;
+    private LoginBroadcastReceiver receiver;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -148,8 +156,7 @@ public class LoginActivity extends AbstractActivity implements OnClickListener {
                 } else {
                     loaderManager.restartLoader(R.id.loader_login, null, new LoginCallback(this,true,mUsername,mPassword));
                 }
-                    /*Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-                    startActivity(intent);*/
+
                 }
                 break;
             case R.id.forgotPwd:
@@ -227,4 +234,44 @@ public class LoginActivity extends AbstractActivity implements OnClickListener {
         mHeader.setVisibility(View.GONE);
         center_logo.setVisibility(View.VISIBLE);
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(this);
+        IntentFilter intentFilter = new IntentFilter(AppConstants.LOGIN_CALLBACK_BROADCAST);
+        receiver = new LoginBroadcastReceiver();
+        localBroadcastManager.registerReceiver(receiver, intentFilter);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(this);
+        localBroadcastManager.unregisterReceiver(receiver);
+    }
+
+    class LoginBroadcastReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction().equalsIgnoreCase(AppConstants.LOGIN_CALLBACK_BROADCAST)) {
+                if (intent.getParcelableExtra("data") != null) {
+                    Login loginData = intent.getParcelableExtra("data");
+                    if(loginData.isResponse()) {
+                       String user_id = loginData.getData().getUser_id();
+                        Log.d("user id", user_id + "");
+                        Intent homeIntent = new Intent(LoginActivity.this, HomeActivity.class);
+                        startActivity(homeIntent);
+                    }else{
+                        AlertMessageDialog dialog= new AlertMessageDialog(LoginActivity.this,"Error","Username and Password doesnot match");
+                        dialog.setAcceptButtonText("OK");
+                        dialog.show();
+                    }
+                }
+
+            }
+        }
+    }
+
 }

@@ -1,7 +1,9 @@
 package com.dev.fishingapp.LoaderCallbacks;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.Loader;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
@@ -9,6 +11,7 @@ import com.dev.fishingapp.data.model.Login;
 import com.dev.fishingapp.data.model.LoginRequest;
 import com.dev.fishingapp.loader.AbstractLoader;
 import com.dev.fishingapp.loader.LoginLoader;
+import com.dev.fishingapp.util.AppConstants;
 
 import retrofit.RetrofitError;
 
@@ -19,16 +22,21 @@ public class LoginCallback extends LoginLoader.AbstractLoaderCallbacks<Login> {
     private String username;
     private String password;
     private LoginRequest loginRequest;
+    private AppCompatActivity abstractActivity;
     public LoginCallback(AppCompatActivity activity, boolean showProgressDialog,String username, String password) {
         super(activity, showProgressDialog);
+        this.abstractActivity=activity;
         loginRequest=new LoginRequest();
-        loginRequest.setEmail(username);
+        loginRequest.setUsername(username);
         loginRequest.setPassword(password);
     }
 
     @Override
     public void onResponse(AbstractLoader<Login> loader, Login response) {
         Log.d("on response", ">>>>");
+        Intent intent = new Intent(AppConstants.LOGIN_CALLBACK_BROADCAST);
+        intent.putExtra("data", response);
+        LocalBroadcastManager.getInstance(abstractActivity).sendBroadcast(intent);
     }
 
     @Override

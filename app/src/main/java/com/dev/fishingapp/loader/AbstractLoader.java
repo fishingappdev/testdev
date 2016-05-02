@@ -11,9 +11,9 @@ import android.widget.Toast;
 import com.dev.fishingapp.AbstractActivity;
 import com.dev.fishingapp.R;
 import com.dev.fishingapp.data.model.ErrorResponse;
-import com.dev.fishingapp.fragments.dialogs.GeneralDialogFragment;
 import com.dev.fishingapp.service.FishingAppService;
 import com.dev.fishingapp.service.FishingRestApi;
+import com.dev.fishingapp.util.AlertMessageDialog;
 import com.google.gson.Gson;
 
 import java.io.BufferedReader;
@@ -29,6 +29,7 @@ public abstract class AbstractLoader<T> extends AsyncTaskLoader<T> {
     private final FishingAppService mFishingAppService;
     private T mResult;
     private RetrofitError mError;
+    AlertMessageDialog dialog;
 
     AbstractLoader(Context context) {
         super(context);
@@ -115,8 +116,12 @@ public abstract class AbstractLoader<T> extends AsyncTaskLoader<T> {
                 mHandler.post(new Runnable() {
                     @Override
                     public void run() {
-                        GeneralDialogFragment networkErrorDialog = GeneralDialogFragment.newInstance(R.string.network_error);
+                        AlertMessageDialog dialog = new AlertMessageDialog(mActivity,mActivity.getString(R.string.error_txt),mActivity.getString(R.string.network_error));
+                        dialog.setAcceptButtonText(mActivity.getString(R.string.ok_txt));
+                        dialog.show();
+                        /*GeneralDialogFragment networkErrorDialog = GeneralDialogFragment.newInstance(R.string.network_error);
                         ((AbstractActivity) mActivity).showDialogFragment(networkErrorDialog);
+ */
                     }
                 });
                 return true;
