@@ -3,6 +3,7 @@ package com.dev.fishingapp;
 import android.content.Intent;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
+import android.support.v4.app.LoaderManager;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
@@ -13,6 +14,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.dev.fishingapp.LoaderCallbacks.SignUpCallback;
+import com.dev.fishingapp.data.model.SignUpRequest;
 
 /**
  * Created by user on 4/19/2016.
@@ -26,6 +30,8 @@ public class SignUpActivity extends AbstractActivity implements OnClickListener 
     private String[] values;
     private TextView mHeader;
     private ImageView center_logo;
+    private LoaderManager mLoaderManager;
+    private String country = "India";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -55,6 +61,7 @@ public class SignUpActivity extends AbstractActivity implements OnClickListener 
         mSignUpBtn.setOnClickListener(this);
         msigninClick.setOnClickListener(this);
         mCountry.setOnClickListener(this);
+        mLoaderManager = getSupportLoaderManager();
     }
 
     @Override
@@ -63,9 +70,18 @@ public class SignUpActivity extends AbstractActivity implements OnClickListener 
             case R.id.signUpBtn:
                 boolean IsValidate = validateFields();
                 if (IsValidate) {
-                    Intent intent = new Intent(SignUpActivity.this, HomeActivity.class);
-                    startActivity(intent);
-                    finish();
+                    String username = mUserNameEdt.getText().toString();
+                    String email = mEmailIdEdt.getText().toString();
+                    String confemail = mConfirmEmailId.getText().toString();
+                    String firstname = mFirstName.getText().toString();
+                    String password = "qwerty123";
+                    String lastname = mLastName.getText().toString();
+                    String country = this.country;
+                    SignUpRequest signUpRequest=new SignUpRequest(username, email, confemail, password, firstname, lastname, country);
+                    mLoaderManager.initLoader(R.id.loader_signup, null, new SignUpCallback(this,true, signUpRequest));
+//                    Intent intent = new Intent(SignUpActivity.this, HomeActivity.class);
+//                    startActivity(intent);
+//                    finish();
                 }
                 break;
             case R.id.signin_click:
@@ -100,7 +116,7 @@ public class SignUpActivity extends AbstractActivity implements OnClickListener 
         } else if (TextUtils.isEmpty(lastName)) {
             mLastName.setError(getResources().getString(R.string.empty_last_name));
             return false;
-        } else if (emailId.equals(confirmEmailId)) {
+        } else if (!emailId.equals(confirmEmailId)) {
             mLastName.setError(getResources().getString(R.string.email_confirm_doesnot_match));
             return false;
         }

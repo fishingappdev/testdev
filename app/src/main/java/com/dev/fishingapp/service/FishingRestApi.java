@@ -34,6 +34,8 @@ public class FishingRestApi {
                     .setRequestInterceptor(new RequestInterceptor() {
                         @Override
                         public void intercept(RequestInterceptor.RequestFacade requestFacade) {
+                            requestFacade.addHeader("Accept","application/json");
+                            requestFacade.addHeader("Content-Type","application/json");
 //                            String access_token = VirginPrefs.getInstance().getAccessToken();
 //                            if (access_token != null && !isFbRequest())
 //                                requestFacade.addQueryParam("access_token", VirginPrefs.getInstance().getAccessToken());
