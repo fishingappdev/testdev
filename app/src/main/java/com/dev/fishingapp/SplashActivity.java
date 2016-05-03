@@ -7,6 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.Window;
 
+import com.dev.fishingapp.util.FishingPreferences;
+
 public class SplashActivity extends AppCompatActivity {
 private MyTimer mTimer;
     @Override
@@ -39,9 +41,16 @@ private MyTimer mTimer;
 
         @Override
         public void onFinish() {
-         Intent intent = new Intent(SplashActivity.this,LoginActivity.class);
-          startActivity(intent);
-            finish();
+            String userId=FishingPreferences.getInstance().getCurrentUserId();
+            if(userId!=null && !userId.isEmpty()){
+                Intent intent = new Intent(SplashActivity.this, HomeActivity.class);
+                startActivity(intent);
+                finish();
+            }else {
+                Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
+                startActivity(intent);
+                finish();
+            }
         }
     }
 

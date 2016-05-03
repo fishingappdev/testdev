@@ -27,6 +27,7 @@ import com.dev.fishingapp.LoaderCallbacks.LoginCallback;
 import com.dev.fishingapp.data.model.Login;
 import com.dev.fishingapp.util.AlertMessageDialog;
 import com.dev.fishingapp.util.AppConstants;
+import com.dev.fishingapp.util.FishingPreferences;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookAuthorizationException;
@@ -60,6 +61,7 @@ public class LoginActivity extends AbstractActivity implements OnClickListener {
     private TextView mHeader;
     private ImageView center_logo;
     private LoginBroadcastReceiver receiver;
+    private FbLoginBroadcastReceiver loginReceiver;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -240,8 +242,12 @@ public class LoginActivity extends AbstractActivity implements OnClickListener {
         super.onResume();
         LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(this);
         IntentFilter intentFilter = new IntentFilter(AppConstants.LOGIN_CALLBACK_BROADCAST);
+        IntentFilter loginfilter=new IntentFilter(AppConstants.FACEBOOK_LOGIN_CALLBACK_BROADCAST);
         receiver = new LoginBroadcastReceiver();
+        loginReceiver=new FbLoginBroadcastReceiver();
         localBroadcastManager.registerReceiver(receiver, intentFilter);
+        localBroadcastManager.registerReceiver(loginReceiver, loginfilter);
+
     }
 
     @Override
@@ -249,6 +255,7 @@ public class LoginActivity extends AbstractActivity implements OnClickListener {
         super.onStop();
         LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(this);
         localBroadcastManager.unregisterReceiver(receiver);
+        localBroadcastManager.unregisterReceiver(loginReceiver);
     }
 
     class LoginBroadcastReceiver extends BroadcastReceiver {
@@ -260,14 +267,29 @@ public class LoginActivity extends AbstractActivity implements OnClickListener {
                     Login loginData = intent.getParcelableExtra("data");
                     if(loginData.isResponse()) {
                        String user_id = loginData.getData().getUser_id();
+                        FishingPreferences.getInstance().saveCurrentUserId(user_id);
                         Log.d("user id", user_id + "");
                         Intent homeIntent = new Intent(LoginActivity.this, HomeActivity.class);
                         startActivity(homeIntent);
+                        finish();
                     }else{
                         AlertMessageDialog dialog= new AlertMessageDialog(LoginActivity.this,"Error","Username and Password doesnot match");
                         dialog.setAcceptButtonText("OK");
                         dialog.show();
                     }
+                }
+
+            }
+        }
+    }
+
+    class FbLoginBroadcastReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction().equalsIgnoreCase(AppConstants.LOGIN_CALLBACK_BROADCAST)) {
+                if (intent.getParcelableExtra("data") != null) {
+
                 }
 
             }

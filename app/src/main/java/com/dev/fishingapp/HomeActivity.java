@@ -273,7 +273,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
         if (fragment != null) {
             FragmentManager fm = getSupportFragmentManager();
-            fm.beginTransaction().replace(R.id.content_frame, fragment).addToBackStack(null).commit();
+            fm.beginTransaction().replace(R.id.content_frame, fragment).commit();
             // update selected item and title, then close the drawer
             mDrawerList.setItemChecked(position, true);
             mDrawerList.setSelection(position);
@@ -365,21 +365,24 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     }
     @Override
     public void onBackPressed() {
-        if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
             if(currentFragment instanceof MyFishFragment){
                 super.onBackPressed();
             }else{
                 FragmentManager fm = getSupportFragmentManager();
-                fm.beginTransaction().replace(R.id.content_frame, new MyFishFragment()).addToBackStack(null).commit();
+                Fragment fragment=new MyFishFragment();
+                fm.beginTransaction().replace(R.id.content_frame, fragment).commit();
                 // update selected item and title, then close the drawer
                 mDrawerList.setItemChecked(1, true);
                 mDrawerList.setSelection(1);
                 setTitle(navMenuTitles[1]);
                 mDrawerLayout.closeDrawer(mRelativeDrawerLayout);
+                currentFragment=fragment;
             }
-        } else {
+        } /*else {
             super.onBackPressed();
+            Fragment f = getSupportFragmentManager().findFragmentById(R.id.content_frame);
+            currentFragment=f;
 
-        }
-    }
+        }*/
+
 }

@@ -23,6 +23,7 @@ public class LoginCallback extends LoginLoader.AbstractLoaderCallbacks<Login> {
     private String password;
     private LoginRequest loginRequest;
     private AppCompatActivity abstractActivity;
+
     public LoginCallback(AppCompatActivity activity, boolean showProgressDialog,String username, String password) {
         super(activity, showProgressDialog);
         this.abstractActivity=activity;

@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <item name="loader.login" type="id" />
+    <item name="loader.change_password" type="id" />
+    <item name="loader.forgot_password" type="id" />
+
 </resources>
