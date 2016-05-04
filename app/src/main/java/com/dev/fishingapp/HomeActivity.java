@@ -42,7 +42,7 @@ import java.util.ArrayList;
 /**
  * Created by user on 4/18/2016.
  */
-public class HomeActivity extends AppCompatActivity implements View.OnClickListener {
+public class HomeActivity extends AbstractActivity implements View.OnClickListener {
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
     private RelativeLayout mRelativeDrawerLayout;

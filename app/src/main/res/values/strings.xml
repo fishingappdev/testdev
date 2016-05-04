@@ -71,6 +71,18 @@
     <string name="soft_plastic_lure_fishing">Soft Plastic Lure Fishing</string>
     <string name="sport_fishing">Sport Fishing</string>
 
+    <string name="bait_fishing_index">1</string>
+    <string name="exotic_fishing_index">7</string>
+    <string name="freshwater_fishing_index">2</string>
+    <string name="freshwater_flyfishing_index">11</string>
+    <string name="game_fishing_index">3</string>
+    <string name="jigging_fishing_index">8</string>
+    <string name="lure_fishing_index">4</string>
+    <string name="popper_fishing_index">9</string>
+    <string name="saltwaterfly_fishing_index">5</string>
+    <string name="soft_plastic_lure_fishing_index">10</string>
+    <string name="sport_fishing_index">6</string>
+
     <string name="ok">Ok</string>
     <string name="my_profile_txt">My Profile</string>
     <string-array name="countries_array">
@@ -358,7 +370,6 @@
         <item>Moon</item>
 
 
-
     </string-array>
     <string-array name="tide_type_array">
         <item>Tide</item>
@@ -382,4 +393,8 @@
     <string name="my_fishing_log_txt">My Fishing Log</string>
     <string name="logout">Logout</string>
     <string name="countries">Countries</string>
+
+
+    <string name="username_email_id_exists">Username or Email ID already exists!</string>
+    <string name="some_error_occured">Some error occured!</string>
 </resources>

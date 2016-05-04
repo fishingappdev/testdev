@@ -1,11 +1,16 @@
 package com.dev.fishingapp;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
@@ -17,6 +22,10 @@ import android.widget.TextView;
 
 import com.dev.fishingapp.LoaderCallbacks.SignUpCallback;
 import com.dev.fishingapp.data.model.SignUpRequest;
+import com.dev.fishingapp.data.model.SignUpResponse;
+import com.dev.fishingapp.util.AlertMessageDialog;
+import com.dev.fishingapp.util.AppConstants;
+import com.dev.fishingapp.util.FishingPreferences;
 
 /**
  * Created by user on 4/19/2016.
@@ -32,6 +41,7 @@ public class SignUpActivity extends AbstractActivity implements OnClickListener 
     private ImageView center_logo;
     private LoaderManager mLoaderManager;
     private String country = "India";
+    private SignUpBroadcastReceiver receiver;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -74,11 +84,10 @@ public class SignUpActivity extends AbstractActivity implements OnClickListener 
                     String email = mEmailIdEdt.getText().toString();
                     String confemail = mConfirmEmailId.getText().toString();
                     String firstname = mFirstName.getText().toString();
-                    String password = "qwerty123";
                     String lastname = mLastName.getText().toString();
                     String country = this.country;
-                    SignUpRequest signUpRequest=new SignUpRequest(username, email, confemail, password, firstname, lastname, country);
-                    mLoaderManager.initLoader(R.id.loader_signup, null, new SignUpCallback(this,true, signUpRequest));
+                    SignUpRequest signUpRequest = new SignUpRequest(username, email, confemail, firstname, lastname, country);
+                    mLoaderManager.initLoader(R.id.loader_signup, null, new SignUpCallback(this, true, signUpRequest));
 //                    Intent intent = new Intent(SignUpActivity.this, HomeActivity.class);
 //                    startActivity(intent);
 //                    finish();
@@ -117,7 +126,7 @@ public class SignUpActivity extends AbstractActivity implements OnClickListener 
             mLastName.setError(getResources().getString(R.string.empty_last_name));
             return false;
         } else if (!emailId.equals(confirmEmailId)) {
-            mLastName.setError(getResources().getString(R.string.email_confirm_doesnot_match));
+            mConfirmEmailId.setError(getResources().getString(R.string.email_confirm_doesnot_match));
             return false;
         }
         return true;
@@ -126,5 +135,47 @@ public class SignUpActivity extends AbstractActivity implements OnClickListener 
     public void setToolBarImage() {
         mHeader.setVisibility(View.GONE);
         center_logo.setVisibility(View.VISIBLE);
+    }
+
+    class SignUpBroadcastReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction().equalsIgnoreCase(AppConstants.SIGNUP_CALLBACK_BROADCAST)) {
+                if (intent.getSerializableExtra("data") != null) {
+                    SignUpResponse signUpResponse = (SignUpResponse) intent.getSerializableExtra("data");
+                    if (signUpResponse.isSuccess()) {
+                        String user_id = signUpResponse.getData().getUser_id();
+                        FishingPreferences.getInstance().saveCurrentUserId(user_id);
+                        Log.d("user id", user_id + "");
+                        Intent homeIntent = new Intent(SignUpActivity.this, HomeActivity.class);
+                        startActivity(homeIntent);
+                        finish();
+                    } else {
+                        AlertMessageDialog dialog = new AlertMessageDialog(SignUpActivity.this, getString(R.string.error_txt), getString(R.string.username_email_id_exists));
+                        dialog.setAcceptButtonText(getString(R.string.ok_txt));
+                        dialog.show();
+                    }
+                }
+
+            }
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(this);
+        IntentFilter intentFilter = new IntentFilter(AppConstants.SIGNUP_CALLBACK_BROADCAST);
+        receiver = new SignUpBroadcastReceiver();
+        localBroadcastManager.registerReceiver(receiver, intentFilter);
+
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(this);
+        localBroadcastManager.unregisterReceiver(receiver);
     }
 }

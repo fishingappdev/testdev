@@ -28,7 +28,7 @@
                 android:lines="5"
                 android:padding="@dimen/dp_10"
                 android:scrollbars="vertical"
-                android:text="@string/about_me"
+                android:hint="@string/about_me"
                 android:textColor="@android:color/black"
                 android:textColorHint="@android:color/black" />
 
@@ -53,17 +53,21 @@
                     android:layout_marginBottom="@dimen/dp_5">
 
                     <CheckBox
+                        android:id="@+id/cb_0"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="fill"
                         android:layout_weight="1"
+                        android:tag="@string/bait_fishing_index"
                         android:text="@string/bait_fishing" />
 
                     <CheckBox
+                        android:id="@+id/cb_1"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="fill"
                         android:layout_weight="1"
+                        android:tag="@string/exotic_fishing_index"
                         android:text="@string/exotic_fishing" />
                 </LinearLayout>
 
@@ -73,17 +77,22 @@
                     android:layout_marginBottom="@dimen/dp_5">
 
                     <CheckBox
+                        android:id="@+id/cb_2"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="fill"
                         android:layout_weight="1"
+                        android:tag="@string/freshwater_fishing_index"
                         android:text="@string/freshwater_fishing" />
 
                     <CheckBox
+                        android:id="@+id/cb_3"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="fill"
                         android:layout_weight="1"
+                        android:tag="@string/freshwater_flyfishing_index"
+
                         android:text="@string/freshwater_flyfishing" />
                 </LinearLayout>
 
@@ -93,17 +102,21 @@
                     android:layout_marginBottom="@dimen/dp_5">
 
                     <CheckBox
+                        android:id="@+id/cb_4"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="fill"
                         android:layout_weight="1"
+                        android:tag="@string/game_fishing_index"
                         android:text="@string/game_fishing" />
 
                     <CheckBox
+                        android:id="@+id/cb_5"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="fill"
                         android:layout_weight="1"
+                        android:tag="@string/jigging_fishing_index"
                         android:text="@string/jigging_fishing" />
                 </LinearLayout>
 
@@ -113,17 +126,21 @@
                     android:layout_marginBottom="@dimen/dp_5">
 
                     <CheckBox
+                        android:id="@+id/cb_6"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="fill"
                         android:layout_weight="1"
+                        android:tag="@string/lure_fishing_index"
                         android:text="@string/lure_fishing" />
 
                     <CheckBox
+                        android:id="@+id/cb_7"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="fill"
                         android:layout_weight="1"
+                        android:tag="@string/popper_fishing_index"
                         android:text="@string/popper_fishing" />
                 </LinearLayout>
 
@@ -133,17 +150,21 @@
                     android:layout_marginBottom="@dimen/dp_5">
 
                     <CheckBox
+                        android:id="@+id/cb_8"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="fill"
                         android:layout_weight="1"
+                        android:tag="@string/saltwaterfly_fishing_index"
                         android:text="@string/saltwaterfly_fishing" />
 
                     <CheckBox
+                        android:id="@+id/cb_9"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="fill"
                         android:layout_weight="1"
+                        android:tag="@string/soft_plastic_lure_fishing_index"
                         android:text="@string/soft_plastic_lure_fishing" />
                 </LinearLayout>
 
@@ -152,10 +173,12 @@
                     android:layout_height="wrap_content">
 
                     <CheckBox
+                        android:id="@+id/cb_10"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="fill"
                         android:layout_weight="1"
+                        android:tag="@string/sport_fishing_index"
                         android:text="@string/sport_fishing" />
 
                     <CheckBox

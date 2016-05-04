@@ -8,5 +8,7 @@ public class AppConstants {
     public static final String CHANGE_PWD_CALLBACK_BROADCAST = "change_pwd_callback_broadcast";
     public static final String FORGOT_PWD_CALLBACK_BROADCAST = "forgot_pwd_callback_broadcast";
     public static final String FACEBOOK_LOGIN_CALLBACK_BROADCAST = "facebook_login_callback_broadcast";
-
+    public static final String SIGNUP_CALLBACK_BROADCAST = "signup_callback_broadcast";
+    public static final String GET_PROFILE_CALLBACK_BROADCAST = "get_profile_callback_broadcast";
+    public static final String SET_PROFILE_CALLBACK_BROADCAST = "set_profile_callback_broadcast";
 }

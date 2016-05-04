@@ -55,6 +55,7 @@
 
                         <EditText
                             android:id="@+id/username"
+                            android:singleLine="true"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:backgroundTint="@color/edittext_bg"
@@ -66,6 +67,7 @@
 
                         <EditText
                             android:id="@+id/email_id"
+                            android:singleLine="true"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:backgroundTint="@color/edittext_bg"
@@ -77,6 +79,7 @@
 
                         <EditText
                             android:id="@+id/confirm_email_id"
+                            android:singleLine="true"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:backgroundTint="@color/edittext_bg"
@@ -88,6 +91,7 @@
 
                         <EditText
                             android:id="@+id/first_name"
+                            android:singleLine="true"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:backgroundTint="@color/edittext_bg"
@@ -99,6 +103,7 @@
 
                         <EditText
                             android:id="@+id/last_name"
+                            android:singleLine="true"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:backgroundTint="@color/edittext_bg"
