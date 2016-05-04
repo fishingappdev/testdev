@@ -14,11 +14,14 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.dev.fishingapp.AbstractActivity;
 import com.dev.fishingapp.HomeActivity;
 import com.dev.fishingapp.LoaderCallbacks.ChangePasswordCallback;
 import com.dev.fishingapp.R;
 import com.dev.fishingapp.support.BaseToolbarFragment;
+import com.dev.fishingapp.util.AlertMessageDialog;
 import com.dev.fishingapp.util.AppConstants;
+import com.dev.fishingapp.util.FishingPreferences;
 
 /**
  * Created by user on 4/18/2016.
@@ -30,6 +33,7 @@ public class ChangePassword extends BaseToolbarFragment {
     private String mOldPwd,mNewPwd,mCnfPwd;
     private LoaderManager loaderManager;
     private ChangePasswordBroadcastReceiver receiver;
+    private AlertMessageDialog dialog;
 
 
 
@@ -56,18 +60,19 @@ public class ChangePassword extends BaseToolbarFragment {
                 mNewPwd = mNewPwdTxt.getText().toString();
                 mOldPwd = mOldPwdtxt.getText().toString();
                 mCnfPwd = mCnfPwdTxt.getText().toString();
+                String userId= FishingPreferences.getInstance().getCurrentUserId();
                 if(validateFields()){
                     if(loaderManager.getLoader(R.id.loader_change_password)== null){
-                        loaderManager.initLoader(R.id.loader_change_password, null, new ChangePasswordCallback(((HomeActivity) getActivity()),true,mOldPwd,mNewPwd));
+                        loaderManager.initLoader(R.id.loader_change_password, null, new ChangePasswordCallback(((AbstractActivity) getActivity()),true,mOldPwd,mNewPwd,userId));
                     } else {
-                        loaderManager.restartLoader(R.id.loader_change_password, null, new ChangePasswordCallback(((HomeActivity) getActivity()),true,mOldPwd,mNewPwd));
+                        loaderManager.restartLoader(R.id.loader_change_password, null, new ChangePasswordCallback(((AbstractActivity) getActivity()),true,mOldPwd,mNewPwd,userId));
                     }
                 }
             }
         });
     }
 
-        private boolean validateFields(){
+    private boolean validateFields(){
         if(mOldPwd.isEmpty()){
             mOldPwdtxt.setError(getString(R.string.empty_password));
             return false;
@@ -78,7 +83,7 @@ public class ChangePassword extends BaseToolbarFragment {
             mCnfPwdTxt.setError(getString(R.string.empty_password));
             return false;
         }else if(!mNewPwd.equals(mCnfPwd)){
-            mNewPwdTxt.setError(getString(R.string.password_not_match));
+            mCnfPwdTxt.setError(getString(R.string.password_not_match));
             return false;
         }
         return true;
@@ -90,6 +95,16 @@ public class ChangePassword extends BaseToolbarFragment {
         public void onReceive(Context context, Intent intent) {
             if (intent.getAction().equalsIgnoreCase(AppConstants.CHANGE_PWD_CALLBACK_BROADCAST)) {
                 if (intent.getParcelableExtra("data") != null) {
+                    com.dev.fishingapp.data.model.ChangePassword changePwdData= intent.getParcelableExtra("data");
+                    if(changePwdData.isResponse()){
+                        dialog=new AlertMessageDialog(((HomeActivity)getActivity()),getActivity().getString(R.string.success_txt),getString(R.string.change_password_success));
+                        dialog.setAcceptButtonText(getString(R.string.ok_txt));
+                        dialog.show();
+                    }else{
+                        dialog=new AlertMessageDialog(((HomeActivity)getActivity()),getActivity().getString(R.string.error_txt),getString(R.string.change_pwd_error));
+                        dialog.setAcceptButtonText(getString(R.string.ok_txt));
+                        dialog.show();
+                    }
 
                 }
 

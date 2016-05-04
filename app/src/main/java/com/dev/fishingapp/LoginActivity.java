@@ -23,7 +23,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.dev.fishingapp.LoaderCallbacks.FacebookLoginCallback;
 import com.dev.fishingapp.LoaderCallbacks.LoginCallback;
+import com.dev.fishingapp.data.model.FacebookResponse;
 import com.dev.fishingapp.data.model.Login;
 import com.dev.fishingapp.util.AlertMessageDialog;
 import com.dev.fishingapp.util.AppConstants;
@@ -111,12 +113,25 @@ public class LoginActivity extends AbstractActivity implements OnClickListener {
                                 // Application code
                                 try {
                                     Log.v("LoginActivity", response.toString());
-                                   String str_id = object.getString("id");
-                                    Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-                                    startActivity(intent);
+                                    String str_id = object.getString("id");
+                                    String str_email = object.getString("email");
+                                    String str_firstname = object.getString("first_name");
+
+                                   /* String tempdata = object.getJSONObject("location").getString("name");
+                                    String tempdataArray[] = tempdata.split("\\s+");
+                                    String str_city = tempdataArray[0];
+                                    String str_country = tempdataArray[1];
+                                    Log.v("LoginActivity", str_country);
+                */                    if(loaderManager.getLoader(R.id.loader_facebook_login)== null){
+                                        loaderManager.initLoader(R.id.loader_facebook_login, null, new FacebookLoginCallback(LoginActivity.this,true,str_email,str_firstname,"India"));
+                                    } else {
+                                        loaderManager.restartLoader(R.id.loader_facebook_login, null, new FacebookLoginCallback(LoginActivity.this,true,str_email,str_firstname,"India"));
+                                    }
+
 
                                 } catch (JSONException e) {
                                     if (e.getMessage().equals("No value for email")) {
+                                        AlertMessageDialog dialog =new AlertMessageDialog(LoginActivity.this,getString(R.string.error_txt),getString(R.string.facebook_no_email));
                                     }
                                     e.printStackTrace();
                                 }
@@ -124,7 +139,7 @@ public class LoginActivity extends AbstractActivity implements OnClickListener {
                             }
                         });
                         Bundle parameters = new Bundle();
-                        parameters.putString("fields", "id,name,email,first_name,last_name");
+                        parameters.putString("fields","id,name,email,first_name,last_name,location");
                         request.setParameters(parameters);
                         request.executeAsync();
                     }
@@ -171,7 +186,7 @@ public class LoginActivity extends AbstractActivity implements OnClickListener {
                 finish();
                 break;
             case R.id.fbBtn:
-                LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile", "email"));
+                LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile", "email" , "user_location"));
                 break;
         }
     }
@@ -287,8 +302,18 @@ public class LoginActivity extends AbstractActivity implements OnClickListener {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            if (intent.getAction().equalsIgnoreCase(AppConstants.LOGIN_CALLBACK_BROADCAST)) {
+            if (intent.getAction().equalsIgnoreCase(AppConstants.FACEBOOK_LOGIN_CALLBACK_BROADCAST)) {
                 if (intent.getParcelableExtra("data") != null) {
+                    FacebookResponse response=intent.getParcelableExtra("data");
+                    if(response.isResponse()) {
+                        Log.d("user_id", response.getData().getUser().getUser_id());
+                        String user_id = response.getData().getUser().getUser_id();
+                        FishingPreferences.getInstance().saveCurrentUserId(user_id);
+                        FishingPreferences.getInstance().setIsSocialLogin(true);
+                        Intent fbIntent = new Intent(LoginActivity.this, HomeActivity.class);
+                        startActivity(fbIntent);
+                        finish();
+                    }
 
                 }
 

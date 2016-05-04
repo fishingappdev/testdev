@@ -29,6 +29,7 @@
     <string name="network_error">Please check your internet connection!</string>
     <string name="submit_txt">Submit</string>
     <string name="error_txt">Error</string>
+    <string name="facebook_no_email">This account doesn\'t have email</string>
 
     <!--Change Password Screen-->
     <string name="old_pwd_txt">Old Password</string>
@@ -45,6 +46,9 @@
     <string name="email_confirm_doesnot_match">Email ID and confirm Email ID doesn\'t match</string>
     <string name="login_error">Email password doesnt match</string>
     <string name="password_not_match">Password and Confirm Password doesn\'t match</string>
+    <string name="change_password_success">Password changed successfuly</string>
+    <string name="change_pwd_error">Old password doesn\'t match</string>
+    <string name="success_txt">Success</string>
 
 
     <!-- Signup Screen-->

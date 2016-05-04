@@ -12,7 +12,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -34,7 +33,10 @@ import com.dev.fishingapp.myfriends.fragments.MyFriendsFragment;
 import com.dev.fishingapp.myprofile.fragments.MyProfile;
 import com.dev.fishingapp.support.DrawerItemAdapter;
 import com.dev.fishingapp.support.NavDrawerItem;
+import com.dev.fishingapp.util.FishingPreferences;
 import com.dev.fishingapp.util.UpdateImageUtil;
+import com.facebook.FacebookSdk;
+import com.facebook.login.LoginManager;
 
 import java.util.ArrayList;
 
@@ -92,6 +94,8 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
         logoutbtn = (TextView) findViewById(R.id.logout);
         logoutbtn.setOnClickListener(this);
 
+        FacebookSdk.sdkInitialize(getApplicationContext());
+
         mTitle = mDrawerTitle = getTitle();
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
@@ -111,7 +115,10 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
         navDrawerItems.add(new NavDrawerItem(navMenuTitles[3]));
         navDrawerItems.add(new NavDrawerItem(navMenuTitles[4]));
         navDrawerItems.add(new NavDrawerItem(navMenuTitles[5]));
-        navDrawerItems.add(new NavDrawerItem(navMenuTitles[6]));
+        if(!FishingPreferences.getInstance().getIsSocailLogin()){
+            navDrawerItems.add(new NavDrawerItem(navMenuTitles[6]));
+        }
+
 
         // setting the nav drawer list adapter
         mAdapter = new DrawerItemAdapter(getApplicationContext(),
@@ -191,6 +198,12 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
             case R.id.logout: {
                 Intent intent = new Intent(this, LoginActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                FishingPreferences.getInstance().saveCurrentUserId("");
+                if(FishingPreferences.getInstance().getIsSocailLogin()){
+                    LoginManager.getInstance().logOut();
+                    FishingPreferences.getInstance().setIsSocialLogin(false);
+                }
+
                 startActivity(intent);
             }
             break;

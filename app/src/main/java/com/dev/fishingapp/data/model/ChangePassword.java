@@ -17,6 +17,7 @@ public class ChangePassword implements Parcelable {
 
     private boolean response;
 
+
     public static final Parcelable.Creator<ChangePassword> CREATOR
             = new Parcelable.Creator<ChangePassword>() {
         public ChangePassword createFromParcel(Parcel in) {

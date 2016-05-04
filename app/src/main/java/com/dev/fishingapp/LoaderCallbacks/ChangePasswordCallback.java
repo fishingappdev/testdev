@@ -24,12 +24,13 @@ public class ChangePasswordCallback extends ChangePasswordLoader.AbstractLoaderC
     private ChangePasswordRequest mRequest;
     private AppCompatActivity abstractActivity;
 
-    public ChangePasswordCallback(AppCompatActivity activity, boolean showProgressDialog,String oldPassword, String newPassword) {
+    public ChangePasswordCallback(AppCompatActivity activity, boolean showProgressDialog,String oldPassword, String newPassword,String userid) {
         super(activity, showProgressDialog);
         this.abstractActivity=activity;
         mRequest=new ChangePasswordRequest();
         mRequest.setNew_password(newPassword);
         mRequest.setOld_password(oldPassword);
+        mRequest.setUser_id(userid);
 
     }
 

@@ -8,6 +8,7 @@ import android.os.Parcelable;
  */
 public class FacebookResponse implements Parcelable{
 
+
     public static final Parcelable.Creator<FacebookResponse> CREATOR
             = new Parcelable.Creator<FacebookResponse>() {
         public FacebookResponse createFromParcel(Parcel in) {
@@ -20,6 +21,16 @@ public class FacebookResponse implements Parcelable{
     };
     private boolean response;
 
+    public FacebookData getData() {
+        return data;
+    }
+
+    public void setData(FacebookData data) {
+        this.data = data;
+    }
+
+    private FacebookData data;
+
     public boolean isResponse() {
         return response;
     }
@@ -30,6 +41,7 @@ public class FacebookResponse implements Parcelable{
 
     private FacebookResponse(Parcel in){
         response = in.readByte() != 0;
+        data=in.readParcelable(getClass().getClassLoader());
 
     }
 
@@ -41,5 +53,7 @@ public class FacebookResponse implements Parcelable{
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeByte((byte) (response ? 1 : 0));
+        dest.writeParcelable(data, flags);
+
     }
 }
