@@ -401,4 +401,5 @@
 
     <string name="username_email_id_exists">Username or Email ID already exists!</string>
     <string name="some_error_occured">Some error occured!</string>
+    <string name="retry_txt">Retry</string>
 </resources>

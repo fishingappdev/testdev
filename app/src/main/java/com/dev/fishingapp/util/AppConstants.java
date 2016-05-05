@@ -11,4 +11,5 @@ public class AppConstants {
     public static final String SIGNUP_CALLBACK_BROADCAST = "signup_callback_broadcast";
     public static final String GET_PROFILE_CALLBACK_BROADCAST = "get_profile_callback_broadcast";
     public static final String SET_PROFILE_CALLBACK_BROADCAST = "set_profile_callback_broadcast";
+    public static final String WATCH_VIDEO_CALLBACK_BROADCAST = "watch_video_callback_broadcast";
 }

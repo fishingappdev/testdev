@@ -9,10 +9,12 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import android.graphics.drawable.GradientDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
@@ -25,8 +27,11 @@ import android.widget.Toast;
 
 import com.dev.fishingapp.LoaderCallbacks.FacebookLoginCallback;
 import com.dev.fishingapp.LoaderCallbacks.LoginCallback;
+import com.dev.fishingapp.LoaderCallbacks.WatchVideoCallback;
 import com.dev.fishingapp.data.model.FacebookResponse;
 import com.dev.fishingapp.data.model.Login;
+import com.dev.fishingapp.data.model.WatchVideoRequest;
+import com.dev.fishingapp.data.model.WatchVideoResponse;
 import com.dev.fishingapp.util.AlertMessageDialog;
 import com.dev.fishingapp.util.AppConstants;
 import com.dev.fishingapp.util.FishingPreferences;
@@ -64,6 +69,7 @@ public class LoginActivity extends AbstractActivity implements OnClickListener {
     private ImageView center_logo;
     private LoginBroadcastReceiver receiver;
     private FbLoginBroadcastReceiver loginReceiver;
+    private WatchVideoBroadcastReceiver watchVideoBroadcastReceiver;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -95,6 +101,8 @@ public class LoginActivity extends AbstractActivity implements OnClickListener {
         mForgotPasswordView.setOnClickListener(this);
         msSignup.setOnClickListener(this);
         mFbBtn.setOnClickListener(this);
+        mWatchNowBtn.setOnClickListener(this);
+
         printKeyHash(this);
         loaderManager = getSupportLoaderManager();
 
@@ -122,16 +130,17 @@ public class LoginActivity extends AbstractActivity implements OnClickListener {
                                     String str_city = tempdataArray[0];
                                     String str_country = tempdataArray[1];
                                     Log.v("LoginActivity", str_country);
-                */                    if(loaderManager.getLoader(R.id.loader_facebook_login)== null){
-                                        loaderManager.initLoader(R.id.loader_facebook_login, null, new FacebookLoginCallback(LoginActivity.this,true,str_email,str_firstname,"India"));
+                */
+                                    if (loaderManager.getLoader(R.id.loader_facebook_login) == null) {
+                                        loaderManager.initLoader(R.id.loader_facebook_login, null, new FacebookLoginCallback(LoginActivity.this, true, str_email, str_firstname, "India"));
                                     } else {
-                                        loaderManager.restartLoader(R.id.loader_facebook_login, null, new FacebookLoginCallback(LoginActivity.this,true,str_email,str_firstname,"India"));
+                                        loaderManager.restartLoader(R.id.loader_facebook_login, null, new FacebookLoginCallback(LoginActivity.this, true, str_email, str_firstname, "India"));
                                     }
 
 
                                 } catch (JSONException e) {
                                     if (e.getMessage().equals("No value for email")) {
-                                        AlertMessageDialog dialog =new AlertMessageDialog(LoginActivity.this,getString(R.string.error_txt),getString(R.string.facebook_no_email));
+                                        AlertMessageDialog dialog = new AlertMessageDialog(LoginActivity.this, getString(R.string.error_txt), getString(R.string.facebook_no_email));
                                     }
                                     e.printStackTrace();
                                 }
@@ -139,7 +148,7 @@ public class LoginActivity extends AbstractActivity implements OnClickListener {
                             }
                         });
                         Bundle parameters = new Bundle();
-                        parameters.putString("fields","id,name,email,first_name,last_name,location");
+                        parameters.putString("fields", "id,name,email,first_name,last_name,location");
                         request.setParameters(parameters);
                         request.executeAsync();
                     }
@@ -153,7 +162,7 @@ public class LoginActivity extends AbstractActivity implements OnClickListener {
                     public void onError(FacebookException exception) {
                         if (exception instanceof FacebookAuthorizationException) {
                             if (AccessToken.getCurrentAccessToken() != null) {
-                                Toast.makeText(LoginActivity.this,"Some Error Occured",Toast.LENGTH_LONG).show();
+                                Toast.makeText(LoginActivity.this, "Some Error Occured", Toast.LENGTH_LONG).show();
                                 LoginManager.getInstance().logOut();
                             }
                         }
@@ -166,13 +175,13 @@ public class LoginActivity extends AbstractActivity implements OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.loginBtn:
-                boolean IsValidate =validateFields();
-                if(IsValidate) {
-                    if(loaderManager.getLoader(R.id.loader_login)== null){
-                        loaderManager.initLoader(R.id.loader_login, null, new LoginCallback(this,true,mUsername,mPassword));
-                } else {
-                    loaderManager.restartLoader(R.id.loader_login, null, new LoginCallback(this,true,mUsername,mPassword));
-                }
+                boolean IsValidate = validateFields();
+                if (IsValidate) {
+                    if (loaderManager.getLoader(R.id.loader_login) == null) {
+                        loaderManager.initLoader(R.id.loader_login, null, new LoginCallback(this, true, mUsername, mPassword));
+                    } else {
+                        loaderManager.restartLoader(R.id.loader_login, null, new LoginCallback(this, true, mUsername, mPassword));
+                    }
 
                 }
                 break;
@@ -186,7 +195,10 @@ public class LoginActivity extends AbstractActivity implements OnClickListener {
                 finish();
                 break;
             case R.id.fbBtn:
-                LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile", "email" , "user_location"));
+                LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile", "email", "user_location"));
+                break;
+            case R.id.watchBtn:
+                loaderManager.initLoader(R.id.loader_watchnow, null, new WatchVideoCallback(this, true, new WatchVideoRequest()));
                 break;
         }
     }
@@ -227,8 +239,7 @@ public class LoginActivity extends AbstractActivity implements OnClickListener {
             }
         } catch (PackageManager.NameNotFoundException e1) {
             Log.e("Name not found", e1.toString());
-        }
-        catch (NoSuchAlgorithmException e) {
+        } catch (NoSuchAlgorithmException e) {
             Log.e("No such an algorithm", e.toString());
         } catch (Exception e) {
             Log.e("Exception", e.toString());
@@ -242,7 +253,7 @@ public class LoginActivity extends AbstractActivity implements OnClickListener {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK) {
             Log.d("onActivityResult", "After fb login");
-             callbackManager.onActivityResult(requestCode, resultCode, data);
+            callbackManager.onActivityResult(requestCode, resultCode, data);
         }
 
     }
@@ -257,12 +268,14 @@ public class LoginActivity extends AbstractActivity implements OnClickListener {
         super.onResume();
         LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(this);
         IntentFilter intentFilter = new IntentFilter(AppConstants.LOGIN_CALLBACK_BROADCAST);
-        IntentFilter loginfilter=new IntentFilter(AppConstants.FACEBOOK_LOGIN_CALLBACK_BROADCAST);
+        IntentFilter loginfilter = new IntentFilter(AppConstants.FACEBOOK_LOGIN_CALLBACK_BROADCAST);
+        IntentFilter watchVideoFilter = new IntentFilter(AppConstants.WATCH_VIDEO_CALLBACK_BROADCAST);
         receiver = new LoginBroadcastReceiver();
-        loginReceiver=new FbLoginBroadcastReceiver();
+        loginReceiver = new FbLoginBroadcastReceiver();
+        watchVideoBroadcastReceiver = new WatchVideoBroadcastReceiver();
         localBroadcastManager.registerReceiver(receiver, intentFilter);
         localBroadcastManager.registerReceiver(loginReceiver, loginfilter);
-
+        localBroadcastManager.registerReceiver(watchVideoBroadcastReceiver, watchVideoFilter);
     }
 
     @Override
@@ -271,6 +284,7 @@ public class LoginActivity extends AbstractActivity implements OnClickListener {
         LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(this);
         localBroadcastManager.unregisterReceiver(receiver);
         localBroadcastManager.unregisterReceiver(loginReceiver);
+        localBroadcastManager.unregisterReceiver(watchVideoBroadcastReceiver);
     }
 
     class LoginBroadcastReceiver extends BroadcastReceiver {
@@ -280,15 +294,37 @@ public class LoginActivity extends AbstractActivity implements OnClickListener {
             if (intent.getAction().equalsIgnoreCase(AppConstants.LOGIN_CALLBACK_BROADCAST)) {
                 if (intent.getParcelableExtra("data") != null) {
                     Login loginData = intent.getParcelableExtra("data");
-                    if(loginData.isResponse()) {
-                       String user_id = loginData.getData().getUser_id();
+                    if (loginData.isResponse()) {
+                        String user_id = loginData.getData().getUser_id();
                         FishingPreferences.getInstance().saveCurrentUserId(user_id);
                         Log.d("user id", user_id + "");
                         Intent homeIntent = new Intent(LoginActivity.this, HomeActivity.class);
                         startActivity(homeIntent);
                         finish();
-                    }else{
-                        AlertMessageDialog dialog= new AlertMessageDialog(LoginActivity.this,"Error","Username and Password doesnot match");
+                    } else {
+                        AlertMessageDialog dialog = new AlertMessageDialog(LoginActivity.this, "Error", "Username and Password doesnot match");
+                        dialog.setAcceptButtonText("OK");
+                        dialog.show();
+                    }
+                }
+
+            }
+        }
+    }
+
+    class WatchVideoBroadcastReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction().equalsIgnoreCase(AppConstants.WATCH_VIDEO_CALLBACK_BROADCAST)) {
+                if (intent.getSerializableExtra("data") != null) {
+                    WatchVideoResponse watchVideoResponse = (WatchVideoResponse) intent.getSerializableExtra("data");
+                    if (watchVideoResponse.isResponse()&&!TextUtils.isEmpty(watchVideoResponse.getData().getVideo())) {
+                        Intent videoIntent = new Intent(Intent.ACTION_VIEW);
+                        videoIntent.setDataAndType(Uri.parse(watchVideoResponse.getData().getVideo()), "video/*");
+                        startActivity(Intent.createChooser(videoIntent, "Complete action using"));
+                    } else {
+                        AlertMessageDialog dialog = new AlertMessageDialog(LoginActivity.this, "Error", getString(R.string.some_error_occured));
                         dialog.setAcceptButtonText("OK");
                         dialog.show();
                     }
@@ -304,8 +340,8 @@ public class LoginActivity extends AbstractActivity implements OnClickListener {
         public void onReceive(Context context, Intent intent) {
             if (intent.getAction().equalsIgnoreCase(AppConstants.FACEBOOK_LOGIN_CALLBACK_BROADCAST)) {
                 if (intent.getParcelableExtra("data") != null) {
-                    FacebookResponse response=intent.getParcelableExtra("data");
-                    if(response.isResponse()) {
+                    FacebookResponse response = intent.getParcelableExtra("data");
+                    if (response.isResponse()) {
                         Log.d("user_id", response.getData().getUser().getUser_id());
                         String user_id = response.getData().getUser().getUser_id();
                         FishingPreferences.getInstance().saveCurrentUserId(user_id);

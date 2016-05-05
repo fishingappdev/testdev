@@ -14,6 +14,8 @@ import com.dev.fishingapp.data.model.SetEditProfileRequest;
 import com.dev.fishingapp.data.model.SetEditProfileResponse;
 import com.dev.fishingapp.data.model.SignUpRequest;
 import com.dev.fishingapp.data.model.SignUpResponse;
+import com.dev.fishingapp.data.model.WatchVideoRequest;
+import com.dev.fishingapp.data.model.WatchVideoResponse;
 
 import retrofit.http.Body;
 import retrofit.http.Header;
@@ -43,5 +45,8 @@ public interface FishingAppService {
 
     @POST("/set_profile_detail.json")
     SetEditProfileResponse setProfile(@Header("Content-Type") String contentType, @Header("Accept") String accept, @Body SetEditProfileRequest setEditProfileRequest);
+
+    @POST("/watch_video.json")
+    WatchVideoResponse watchVideo(@Header("Content-Type") String contentType, @Header("Accept") String accept, @Body WatchVideoRequest watchVideoRequest);
 
 }
