@@ -9,7 +9,6 @@ import com.dev.fishingapp.data.model.ForgotPasswordRequest;
 import com.dev.fishingapp.data.model.GetEditProfileRequest;
 import com.dev.fishingapp.data.model.GetEditProfileResponse;
 import com.dev.fishingapp.data.model.Login;
-import com.dev.fishingapp.data.model.LoginRequest;
 import com.dev.fishingapp.data.model.SetEditProfileRequest;
 import com.dev.fishingapp.data.model.SetEditProfileResponse;
 import com.dev.fishingapp.data.model.SignUpRequest;
@@ -18,6 +17,8 @@ import com.dev.fishingapp.data.model.WatchVideoRequest;
 import com.dev.fishingapp.data.model.WatchVideoResponse;
 
 import retrofit.http.Body;
+import retrofit.http.Field;
+import retrofit.http.FormUrlEncoded;
 import retrofit.http.Header;
 import retrofit.http.POST;
 
@@ -25,8 +26,9 @@ import retrofit.http.POST;
  * Created by skumari on 4/19/2016.
  */
 public interface FishingAppService {
-    @POST("/login.json")
-    Login login(@Header("Content-Type") String contentType,@Header("Accept") String accept,@Body LoginRequest mLoginRequest);
+    @FormUrlEncoded
+    @POST("/userlogin")
+    Login login(@Header("Content-Type") String contentType,@Header("Accept") String accept,@Field("apiaction") String apiaction ,@Field("username") String username,@Field("password") String password);
 
     @POST("/register.json")
     SignUpResponse signUp(@Header("Content-Type") String contentType, @Header("Accept") String accept, @Body SignUpRequest signUpRequest);

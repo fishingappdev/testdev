@@ -87,7 +87,12 @@ public class ForgotPasswordActivity extends AbstractActivity {
                         dialog= new AlertMessageDialog(ForgotPasswordActivity.this,"Success","Please Check your Email");
                         dialog.setAcceptButtonText(getResources().getString(R.string.ok_txt));
                         dialog.show();
-                        finish();
+                        dialog.setOnAcceptButtonClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                finish();
+                            }
+                        });
                     }else{
                        dialog= new AlertMessageDialog(ForgotPasswordActivity.this,"Error","Email not found");
                         dialog.setAcceptButtonText(getResources().getString(R.string.ok_txt));

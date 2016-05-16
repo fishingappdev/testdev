@@ -204,8 +204,8 @@ public class LoginActivity extends AbstractActivity implements OnClickListener {
     }
 
     private boolean validateFields() {
-        mUsername = mUserNameEdt.getText().toString();
-        mPassword = mPasswordEdt.getText().toString();
+        mUsername = mUserNameEdt.getText().toString().trim();
+        mPassword = mPasswordEdt.getText().toString().trim();
         if (mUsername.isEmpty()) {
             mUserNameEdt.setError(getResources().getString(R.string.empty_username));
             return false;
@@ -294,7 +294,7 @@ public class LoginActivity extends AbstractActivity implements OnClickListener {
             if (intent.getAction().equalsIgnoreCase(AppConstants.LOGIN_CALLBACK_BROADCAST)) {
                 if (intent.getParcelableExtra("data") != null) {
                     Login loginData = intent.getParcelableExtra("data");
-                    if (loginData.isResponse()) {
+                    if (loginData.getStatus().equalsIgnoreCase(getResources().getString(R.string.success_txt))) {
                         String user_id = loginData.getData().getUser_id();
                         FishingPreferences.getInstance().saveCurrentUserId(user_id);
                         Log.d("user id", user_id + "");
@@ -302,7 +302,7 @@ public class LoginActivity extends AbstractActivity implements OnClickListener {
                         startActivity(homeIntent);
                         finish();
                     } else {
-                        AlertMessageDialog dialog = new AlertMessageDialog(LoginActivity.this, "Error", "Username and Password doesnot match");
+                        AlertMessageDialog dialog = new AlertMessageDialog(LoginActivity.this, "Error", loginData.getMessage());
                         dialog.setAcceptButtonText("OK");
                         dialog.show();
                     }

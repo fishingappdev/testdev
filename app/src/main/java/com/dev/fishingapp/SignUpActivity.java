@@ -81,8 +81,8 @@ public class SignUpActivity extends AbstractActivity implements OnClickListener 
                 boolean IsValidate = validateFields();
                 if (IsValidate) {
                     String username = mUserNameEdt.getText().toString();
-                    String email = mEmailIdEdt.getText().toString();
-                    String confemail = mConfirmEmailId.getText().toString();
+                    String email = mEmailIdEdt.getText().toString().trim();
+                    String confemail = mConfirmEmailId.getText().toString().trim();
                     String firstname = mFirstName.getText().toString();
                     String lastname = mLastName.getText().toString();
                     String country = this.country;

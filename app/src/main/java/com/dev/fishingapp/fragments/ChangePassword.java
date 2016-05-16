@@ -100,10 +100,16 @@ public class ChangePassword extends BaseToolbarFragment {
                         dialog=new AlertMessageDialog(((HomeActivity)getActivity()),getActivity().getString(R.string.success_txt),getString(R.string.change_password_success));
                         dialog.setAcceptButtonText(getString(R.string.ok_txt));
                         dialog.show();
+                        mNewPwdTxt.getText().clear();
+                        mOldPwdtxt.getText().clear();
+                        mCnfPwdTxt.getText().clear();
                     }else{
                         dialog=new AlertMessageDialog(((HomeActivity)getActivity()),getActivity().getString(R.string.error_txt),getString(R.string.change_pwd_error));
                         dialog.setAcceptButtonText(getString(R.string.ok_txt));
                         dialog.show();
+                        mNewPwdTxt.getText().clear();
+                        mOldPwdtxt.getText().clear();
+                        mCnfPwdTxt.getText().clear();
                     }
 
                 }

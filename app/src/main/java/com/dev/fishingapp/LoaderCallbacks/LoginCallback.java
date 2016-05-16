@@ -27,9 +27,11 @@ public class LoginCallback extends LoginLoader.AbstractLoaderCallbacks<Login> {
     public LoginCallback(AppCompatActivity activity, boolean showProgressDialog,String username, String password) {
         super(activity, showProgressDialog);
         this.abstractActivity=activity;
-        loginRequest=new LoginRequest();
+        this.username=username;
+        this.password=password;
+        /*loginRequest=new LoginRequest();
         loginRequest.setUsername(username);
-        loginRequest.setPassword(password);
+        loginRequest.setPassword(password);*/
     }
 
     @Override
@@ -42,7 +44,7 @@ public class LoginCallback extends LoginLoader.AbstractLoaderCallbacks<Login> {
 
     @Override
     public Loader<Login> onCreateLoader(int id, Bundle args) {
-        return new LoginLoader (loginRequest);
+        return new LoginLoader (username,password);
 
     }
     @Override

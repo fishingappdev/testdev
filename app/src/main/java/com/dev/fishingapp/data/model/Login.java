@@ -7,11 +7,37 @@ import android.os.Parcelable;
  * Created by user on 4/20/2016.
  */
 public class Login implements Parcelable{
-    private boolean response;
+    private int faultcode;
+    private String status;
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public int getFaultcode() {
+        return faultcode;
+    }
+
+    public void setFaultcode(int faultcode) {
+        this.faultcode = faultcode;
+    }
+
+    private String message;
 
 
-
-    private LoginData data;
+    private LoginData userdata;
     public static final Parcelable.Creator<Login> CREATOR
             = new Parcelable.Creator<Login>() {
         public Login createFromParcel(Parcel in) {
@@ -23,20 +49,13 @@ public class Login implements Parcelable{
         }
     };
 
-    public boolean isResponse() {
-        return response;
-    }
-
-    public void setResponse(boolean response) {
-        this.response = response;
-    }
 
    public LoginData getData() {
-        return data;
+        return userdata;
     }
 
     public void setData(LoginData data) {
-        this.data = data;
+        this.userdata = data;
     }
 
     @Override
@@ -45,15 +64,19 @@ public class Login implements Parcelable{
     }
 
     private Login(Parcel in) {
-        response = in.readByte() != 0;
-        data=in.readParcelable(getClass().getClassLoader());
+        faultcode = in.readInt();
+        userdata=in.readParcelable(getClass().getClassLoader());
+        status=in.readString();
+        message=in.readString();
 
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeByte((byte) (response ? 1 : 0));
-        dest.writeParcelable(data,flags);
+       dest.writeInt(faultcode);
+        dest.writeParcelable(userdata, flags);
+        dest.writeString(status);
+        dest.writeString(message);
     }
 
 

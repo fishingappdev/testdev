@@ -7,7 +7,34 @@ import android.os.Parcelable;
  * Created by user on 5/1/2016.
  */
 public class LoginData implements Parcelable{
-    private String user_id;
+    private String uid;
+    private String name;
+    private String pass;
+    private String mail;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getPass() {
+        return pass;
+    }
+
+    public void setPass(String pass) {
+        this.pass = pass;
+    }
+
+    public String getMail() {
+        return mail;
+    }
+
+    public void setMail(String mail) {
+        this.mail = mail;
+    }
 
     public static final Parcelable.Creator<LoginData> CREATOR
             = new Parcelable.Creator<LoginData>() {
@@ -21,11 +48,11 @@ public class LoginData implements Parcelable{
     };
 
     public String getUser_id() {
-        return user_id;
+        return uid;
     }
 
     public void setUser_id(String user_id) {
-        this.user_id = user_id;
+        this.uid = user_id;
     }
 
     @Override
@@ -35,11 +62,17 @@ public class LoginData implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-      dest.writeString(user_id);
+        dest.writeString(uid);
+        dest.writeString(name);
+        dest.writeString(pass);
+        dest.writeString(mail);
     }
 
     private LoginData(Parcel in) {
-        user_id = in.readString();
+        uid = in.readString();
+        name = in.readString();
+        pass = in.readString();
+        mail = in.readString();
 
 
     }
