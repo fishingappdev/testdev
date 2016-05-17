@@ -83,8 +83,8 @@ public class ForgotPasswordActivity extends AbstractActivity {
             if (intent.getAction().equalsIgnoreCase(AppConstants.FORGOT_PWD_CALLBACK_BROADCAST)) {
                 if (intent.getParcelableExtra("data") != null) {
                     ForgotPassword data = intent.getParcelableExtra("data");
-                    if(data.isReponse()){
-                        dialog= new AlertMessageDialog(ForgotPasswordActivity.this,"Success","Please Check your Email");
+                    if(data.getStatus().equalsIgnoreCase(getString(R.string.success_txt))){
+                        dialog= new AlertMessageDialog(ForgotPasswordActivity.this,"Success",data.getMessage());
                         dialog.setAcceptButtonText(getResources().getString(R.string.ok_txt));
                         dialog.show();
                         dialog.setOnAcceptButtonClickListener(new View.OnClickListener() {
@@ -94,7 +94,7 @@ public class ForgotPasswordActivity extends AbstractActivity {
                             }
                         });
                     }else{
-                       dialog= new AlertMessageDialog(ForgotPasswordActivity.this,"Error","Email not found");
+                       dialog= new AlertMessageDialog(ForgotPasswordActivity.this,"Error",data.getMessage());
                         dialog.setAcceptButtonText(getResources().getString(R.string.ok_txt));
                         dialog.show();
                     }

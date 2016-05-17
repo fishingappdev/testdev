@@ -7,8 +7,35 @@ import android.os.Parcelable;
  * Created by user on 5/3/2016.
  */
 public class ForgotPassword implements Parcelable{
-    private boolean response;
-    private boolean data;
+
+    private String message;
+
+    public String getFaultcode() {
+        return faultcode;
+    }
+
+    public void setFaultcode(String faultcode) {
+        this.faultcode = faultcode;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    private String faultcode;
+    private String status;
 
     public static final Parcelable.Creator<ForgotPassword> CREATOR
             = new Parcelable.Creator<ForgotPassword>() {
@@ -22,27 +49,13 @@ public class ForgotPassword implements Parcelable{
     };
 
     private ForgotPassword(Parcel in){
-        response = in.readByte() != 0;
-        data = in.readByte() != 0;
+        message=in.readString();
+        faultcode=in.readString();
+        status=in.readString();
 
 
     }
 
-    public boolean isReponse() {
-        return response;
-    }
-
-    public void setReponse(boolean reponse) {
-        this.response = reponse;
-    }
-
-    public boolean isData() {
-        return data;
-    }
-
-    public void setData(boolean data) {
-        this.data = data;
-    }
 
     @Override
     public int describeContents() {
@@ -51,8 +64,11 @@ public class ForgotPassword implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeByte((byte) (response ? 1 : 0));
-        dest.writeByte((byte) (data ? 1 : 0));
+        message=dest.readString();
+        faultcode=dest.readString();
+        status=dest.readString();
+
+
 
     }
 }

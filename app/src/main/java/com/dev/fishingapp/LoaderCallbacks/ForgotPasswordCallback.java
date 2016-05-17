@@ -8,7 +8,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.dev.fishingapp.data.model.ForgotPassword;
-import com.dev.fishingapp.data.model.ForgotPasswordRequest;
 import com.dev.fishingapp.loader.AbstractLoader;
 import com.dev.fishingapp.loader.ForgotPasswordLoader;
 import com.dev.fishingapp.util.AppConstants;
@@ -20,14 +19,13 @@ import retrofit.RetrofitError;
  */
 public class ForgotPasswordCallback extends ForgotPasswordLoader.AbstractLoaderCallbacks<ForgotPassword> {
 
-    private ForgotPasswordRequest mRequest;
     private AppCompatActivity abstractActivity;
+    private String email;
 
     public ForgotPasswordCallback(AppCompatActivity activity, boolean showProgressDialog,String email) {
         super(activity, showProgressDialog);
         this.abstractActivity=activity;
-        mRequest=new ForgotPasswordRequest();
-        mRequest.setEmail(email);
+       this.email=email;
 
     }
 
@@ -41,7 +39,7 @@ public class ForgotPasswordCallback extends ForgotPasswordLoader.AbstractLoaderC
 
     @Override
     public Loader<ForgotPassword> onCreateLoader(int id, Bundle args) {
-        return new ForgotPasswordLoader(mRequest);
+        return new ForgotPasswordLoader(email);
 
     }
     @Override

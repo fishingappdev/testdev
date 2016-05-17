@@ -5,7 +5,6 @@ import com.dev.fishingapp.data.model.ChangePasswordRequest;
 import com.dev.fishingapp.data.model.FacebookLoginRequest;
 import com.dev.fishingapp.data.model.FacebookResponse;
 import com.dev.fishingapp.data.model.ForgotPassword;
-import com.dev.fishingapp.data.model.ForgotPasswordRequest;
 import com.dev.fishingapp.data.model.GetEditProfileRequest;
 import com.dev.fishingapp.data.model.GetEditProfileResponse;
 import com.dev.fishingapp.data.model.Login;
@@ -36,8 +35,9 @@ public interface FishingAppService {
     @POST("/change_password.json")
     ChangePassword changePassword(@Header("Content-Type")String contentType,@Header("Accept") String accept,@Body ChangePasswordRequest mChangePasswordRequest);
 
-    @POST("/forgot_password.json")
-    ForgotPassword forgotPassword(@Header("Content-Type")String contentType,@Header("Accept") String accept,@Body ForgotPasswordRequest mForgotPasswordRequest);
+    @FormUrlEncoded
+    @POST("/forgotpassword")
+    ForgotPassword forgotPassword(@Header("Content-Type")String contentType,@Header("Accept") String accept,@Field("apiaction") String apiaction, @Field("email") String email);
 
     @POST("/fb_login_detail.json")
     FacebookResponse facebookLogin(@Header("Content-Type")String contentType,@Header("Accept") String accept,@Body FacebookLoginRequest mFbLogindRequest);

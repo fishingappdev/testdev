@@ -15,4 +15,5 @@ public class AppConstants {
 
     /*API ACTION NAMES*/
     public static final String LOGIN_API_ACTION="userloginapi";
+    public static final String FORGOT_PASSWORD_API_ACTION="forgotpasswordapi";
 }
