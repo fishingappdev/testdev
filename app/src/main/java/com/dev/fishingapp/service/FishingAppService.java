@@ -8,6 +8,7 @@ import com.dev.fishingapp.data.model.ForgotPassword;
 import com.dev.fishingapp.data.model.GetEditProfileRequest;
 import com.dev.fishingapp.data.model.GetEditProfileResponse;
 import com.dev.fishingapp.data.model.Login;
+import com.dev.fishingapp.data.model.MyAlbumResponse;
 import com.dev.fishingapp.data.model.SetEditProfileRequest;
 import com.dev.fishingapp.data.model.SetEditProfileResponse;
 import com.dev.fishingapp.data.model.SignUpRequest;
@@ -50,5 +51,10 @@ public interface FishingAppService {
 
     @POST("/watch_video.json")
     WatchVideoResponse watchVideo(@Header("Content-Type") String contentType, @Header("Accept") String accept, @Body WatchVideoRequest watchVideoRequest);
+
+
+    @FormUrlEncoded
+    @POST("/myalbums")
+    MyAlbumResponse getMyAlbum(@Field("apiaction") String apiaction , @Field("uid") String uid);
 
 }

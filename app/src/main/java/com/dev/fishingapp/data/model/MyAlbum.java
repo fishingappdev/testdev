@@ -1,9 +1,12 @@
 package com.dev.fishingapp.data.model;
 
+import java.io.Serializable;
+
 /**
  * Created by skumari on 4/23/2016.
  */
-public class MyAlbum {
+public class MyAlbum implements Serializable{
+    String nid;
     String title;
     String description;
     String imageUrl;
@@ -13,7 +16,7 @@ public class MyAlbum {
 
     }
 
-    public MyAlbum(String title, String description, String imageUrl, String country) {
+    public MyAlbum(String nid, String title, String description, String imageUrl, String country) {
         this.title = title;
         this.description = description;
         this.imageUrl = imageUrl;
@@ -50,5 +53,9 @@ public class MyAlbum {
 
     public void setCountry(String country) {
         this.country = country;
+    }
+
+    public String getNid() {
+        return nid;
     }
 }
