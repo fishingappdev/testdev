@@ -49,6 +49,7 @@
     <string name="change_password_success">Password changed successfuly</string>
     <string name="change_pwd_error">Old password doesn\'t match</string>
     <string name="success_txt">Success</string>
+    <string name="empty_list">No data found</string>
 
 
     <!-- Signup Screen-->

@@ -6,4 +6,6 @@
     <item name="loader.facebook_login" type="id" />
     <item name="loader.myalbum" type="id" />
     <item name="loader.myalbumdetails" type="id" />
+    <item name="loader.episode_list" type="id" />
+
 </resources>

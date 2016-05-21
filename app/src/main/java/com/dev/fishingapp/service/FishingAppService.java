@@ -3,6 +3,7 @@ package com.dev.fishingapp.service;
 import com.dev.fishingapp.data.model.AddNewAlbumResponse;
 import com.dev.fishingapp.data.model.ChangePassword;
 import com.dev.fishingapp.data.model.ChangePasswordRequest;
+import com.dev.fishingapp.data.model.EpisodeListResponse;
 import com.dev.fishingapp.data.model.FacebookLoginRequest;
 import com.dev.fishingapp.data.model.FacebookResponse;
 import com.dev.fishingapp.data.model.ForgotPassword;
@@ -62,6 +63,8 @@ public interface FishingAppService {
     @FormUrlEncoded
     @POST("/myalbumdetails")
     MyAlbumDetailResponse getMyAlbumDetails(@Header("Content-Type") String contentType, @Header("Accept") String accept, @Field("apiaction") String apiaction , @Field("nid") String nid);
+    @POST("/getepisode")
+    EpisodeListResponse getEpisodeList(@Header("Content-Type") String contentType,@Header("Accept") String accept,@Field("apiaction") String apiaction ,@Field("count") String count);
 
     @FormUrlEncoded
     @POST("/addnewalbum")

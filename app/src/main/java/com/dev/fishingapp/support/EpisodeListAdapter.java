@@ -1,13 +1,16 @@
 package com.dev.fishingapp.support;
 
 import android.content.Context;
+import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.dev.fishingapp.R;
+import com.dev.fishingapp.data.model.EpisodeList;
 
 import java.util.ArrayList;
 
@@ -15,10 +18,10 @@ import java.util.ArrayList;
  * Created by user on 4/23/2016.
  */
 public class EpisodeListAdapter extends BaseAdapter {
-    private ArrayList<String> episodeList;
+    private ArrayList<EpisodeList> episodeList;
     private Context context;
     LayoutInflater inflater;
-    public EpisodeListAdapter(Context context,ArrayList<String> episodeList){
+    public EpisodeListAdapter(Context context, ArrayList<EpisodeList> episodeList;){
         this.context=context;
         this.episodeList=episodeList;
         inflater = LayoutInflater.from(this.context);
@@ -49,7 +52,7 @@ public class EpisodeListAdapter extends BaseAdapter {
             mViewHolder = (MyViewHolder) convertView.getTag();
         }
 
-        mViewHolder.tvEpisodeTitle.setText(episodeList.get(position));
+        mViewHolder.tvEpisodeTitle.setText(episodeList.get(position).getTitle());
 
 
 
@@ -58,9 +61,11 @@ public class EpisodeListAdapter extends BaseAdapter {
 
     private class MyViewHolder {
         TextView tvEpisodeTitle;
+        ImageView videoThumbnail;
 
         public MyViewHolder(View item) {
             tvEpisodeTitle = (TextView) item.findViewById(R.id.episodeTitle);
+            videoThumbnail=(ImageView) item.findViewById(R.id.video_thumbnail);
 
 
         }

@@ -26,4 +26,7 @@ public class AppConstants {
     public static final String SET_USER_PROFILE_API_ACTION = "usereditprofileapi";
     public static final String SIGNUP_API_ACTION = "usersignupapi";
     public static final String ADD_ALBUM_API_ACTION = "addnewalbumapi";
+    public static final String EPISODE_LIST_CALLBACK_BROADCAST = "Episode_list_callback_broadcast";
+
+   
 }
