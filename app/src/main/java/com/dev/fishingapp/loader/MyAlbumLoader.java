@@ -12,12 +12,12 @@ public class MyAlbumLoader extends AbstractLoader<MyAlbumResponse> {
 
     public MyAlbumLoader(String userid) {
         super(FishingApplication.getContext());
-         this.userid=userid;
+        this.userid = userid;
     }
 
     @Override
     protected MyAlbumResponse doLoadInBackground() {
-        MyAlbumResponse response=getService().getMyAlbum(AppConstants.MYALBUM_API_ACTION,userid);
+        MyAlbumResponse response = getService().getMyAlbum("application/x-www-form-urlencoded", "application/json", AppConstants.MYALBUM_API_ACTION, "12");
         return response;
     }
 }

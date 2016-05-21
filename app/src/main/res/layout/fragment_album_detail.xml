@@ -54,13 +54,14 @@
                 <com.dev.fishingapp.myalbum.views.CustomGridView
                     android:id="@+id/gridLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/dp_240"
                     android:columnWidth="@dimen/dp_80"
                     android:gravity="center"
                     android:numColumns="auto_fit"
                     android:stretchMode="columnWidth" />
 
                 <TextView
+                    android:id="@+id/description"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"

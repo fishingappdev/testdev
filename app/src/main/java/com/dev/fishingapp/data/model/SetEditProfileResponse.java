@@ -6,22 +6,31 @@ import java.io.Serializable;
  * Created by Swati on 5/3/2016.
  */
 public class SetEditProfileResponse implements Serializable {
-    boolean response;
-    SetEditProfileResponseData data;
+    int faultcode;
+    String status;
+    Profile profiledata;
 
-    public SetEditProfileResponseData getData() {
-        return data;
+    public int getFaultcode() {
+        return faultcode;
     }
 
-    public void setData(SetEditProfileResponseData data) {
-        this.data = data;
+    public void setFaultcode(int faultcode) {
+        this.faultcode = faultcode;
     }
 
-    public boolean isResponse() {
-        return response;
+    public String getStatus() {
+        return status;
     }
 
-    public void setResponse(boolean response) {
-        this.response = response;
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public Profile getProfiledata() {
+        return profiledata;
+    }
+
+    public void setProfiledata(Profile profiledata) {
+        this.profiledata = profiledata;
     }
 }

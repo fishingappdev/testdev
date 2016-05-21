@@ -7,6 +7,7 @@ package com.dev.fishingapp.loader;
 import com.dev.fishingapp.FishingApplication;
 import com.dev.fishingapp.data.model.GetEditProfileRequest;
 import com.dev.fishingapp.data.model.GetEditProfileResponse;
+import com.dev.fishingapp.util.AppConstants;
 
 public class GetProfileLoader extends AbstractLoader<GetEditProfileResponse> {
     GetEditProfileRequest getEditProfileRequest;
@@ -17,6 +18,7 @@ public class GetProfileLoader extends AbstractLoader<GetEditProfileResponse> {
     }
 
     protected GetEditProfileResponse doLoadInBackground() {
-        return getService().getProfile("application/json","application/json",getEditProfileRequest);
+//        getEditProfileRequest.getUser_id()
+        return getService().getProfile("application/x-www-form-urlencoded", "application/json", AppConstants.GET_USER_PROFILE_API_ACTION,getEditProfileRequest.getUser_id());
     }
 }

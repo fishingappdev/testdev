@@ -100,8 +100,8 @@ public class LoginActivity extends AbstractActivity implements OnClickListener {
         mLoginBtn.setOnClickListener(this);
         mForgotPasswordView.setOnClickListener(this);
         msSignup.setOnClickListener(this);
-        mFbBtn.setOnClickListener(this);
-        mWatchNowBtn.setOnClickListener(this);
+        //mFbBtn.setOnClickListener(this);
+        //mWatchNowBtn.setOnClickListener(this);
 
         printKeyHash(this);
         loaderManager = getSupportLoaderManager();

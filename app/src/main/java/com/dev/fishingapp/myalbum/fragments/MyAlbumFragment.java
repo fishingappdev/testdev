@@ -72,7 +72,11 @@ public class MyAlbumFragment extends BaseToolbarFragment implements AdapterView.
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         FragmentManager fm = getActivity().getSupportFragmentManager();
-        fm.beginTransaction().add(R.id.content_frame, new AlbumDetailFragment()).hide(this).addToBackStack(null).commit();
+        Bundle bundle = new Bundle();
+        bundle.putString("nid", myAlbumArraylist.get(position).getNid());
+        AlbumDetailFragment frag = new AlbumDetailFragment();
+        frag.setArguments(bundle);
+        fm.beginTransaction().add(R.id.content_frame, frag).hide(this).addToBackStack(null).commit();
 
     }
 
@@ -122,9 +126,6 @@ public class MyAlbumFragment extends BaseToolbarFragment implements AdapterView.
         IntentFilter intentFilter = new IntentFilter(AppConstants.MY_ALBUM_CALLBACK_BROADCAST);
         receiver = new MyAlbumBroadcastReceiver();
         localBroadcastManager.registerReceiver(receiver, intentFilter);
-        intentFilter = new IntentFilter(AppConstants.SET_PROFILE_CALLBACK_BROADCAST);
-        receiver = new MyAlbumBroadcastReceiver();
-        localBroadcastManager.registerReceiver(receiver, intentFilter);
 
     }
 
@@ -132,7 +133,6 @@ public class MyAlbumFragment extends BaseToolbarFragment implements AdapterView.
     public void onStop() {
         super.onStop();
         LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(getActivity());
-        localBroadcastManager.unregisterReceiver(receiver);
         localBroadcastManager.unregisterReceiver(receiver);
     }
 }

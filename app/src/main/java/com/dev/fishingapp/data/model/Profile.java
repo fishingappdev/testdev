@@ -6,37 +6,58 @@ import java.io.Serializable;
  * Created by Swati on 5/4/2016.
  */
 public class Profile implements Serializable {
-    String user_id, about_user, fishing_pref, profile_pic;
+    String uid;
+    String field_first_name;
+    String field_last_name;
+    String field_about_me;
+    String field_fishing_preferences;
+    String field_country;
 
-    public String getUser_id() {
-        return user_id;
+    public String getUid() {
+        return uid;
     }
 
-    public void setUser_id(String user_id) {
-        this.user_id = user_id;
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 
-    public String getAbout_user() {
-        return about_user;
+    public String getField_first_name() {
+        return field_first_name;
     }
 
-    public void setAbout_user(String about_user) {
-        this.about_user = about_user;
+    public void setField_first_name(String field_first_name) {
+        this.field_first_name = field_first_name;
     }
 
-    public String getFishing_pref() {
-        return fishing_pref;
+    public String getField_last_name() {
+        return field_last_name;
     }
 
-    public void setFishing_pref(String fishing_pref) {
-        this.fishing_pref = fishing_pref;
+    public void setField_last_name(String field_last_name) {
+        this.field_last_name = field_last_name;
     }
 
-    public String getProfile_pic() {
-        return profile_pic;
+    public String getField_about_me() {
+        return field_about_me;
     }
 
-    public void setProfile_pic(String profile_pic) {
-        this.profile_pic = profile_pic;
+    public void setField_about_me(String field_about_me) {
+        this.field_about_me = field_about_me;
+    }
+
+    public String getField_fishing_preferences() {
+        return field_fishing_preferences;
+    }
+
+    public void setField_fishing_preferences(String field_fishing_preferences) {
+        this.field_fishing_preferences = field_fishing_preferences;
+    }
+
+    public String getField_country() {
+        return field_country;
+    }
+
+    public void setField_country(String field_country) {
+        this.field_country = field_country;
     }
 }

@@ -83,7 +83,7 @@ public class MyProfile extends BaseToolbarFragment {
                 ArrayList<String> prefArray = new ArrayList<String>();
                 for (int i = 0; i < checkBox.length; i++) {
                     if (checkBox[i].isChecked())
-                        prefArray.add((String) checkBox[i].getTag());
+                        prefArray.add((String) checkBox[i].getText());
                 }
                 StringBuilder result = new StringBuilder();
                 for (String string : prefArray) {
@@ -123,7 +123,7 @@ public class MyProfile extends BaseToolbarFragment {
             if (intent.getAction().equalsIgnoreCase(AppConstants.GET_PROFILE_CALLBACK_BROADCAST)) {
                 if (intent.getSerializableExtra("data") != null) {
                     GetEditProfileResponse response = (GetEditProfileResponse) intent.getSerializableExtra("data");
-                    if (response.isResponse()) {
+                    if (response.getStatus() != null && response.getStatus().equals("success")) {
                         updateUI(response);
                     } else {
                         AlertMessageDialog dialog = new AlertMessageDialog(getActivity(), getString(R.string.error_txt), getString(R.string.some_error_occured));
@@ -143,7 +143,7 @@ public class MyProfile extends BaseToolbarFragment {
             if (intent.getAction().equalsIgnoreCase(AppConstants.SET_PROFILE_CALLBACK_BROADCAST)) {
                 if (intent.getSerializableExtra("data") != null) {
                     SetEditProfileResponse response = (SetEditProfileResponse) intent.getSerializableExtra("data");
-                    if (response.isResponse()) {
+                    if (response.getStatus() != null && response.getStatus().equals("success")) {
                         enableDisableAllView(false);
                         saveBtn.setVisibility(View.GONE);
                     } else {
@@ -180,10 +180,10 @@ public class MyProfile extends BaseToolbarFragment {
 
     private void updateUI(GetEditProfileResponse response) {
         try {
-            etAboutMe.setText(response.getData().getUser().getProfile().getAbout_user());
-            List<String> items = Arrays.asList(response.getData().getUser().getProfile().getFishing_pref().split("\\s*,\\s*"));
+            etAboutMe.setText(response.getProfiledata().getField_about_me());
+            List<String> items = Arrays.asList(response.getProfiledata().getField_fishing_preferences().split("\\s*,\\s*"));
             for (int i = 0; i < checkBox.length; i++) {
-                if (items.contains(checkBox[i].getTag())) {
+                if (items.contains(checkBox[i].getText())) {
                     checkBox[i].setChecked(true);
                 }
             }

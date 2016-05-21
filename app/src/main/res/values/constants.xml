@@ -5,4 +5,5 @@
     <item name="loader.forgot_password" type="id" />
     <item name="loader.facebook_login" type="id" />
     <item name="loader.myalbum" type="id" />
+    <item name="loader.myalbumdetails" type="id" />
 </resources>

@@ -1,19 +1,33 @@
 package com.dev.fishingapp.myalbum.fragments;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.dev.fishingapp.LoaderCallbacks.MyAlbumDetailCallback;
 import com.dev.fishingapp.R;
+import com.dev.fishingapp.data.model.MyAlbumDetailResponse;
+import com.dev.fishingapp.data.model.MyAlbumDetails;
 import com.dev.fishingapp.myalbum.support.CustomGridAdapter;
 import com.dev.fishingapp.myalbum.support.CustomPagerAdapter;
 import com.dev.fishingapp.support.BaseToolbarFragment;
+import com.dev.fishingapp.util.AlertMessageDialog;
+import com.dev.fishingapp.util.AppConstants;
 
 import java.util.ArrayList;
 
@@ -27,10 +41,15 @@ public class AlbumDetailFragment extends BaseToolbarFragment implements View.OnC
     private CustomGridAdapter customGridAdapter;
     private CustomPagerAdapter customPagerAdapter;
     private ImageView nxtBtn, prevBtn;
+    private String nid;
+    private LoaderManager loaderManager;
+    private MyAlbumBroadcastReceiver receiver;
+    private TextView description;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        nid = getArguments().getString("nid");
         return inflater.inflate(R.layout.fragment_album_detail, container, false);
     }
 
@@ -42,17 +61,9 @@ public class AlbumDetailFragment extends BaseToolbarFragment implements View.OnC
         gridView = (GridView) view.findViewById(R.id.gridLayout);
         nxtBtn = (ImageView) view.findViewById(R.id.nextBtn);
         prevBtn = (ImageView) view.findViewById(R.id.prevBtn);
-        for (int i = 0; i < 10; i++) {
-            urlList.add("");
-        }
-        customGridAdapter = new CustomGridAdapter(getActivity(), urlList);
-        customPagerAdapter = new CustomPagerAdapter(getActivity(), urlList);
-        pager.setAdapter(customPagerAdapter);
-        gridView.setAdapter(customGridAdapter);
-        pager.setOnPageChangeListener(this);
-        nxtBtn.setOnClickListener(this);
-        prevBtn.setOnClickListener(this);
-        gridView.setOnItemClickListener(this);
+        description = (TextView) view.findViewById(R.id.description);
+        loaderManager = getActivity().getSupportLoaderManager();
+        loaderManager.initLoader(R.id.loader_myalbumdetails, null, new MyAlbumDetailCallback((AppCompatActivity) getActivity(), true, nid));
     }
 
     @Override
@@ -93,5 +104,53 @@ public class AlbumDetailFragment extends BaseToolbarFragment implements View.OnC
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         pager.setCurrentItem(i, true);
+    }
+
+    class MyAlbumBroadcastReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction().equalsIgnoreCase(AppConstants.MY_ALBUM_DETAIL_CALLBACK_BROADCAST)) {
+                if (intent.getSerializableExtra("data") != null) {
+                    MyAlbumDetailResponse response = (MyAlbumDetailResponse) intent.getSerializableExtra("data");
+                    urlList.clear();
+                    if (response.getStatus().equals("success")) {
+                        MyAlbumDetails myAlbumDetails = response.getMyalbums().get(0);
+                        urlList.addAll(myAlbumDetails.getImageurl());
+                        customGridAdapter = new CustomGridAdapter(getActivity(), urlList);
+                        customPagerAdapter = new CustomPagerAdapter(getActivity(), urlList);
+                        pager.setAdapter(customPagerAdapter);
+                        gridView.setAdapter(customGridAdapter);
+                        pager.setOnPageChangeListener(AlbumDetailFragment.this);
+                        nxtBtn.setOnClickListener(AlbumDetailFragment.this);
+                        prevBtn.setOnClickListener(AlbumDetailFragment.this);
+                        gridView.setOnItemClickListener(AlbumDetailFragment.this);
+                        description.setText(Html.fromHtml(myAlbumDetails.getBody()));
+                    } else {
+                        AlertMessageDialog dialog = new AlertMessageDialog(getActivity(), getString(R.string.error_txt), getString(R.string.some_error_occured));
+                        dialog.setAcceptButtonText(getString(R.string.ok_txt));
+                        dialog.show();
+                    }
+                }
+
+            }
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(getActivity());
+        IntentFilter intentFilter = new IntentFilter(AppConstants.MY_ALBUM_DETAIL_CALLBACK_BROADCAST);
+        receiver = new MyAlbumBroadcastReceiver();
+        localBroadcastManager.registerReceiver(receiver, intentFilter);
+
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(getActivity());
+        localBroadcastManager.unregisterReceiver(receiver);
     }
 }
