@@ -1,5 +1,6 @@
 package com.dev.fishingapp.service;
 
+import com.dev.fishingapp.data.model.AddNewAlbumResponse;
 import com.dev.fishingapp.data.model.ChangePassword;
 import com.dev.fishingapp.data.model.ChangePasswordRequest;
 import com.dev.fishingapp.data.model.FacebookLoginRequest;
@@ -10,7 +11,6 @@ import com.dev.fishingapp.data.model.Login;
 import com.dev.fishingapp.data.model.MyAlbumDetailResponse;
 import com.dev.fishingapp.data.model.MyAlbumResponse;
 import com.dev.fishingapp.data.model.SetEditProfileResponse;
-import com.dev.fishingapp.data.model.SignUpRequest;
 import com.dev.fishingapp.data.model.SignUpResponse;
 import com.dev.fishingapp.data.model.WatchVideoRequest;
 import com.dev.fishingapp.data.model.WatchVideoResponse;
@@ -62,5 +62,9 @@ public interface FishingAppService {
     @FormUrlEncoded
     @POST("/myalbumdetails")
     MyAlbumDetailResponse getMyAlbumDetails(@Header("Content-Type") String contentType, @Header("Accept") String accept, @Field("apiaction") String apiaction , @Field("nid") String nid);
+
+    @FormUrlEncoded
+    @POST("/addnewalbum")
+    AddNewAlbumResponse addNewAlbum(@Header("Content-Type") String contentType, @Header("Accept") String accept, @Field("apiaction") String apiaction , @Field("uid") String uid, @Field("title") String title, @Field("description") String description, @Field("locname") String locname, @Field("street") String street, @Field("additional") String additional, @Field("country_name") String country_name, @Field("country") String country, @Field("albumimage") String albumimage);
 
 }

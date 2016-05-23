@@ -40,7 +40,6 @@ public class SignUpActivity extends AbstractActivity implements OnClickListener 
     private TextView mHeader;
     private ImageView center_logo;
     private LoaderManager mLoaderManager;
-    private String country = "India";
     private SignUpBroadcastReceiver receiver;
 
     @Override
@@ -85,7 +84,7 @@ public class SignUpActivity extends AbstractActivity implements OnClickListener 
                     String confemail = mConfirmEmailId.getText().toString().trim();
                     String firstname = mFirstName.getText().toString();
                     String lastname = mLastName.getText().toString();
-                    String country = this.country;
+                    String country = mCountry.getText().toString();
                     SignUpRequest signUpRequest = new SignUpRequest(username, email, confemail, firstname, lastname, country);
                     mLoaderManager.initLoader(R.id.loader_signup, null, new SignUpCallback(this, true, signUpRequest));
 //                    Intent intent = new Intent(SignUpActivity.this, HomeActivity.class);

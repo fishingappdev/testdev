@@ -38,6 +38,7 @@ public class MyAlbumFragment extends BaseToolbarFragment implements AdapterView.
     private MyAlbumListAdapter myAlbumListAdapter;
     private LoaderManager loaderManager;
     private MyAlbumBroadcastReceiver receiver;
+    private LoadAlbumBroadcastReceiver loadAlbumBroadcastReceiver;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -106,6 +107,7 @@ public class MyAlbumFragment extends BaseToolbarFragment implements AdapterView.
                 if (intent.getSerializableExtra("data") != null) {
                     MyAlbumResponse response = (MyAlbumResponse) intent.getSerializableExtra("data");
                     if (response.getStatus().equals("success")) {
+                        myAlbumArraylist.clear();
                         myAlbumArraylist.addAll(response.getMyalbums());
                         myAlbumListAdapter.notifyDataSetChanged();
                     } else {
@@ -119,6 +121,16 @@ public class MyAlbumFragment extends BaseToolbarFragment implements AdapterView.
         }
     }
 
+    class LoadAlbumBroadcastReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction().equalsIgnoreCase(AppConstants.LOAD_ALBUM_LIST_CALLBACK_BROADCAST)) {
+                loaderManager.initLoader(R.id.loader_myalbum, null, new MyAlbumCallback((AppCompatActivity) getActivity(), true, FishingPreferences.getInstance().getCurrentUserId()));
+            }
+        }
+    }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -126,6 +138,9 @@ public class MyAlbumFragment extends BaseToolbarFragment implements AdapterView.
         IntentFilter intentFilter = new IntentFilter(AppConstants.MY_ALBUM_CALLBACK_BROADCAST);
         receiver = new MyAlbumBroadcastReceiver();
         localBroadcastManager.registerReceiver(receiver, intentFilter);
+        intentFilter = new IntentFilter(AppConstants.LOAD_ALBUM_LIST_CALLBACK_BROADCAST);
+        loadAlbumBroadcastReceiver = new LoadAlbumBroadcastReceiver();
+        localBroadcastManager.registerReceiver(loadAlbumBroadcastReceiver, intentFilter);
 
     }
 
@@ -134,5 +149,6 @@ public class MyAlbumFragment extends BaseToolbarFragment implements AdapterView.
         super.onStop();
         LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(getActivity());
         localBroadcastManager.unregisterReceiver(receiver);
+        localBroadcastManager.unregisterReceiver(loadAlbumBroadcastReceiver);
     }
 }

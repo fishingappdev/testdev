@@ -37,7 +37,8 @@
                     android:layout_marginLeft="@dimen/dp_10"
                     android:layout_marginRight="@dimen/dp_10"
                     android:backgroundTint="@color/grey_bg"
-                    android:hint="@string/title_txt" />
+                    android:hint="@string/title_txt"
+                    android:textColor="@color/black" />
 
                 <EditText
                     android:id="@+id/et_details"
@@ -46,11 +47,12 @@
                     android:layout_below="@id/fishType"
                     android:layout_marginLeft="@dimen/dp_10"
                     android:layout_marginRight="@dimen/dp_10"
-                    android:hint="@string/add_detail_txt"
                     android:background="@color/grey_bg"
                     android:gravity="top|left"
+                    android:hint="@string/add_detail_txt"
+                    android:minLines="3"
                     android:padding="@dimen/dp_10"
-                    android:minLines="3" />
+                    android:textColor="@color/black" />
 
 
                 <EditText
@@ -60,10 +62,11 @@
                     android:layout_below="@id/fishType"
                     android:layout_marginLeft="@dimen/dp_10"
                     android:layout_marginRight="@dimen/dp_10"
-                    android:drawableRight="@drawable/location_ic"
                     android:layout_marginTop="@dimen/dp_10"
                     android:backgroundTint="@color/grey_bg"
-                    android:hint="@string/location_name_txt" />
+                    android:drawableRight="@drawable/location_ic"
+                    android:hint="@string/location_name_txt"
+                    android:textColor="@color/black" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -91,7 +94,8 @@
                     android:layout_marginRight="@dimen/dp_10"
                     android:layout_marginTop="@dimen/dp_10"
                     android:backgroundTint="@color/grey_bg"
-                    android:hint="@string/street_address_txt" />
+                    android:hint="@string/street_address_txt"
+                    android:textColor="@color/black" />
 
                 <AutoCompleteTextView
                     android:id="@+id/country"
@@ -125,8 +129,8 @@
             android:layout_height="50dp"
             android:layout_alignParentBottom="true"
             android:background="@color/drawer_bg"
-            android:text="@string/save_txt"
             android:gravity="center"
+            android:text="@string/save_txt"
             android:textColor="@color/white" />
     </RelativeLayout>
 </LinearLayout>

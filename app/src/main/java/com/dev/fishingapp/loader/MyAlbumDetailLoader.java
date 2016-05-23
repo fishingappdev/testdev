@@ -17,7 +17,7 @@ public class MyAlbumDetailLoader extends AbstractLoader<MyAlbumDetailResponse> {
 
     @Override
     protected MyAlbumDetailResponse doLoadInBackground() {
-        MyAlbumDetailResponse response = getService().getMyAlbumDetails("application/x-www-form-urlencoded", "application/json", AppConstants.MYALBUM_DETAILS_API_ACTION, "18928");
+        MyAlbumDetailResponse response = getService().getMyAlbumDetails("application/x-www-form-urlencoded", "application/json", AppConstants.MYALBUM_DETAILS_API_ACTION, nid);
         return response;
     }
 }

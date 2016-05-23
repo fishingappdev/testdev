@@ -15,8 +15,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.dev.fishingapp.LoaderCallbacks.MyAlbumDetailCallback;
@@ -44,7 +46,10 @@ public class AlbumDetailFragment extends BaseToolbarFragment implements View.OnC
     private String nid;
     private LoaderManager loaderManager;
     private MyAlbumBroadcastReceiver receiver;
-    private TextView description;
+    private TextView description, location, country_list;
+    private LinearLayout comment_list;
+    LayoutInflater inflater;
+    private Button add_comments;
 
     @Nullable
     @Override
@@ -62,7 +67,13 @@ public class AlbumDetailFragment extends BaseToolbarFragment implements View.OnC
         nxtBtn = (ImageView) view.findViewById(R.id.nextBtn);
         prevBtn = (ImageView) view.findViewById(R.id.prevBtn);
         description = (TextView) view.findViewById(R.id.description);
+        location = (TextView) view.findViewById(R.id.location);
+        country_list = (TextView) view.findViewById(R.id.country);
+        comment_list = (LinearLayout) view.findViewById(R.id.comment_list);
+        add_comments = (Button) view.findViewById(R.id.add_comments);
+        inflater = LayoutInflater.from(getActivity());
         loaderManager = getActivity().getSupportLoaderManager();
+        add_comments.setOnClickListener(this);
         loaderManager.initLoader(R.id.loader_myalbumdetails, null, new MyAlbumDetailCallback((AppCompatActivity) getActivity(), true, nid));
     }
 
@@ -81,6 +92,10 @@ public class AlbumDetailFragment extends BaseToolbarFragment implements View.OnC
                 if (curIndex > 0) {
                     pager.setCurrentItem(curIndex - 1, true);
                 }
+            }
+            break;
+            case R.id.add_comments: {
+
             }
             break;
         }
@@ -116,16 +131,7 @@ public class AlbumDetailFragment extends BaseToolbarFragment implements View.OnC
                     urlList.clear();
                     if (response.getStatus().equals("success")) {
                         MyAlbumDetails myAlbumDetails = response.getMyalbums().get(0);
-                        urlList.addAll(myAlbumDetails.getImageurl());
-                        customGridAdapter = new CustomGridAdapter(getActivity(), urlList);
-                        customPagerAdapter = new CustomPagerAdapter(getActivity(), urlList);
-                        pager.setAdapter(customPagerAdapter);
-                        gridView.setAdapter(customGridAdapter);
-                        pager.setOnPageChangeListener(AlbumDetailFragment.this);
-                        nxtBtn.setOnClickListener(AlbumDetailFragment.this);
-                        prevBtn.setOnClickListener(AlbumDetailFragment.this);
-                        gridView.setOnItemClickListener(AlbumDetailFragment.this);
-                        description.setText(Html.fromHtml(myAlbumDetails.getBody()));
+                        setUpUI(myAlbumDetails);
                     } else {
                         AlertMessageDialog dialog = new AlertMessageDialog(getActivity(), getString(R.string.error_txt), getString(R.string.some_error_occured));
                         dialog.setAcceptButtonText(getString(R.string.ok_txt));
@@ -152,5 +158,37 @@ public class AlbumDetailFragment extends BaseToolbarFragment implements View.OnC
         super.onStop();
         LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(getActivity());
         localBroadcastManager.unregisterReceiver(receiver);
+    }
+
+    private void setUpUI(MyAlbumDetails myAlbumDetails) {
+        urlList.addAll(myAlbumDetails.getImageurl());
+        customGridAdapter = new CustomGridAdapter(getActivity(), urlList);
+        customPagerAdapter = new CustomPagerAdapter(getActivity(), urlList);
+        pager.setAdapter(customPagerAdapter);
+        gridView.setAdapter(customGridAdapter);
+        pager.setOnPageChangeListener(AlbumDetailFragment.this);
+        nxtBtn.setOnClickListener(AlbumDetailFragment.this);
+        prevBtn.setOnClickListener(AlbumDetailFragment.this);
+        gridView.setOnItemClickListener(AlbumDetailFragment.this);
+        description.setText(Html.fromHtml(myAlbumDetails.getBody()));
+        if (myAlbumDetails.getCountry() != null && myAlbumDetails.getCountry().size() > 0) {
+            String strCountryList = android.text.TextUtils.join(",", myAlbumDetails.getCountry());
+            country_list.setText(strCountryList);
+        }
+
+        location.setText(myAlbumDetails.getLocation().getName() + "\n" + myAlbumDetails.getLocation().getStreet() + "\n" + myAlbumDetails.getLocation().getCountry_name());
+        if (myAlbumDetails.getComment() != null && myAlbumDetails.getComment().size() > 0) {
+            ArrayList<String> commentList = myAlbumDetails.getComment();
+            for (String comment : commentList) {
+                TextView comment_title, comment_description, submitted_by;
+                LinearLayout view = (LinearLayout) inflater.inflate(R.layout.album_comment_row, comment_list, false);
+                comment_title = (TextView) view.findViewById(R.id.comment_title);
+                comment_description = (TextView) view.findViewById(R.id.comment_description);
+                submitted_by = (TextView) view.findViewById(R.id.submitted_by);
+                comment_title.setText(comment);
+                comment_list.addView(view);
+            }
+        }
+
     }
 }

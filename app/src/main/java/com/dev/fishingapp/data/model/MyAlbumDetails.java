@@ -13,6 +13,7 @@ public class MyAlbumDetails implements Serializable {
     ArrayList<String> imageurl;
     ArrayList<String> country;
     ArrayList<String> comment;
+    Location location;
 
     public String getNid() {
         return nid;
@@ -60,5 +61,13 @@ public class MyAlbumDetails implements Serializable {
 
     public void setComment(ArrayList<String> comment) {
         this.comment = comment;
+    }
+
+    public Location getLocation() {
+        return location;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
     }
 }

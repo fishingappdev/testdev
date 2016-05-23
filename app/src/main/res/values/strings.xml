@@ -403,4 +403,7 @@
     <string name="some_error_occured">Some error occured!</string>
     <string name="retry_txt">Retry</string>
 
+
+    <string name="empty_album_title">Album title cannot be blank</string>
+    <string name="submitted_by">Submitted by</string>
 </resources>
