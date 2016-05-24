@@ -35,6 +35,7 @@ import com.dev.fishingapp.myprofile.fragments.MyProfile;
 import com.dev.fishingapp.support.DrawerItemAdapter;
 import com.dev.fishingapp.support.NavDrawerItem;
 import com.dev.fishingapp.util.FishingPreferences;
+import com.dev.fishingapp.util.UpdateAlbumImageUtil;
 import com.dev.fishingapp.util.UpdateImageUtil;
 import com.facebook.FacebookSdk;
 import com.facebook.login.LoginManager;
@@ -70,8 +71,10 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
     public static final int ADD_FISH_OPTION = 3;
     public static final int ADD_LOG_OPTION = 4;
     UpdateImageUtil updateImageUtil;
+    UpdateAlbumImageUtil updateAlbumImageUtil;
     private ImageView center_logo;
-    Fragment currentFragment=null;
+    Fragment currentFragment = null;
+    boolean album;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -92,6 +95,7 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
         mAddFishBtn = (Button) tb.findViewById(R.id.add_fish);
         mAddLogBtn = (Button) tb.findViewById(R.id.add_log);
         updateImageUtil = UpdateImageUtil.getInstance(this);
+        updateAlbumImageUtil = UpdateAlbumImageUtil.getInstance(this);
         mRightOption = (ImageView) tb.findViewById(R.id.iv_right);
         logoutbtn = (TextView) findViewById(R.id.logout);
         userName=(TextView)findViewById(R.id.username);
@@ -118,9 +122,14 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
         navDrawerItems.add(new NavDrawerItem(navMenuTitles[3]));
         navDrawerItems.add(new NavDrawerItem(navMenuTitles[4]));
         navDrawerItems.add(new NavDrawerItem(navMenuTitles[5]));
+<<<<<<< HEAD
         navDrawerItems.add(new NavDrawerItem(navMenuTitles[6]));
         if(!FishingPreferences.getInstance().getIsSocailLogin()){
             navDrawerItems.add(new NavDrawerItem(navMenuTitles[7]));
+=======
+        if (!FishingPreferences.getInstance().getIsSocailLogin()) {
+            navDrawerItems.add(new NavDrawerItem(navMenuTitles[6]));
+>>>>>>> AddAlbum:Image Integrated
         }
 
 
@@ -208,8 +217,12 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
                 Intent intent = new Intent(this, LoginActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 FishingPreferences.getInstance().saveCurrentUserId("");
+<<<<<<< HEAD
                 FishingPreferences.getInstance().saveCurrentUsername("");
                 if(FishingPreferences.getInstance().getIsSocailLogin()){
+=======
+                if (FishingPreferences.getInstance().getIsSocailLogin()) {
+>>>>>>> AddAlbum:Image Integrated
                     LoginManager.getInstance().logOut();
                     FishingPreferences.getInstance().setIsSocialLogin(false);
                 }
@@ -306,7 +319,7 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
             mDrawerList.setSelection(position);
             setTitle(navMenuTitles[position]);
             mDrawerLayout.closeDrawer(mRelativeDrawerLayout);
-            currentFragment=fragment;
+            currentFragment = fragment;
 
         } else {
             // error in creating fragment
@@ -362,6 +375,7 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
     }
 
     private void showImageOptions() {
+        album = false;
         final CharSequence[] items = {
                 "Gallery", "Camera"
         };
@@ -388,28 +402,41 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        updateImageUtil.onActivityResult(requestCode, resultCode, data);
+        if (album)
+            updateAlbumImageUtil.onActivityResult(requestCode, resultCode, data);
+        else
+            updateImageUtil.onActivityResult(requestCode, resultCode, data);
+
     }
+
     @Override
     public void onBackPressed() {
-            if(currentFragment instanceof MyFishFragment){
-                super.onBackPressed();
-            }else{
-                FragmentManager fm = getSupportFragmentManager();
-                Fragment fragment=new MyFishFragment();
-                fm.beginTransaction().replace(R.id.content_frame, fragment).commit();
-                // update selected item and title, then close the drawer
-                mDrawerList.setItemChecked(1, true);
-                mDrawerList.setSelection(1);
-                setTitle(navMenuTitles[1]);
-                mDrawerLayout.closeDrawer(mRelativeDrawerLayout);
-                currentFragment=fragment;
-            }
-        } /*else {
+        if (currentFragment instanceof MyFishFragment) {
+            super.onBackPressed();
+        } else {
+            FragmentManager fm = getSupportFragmentManager();
+            Fragment fragment = new MyFishFragment();
+            fm.beginTransaction().replace(R.id.content_frame, fragment).commit();
+            // update selected item and title, then close the drawer
+            mDrawerList.setItemChecked(1, true);
+            mDrawerList.setSelection(1);
+            setTitle(navMenuTitles[1]);
+            mDrawerLayout.closeDrawer(mRelativeDrawerLayout);
+            currentFragment = fragment;
+        }
+    } /*else {
             super.onBackPressed();
             Fragment f = getSupportFragmentManager().findFragmentById(R.id.content_frame);
             currentFragment=f;
 
         }*/
+
+    public void setAlbum(boolean album) {
+        this.album = album;
+    }
+
+    public UpdateAlbumImageUtil getUpdateAlbumImageUtil() {
+        return updateAlbumImageUtil;
+    }
 
 }

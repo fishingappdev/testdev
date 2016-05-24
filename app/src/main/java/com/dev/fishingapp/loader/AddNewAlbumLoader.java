@@ -18,7 +18,11 @@ public class AddNewAlbumLoader extends AbstractLoader<AddNewAlbumResponse> {
 
     @Override
     protected AddNewAlbumResponse doLoadInBackground() {
-        AddNewAlbumResponse response = getService().addNewAlbum("application/x-www-form-urlencoded", "application/json", AppConstants.ADD_ALBUM_API_ACTION, addNewAlbumRequest.getUid(),addNewAlbumRequest.getTitle(), addNewAlbumRequest.getDescription(), addNewAlbumRequest.getLocname(),addNewAlbumRequest.getStreet(), addNewAlbumRequest.getAdditional(),addNewAlbumRequest.getCountry_name(),addNewAlbumRequest.getCountry(), addNewAlbumRequest.getAlbumimage());
+        AddNewAlbumResponse response;
+        if (addNewAlbumRequest.getAlbumimage().equals("no"))
+            response = getService().addNewAlbum("application/x-www-form-urlencoded", "application/json", AppConstants.ADD_ALBUM_API_ACTION, addNewAlbumRequest.getUid(), addNewAlbumRequest.getTitle(), addNewAlbumRequest.getDescription(), addNewAlbumRequest.getLocname(), addNewAlbumRequest.getStreet(), addNewAlbumRequest.getAdditional(), addNewAlbumRequest.getCountry_name(), addNewAlbumRequest.getCountry(), addNewAlbumRequest.getAlbumimage());
+        else
+            response = getService().addNewAlbumWithFile("multipart/form-data", "application/json", AppConstants.ADD_ALBUM_API_ACTION, addNewAlbumRequest.getUid(), addNewAlbumRequest.getTitle(), addNewAlbumRequest.getDescription(), addNewAlbumRequest.getLocname(), addNewAlbumRequest.getStreet(), addNewAlbumRequest.getAdditional(), addNewAlbumRequest.getCountry_name(), addNewAlbumRequest.getCountry(), addNewAlbumRequest.getAlbumimage(), addNewAlbumRequest.getImage());
         return response;
     }
 }
