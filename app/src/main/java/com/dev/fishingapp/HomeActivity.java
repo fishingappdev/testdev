@@ -122,14 +122,12 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
         navDrawerItems.add(new NavDrawerItem(navMenuTitles[3]));
         navDrawerItems.add(new NavDrawerItem(navMenuTitles[4]));
         navDrawerItems.add(new NavDrawerItem(navMenuTitles[5]));
-        navDrawerItems.add(new NavDrawerItem(navMenuTitles[6]));
-        if(!FishingPreferences.getInstance().getIsSocailLogin()) {
-            navDrawerItems.add(new NavDrawerItem(navMenuTitles[7]));
-        }
         if (!FishingPreferences.getInstance().getIsSocailLogin()) {
             navDrawerItems.add(new NavDrawerItem(navMenuTitles[6]));
         }
-
+        if(!FishingPreferences.getInstance().getIsSocailLogin()) {
+            navDrawerItems.add(new NavDrawerItem(navMenuTitles[7]));
+        }
 
         // setting the nav drawer list adapter
         mAdapter = new DrawerItemAdapter(getApplicationContext(),
