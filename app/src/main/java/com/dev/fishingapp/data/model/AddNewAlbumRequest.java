@@ -1,8 +1,7 @@
 package com.dev.fishingapp.data.model;
 
+import java.io.File;
 import java.io.Serializable;
-
-import retrofit.mime.TypedFile;
 
 /**
  * Created by Swati on 5/23/2016.
@@ -27,9 +26,9 @@ public class AddNewAlbumRequest implements Serializable {
     //    =Australia,New+Zealand
     String albumimage;
 //    =no
-    TypedFile image;
+    File image;
 
-    public AddNewAlbumRequest( String uid, String title, String description, String locname, String street, String additional, String country_name, String country, String albumimage, TypedFile image) {
+    public AddNewAlbumRequest( String uid, String title, String description, String locname, String street, String additional, String country_name, String country, String albumimage, File image) {
         this.uid = uid;
         this.title = title;
         this.description = description;
@@ -114,11 +113,11 @@ public class AddNewAlbumRequest implements Serializable {
         this.albumimage = albumimage;
     }
 
-    public TypedFile getImage() {
+    public File getImage() {
         return image;
     }
 
-    public void setImage(TypedFile image) {
+    public void setImage(File image) {
         this.image = image;
     }
 }

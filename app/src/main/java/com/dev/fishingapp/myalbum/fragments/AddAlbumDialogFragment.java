@@ -174,6 +174,7 @@ public class AddAlbumDialogFragment extends DialogFragment implements View.OnCli
     public void addAlbum() {
         String uid, title, description, locname, street, additional, country_name, country, albumimage;
         TypedFile photoTypedFile = null;
+        File photoFile=null;
         uid = FishingPreferences.getInstance().getCurrentUserId();
         title = et_title.getText().toString();
         description = et_details.getText().toString();
@@ -186,7 +187,7 @@ public class AddAlbumDialogFragment extends DialogFragment implements View.OnCli
             albumimage = "no";
         } else {
             albumimage = "yes";
-            File photoFile = new File(image_url);
+            photoFile = new File(image_url);
             photoTypedFile = new TypedFile("image/*", photoFile);
         }
         if (TextUtils.isEmpty(title)) {
@@ -194,7 +195,7 @@ public class AddAlbumDialogFragment extends DialogFragment implements View.OnCli
             return;
         }
 
-        AddNewAlbumRequest addNewAlbumRequest = new AddNewAlbumRequest(uid, title, description, locname, street, additional, country_name, country, albumimage, photoTypedFile);
+        AddNewAlbumRequest addNewAlbumRequest = new AddNewAlbumRequest(uid, title, description, locname, street, additional, country_name, country, albumimage, photoFile);
         loaderManager.initLoader(R.id.loader_myalbumdetails, null, new AddNewAlbumCallback((AppCompatActivity) getActivity(), true, addNewAlbumRequest));
     }
 

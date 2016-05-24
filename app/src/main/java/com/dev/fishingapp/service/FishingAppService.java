@@ -18,14 +18,14 @@ import com.dev.fishingapp.data.model.SignUpResponse;
 import com.dev.fishingapp.data.model.WatchVideoRequest;
 import com.dev.fishingapp.data.model.WatchVideoResponse;
 
+import java.io.File;
+
 import retrofit.http.Body;
 import retrofit.http.Field;
 import retrofit.http.FormUrlEncoded;
 import retrofit.http.Header;
-import retrofit.http.Multipart;
 import retrofit.http.POST;
 import retrofit.http.Part;
-import retrofit.mime.TypedFile;
 
 /**
  * Created by skumari on 4/19/2016.
@@ -81,11 +81,11 @@ public interface FishingAppService {
 
     @FormUrlEncoded
     @POST("/addnewalbum")
-    AddNewAlbumResponse addNewAlbum(@Header("Content-Type") String contentType, @Header("Accept") String accept, @Field("apiaction") String apiaction, @Field("uid") String uid, @Field("title") String title, @Field("description") String description, @Field("locname") String locname, @Field("street") String street, @Field("additional") String additional, @Field("country_name") String country_name, @Field("country") String country, @Field("albumimage") String albumimage);
+    AddNewAlbumResponse addNewAlbum(@Field("apiaction") String apiaction, @Field("uid") String uid, @Field("title") String title, @Field("description") String description, @Field("locname") String locname, @Field("street") String street, @Field("additional") String additional, @Field("country_name") String country_name, @Field("country") String country, @Part("albumimage") String albumimage);
 
-    @Multipart
+    @FormUrlEncoded
     @POST("/addnewalbum")
-    AddNewAlbumResponse addNewAlbumWithFile(@Header("Content-Type") String contentType, @Header("Accept") String accept, @Part("apiaction") String apiaction, @Part("uid") String uid, @Part("title") String title, @Part("description") String description, @Part("locname") String locname, @Part("street") String street, @Part("additional") String additional, @Part("country_name") String country_name, @Part("country") String country, @Part("albumimage") String albumimage, @Part("image") TypedFile image);
+    AddNewAlbumResponse addNewAlbumWithFile(@Field("apiaction") String apiaction, @Field("uid") String uid, @Field("title") String title, @Field("description") String description, @Field("locname") String locname, @Field("street") String street, @Field("additional") String additional, @Field("country_name") String country_name, @Field("country") String country, @Field("albumimage") String albumimage, @Field("image") File image);
 
     @FormUrlEncoded
     @POST("/myfishlist")
