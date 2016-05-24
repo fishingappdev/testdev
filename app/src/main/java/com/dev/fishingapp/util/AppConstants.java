@@ -29,9 +29,11 @@ public class AppConstants {
     public static final String GET_USER_PROFILE_API_ACTION="usereprofiledataapi";
     public static final String SET_USER_PROFILE_API_ACTION="usereditprofileapi";
     public static final String SIGNUP_API_ACTION="usersignupapi";
-    public static final String EPISODE_LIST_API_ACTION="getEpisodesapi";
+    public static final String ADD_ALBUM_API_ACTION = "addnewalbumapi";
     public static final String MYFISH_LIST_API_ACTION="myfishlistapi";
     public static final String FISH_DETAIL_API_ACTION="myfishdetailapi";
     public static final String CHANGE_PASSWORD_API_ACTION="changepasswordapi";
     public static final String FISHING_RECORD_API_ACTION="fishingrecordsapi";
+    public static final String EPISODE_LIST_API_ACTION="getEpisodesapi";
+
 }
