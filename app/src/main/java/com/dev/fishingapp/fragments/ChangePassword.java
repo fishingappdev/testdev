@@ -54,7 +54,7 @@ public class ChangePassword extends BaseToolbarFragment {
         mNewPwdTxt = (EditText) view.findViewById(R.id.new_pwd_txt);
         mCnfPwdTxt = (EditText) view.findViewById(R.id.cnf_pwd_edt);
 
-        mSubmitBtn.setOnClickListener(new View.OnClickListener() {
+       mSubmitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mNewPwd = mNewPwdTxt.getText().toString();
@@ -96,15 +96,15 @@ public class ChangePassword extends BaseToolbarFragment {
             if (intent.getAction().equalsIgnoreCase(AppConstants.CHANGE_PWD_CALLBACK_BROADCAST)) {
                 if (intent.getParcelableExtra("data") != null) {
                     com.dev.fishingapp.data.model.ChangePassword changePwdData= intent.getParcelableExtra("data");
-                    if(changePwdData.isResponse()){
-                        dialog=new AlertMessageDialog(((HomeActivity)getActivity()),getActivity().getString(R.string.success_txt),getString(R.string.change_password_success));
+                    if(changePwdData.getStatus().equalsIgnoreCase(getString(R.string.success_txt))){
+                        dialog=new AlertMessageDialog(((HomeActivity)getActivity()),getActivity().getString(R.string.success_txt),changePwdData.getMessage());
                         dialog.setAcceptButtonText(getString(R.string.ok_txt));
                         dialog.show();
                         mNewPwdTxt.getText().clear();
                         mOldPwdtxt.getText().clear();
                         mCnfPwdTxt.getText().clear();
                     }else{
-                        dialog=new AlertMessageDialog(((HomeActivity)getActivity()),getActivity().getString(R.string.error_txt),getString(R.string.change_pwd_error));
+                        dialog=new AlertMessageDialog(((HomeActivity)getActivity()),getActivity().getString(R.string.error_txt),changePwdData.getMessage());
                         dialog.setAcceptButtonText(getString(R.string.ok_txt));
                         dialog.show();
                         mNewPwdTxt.getText().clear();

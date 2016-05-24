@@ -16,19 +16,18 @@
             android:id="@+id/fish_ic"
             android:layout_width="100dp"
             android:layout_height="80dp"
-            android:layout_marginRight="@dimen/dp_10"
             android:scaleType="centerCrop"
+            android:layout_marginRight="@dimen/dp_10"
             android:src="@drawable/cf_list_no_image_thumbnail"
             android:layout_alignParentLeft="true"
             />
         <TextView
             android:id="@+id/title"
-            android:textStyle="bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/fish_ic"
+            android:textStyle="bold"
             android:textSize="@dimen/sp_16"
-            android:singleLine="true"
             android:textColor="@color/drawer_bg"/>
         <LinearLayout
             android:id="@+id/location_layout"
@@ -40,15 +39,15 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/where_caught_txt"
+                android:text="@string/type_txt"
                 android:textColor="@color/drawer_bg"
                 />
             <TextView
-                android:id="@+id/location"
+                android:id="@+id/type"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/black"
                 android:singleLine="true"
+                android:textColor="@color/black"
                 />
         </LinearLayout>
         <LinearLayout
@@ -61,14 +60,13 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/weight_txt"
+                android:text="@string/date_caught_txt"
                 android:textColor="@color/drawer_bg"
                 />
             <TextView
-                android:id="@+id/weight"
+                android:id="@+id/date_caught"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:singleLine="true"
                 android:textColor="@color/black"
                 />
         </LinearLayout>
@@ -82,22 +80,17 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/length_txt"
+                android:text="@string/where_caught_txt"
                 android:textColor="@color/drawer_bg"/>
-        <TextView
-            android:id="@+id/length"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/black"
-            android:singleLine="true"
-           />
+            <TextView
+                android:id="@+id/where_caught"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:textColor="@color/black"
+                />
         </LinearLayout>
-        <TextView
-            android:id="@+id/date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/lengtht_layout"
-            android:layout_alignParentRight="true"/>
+
     </RelativeLayout>
 
 </LinearLayout>

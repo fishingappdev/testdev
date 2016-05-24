@@ -8,7 +8,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.dev.fishingapp.data.model.ChangePassword;
-import com.dev.fishingapp.data.model.ChangePasswordRequest;
 import com.dev.fishingapp.loader.AbstractLoader;
 import com.dev.fishingapp.loader.ChangePasswordLoader;
 import com.dev.fishingapp.util.AppConstants;
@@ -21,16 +20,15 @@ import retrofit.RetrofitError;
 public class ChangePasswordCallback extends ChangePasswordLoader.AbstractLoaderCallbacks<ChangePassword> {
     private String oldPassword;
     private String newPassword;
-    private ChangePasswordRequest mRequest;
+    private String uid;
     private AppCompatActivity abstractActivity;
 
     public ChangePasswordCallback(AppCompatActivity activity, boolean showProgressDialog,String oldPassword, String newPassword,String userid) {
         super(activity, showProgressDialog);
         this.abstractActivity=activity;
-        mRequest=new ChangePasswordRequest();
-        mRequest.setNew_password(newPassword);
-        mRequest.setOld_password(oldPassword);
-        mRequest.setUser_id(userid);
+        this.oldPassword=oldPassword;
+        this.newPassword=newPassword;
+        this.uid=userid;
 
     }
 
@@ -44,7 +42,7 @@ public class ChangePasswordCallback extends ChangePasswordLoader.AbstractLoaderC
 
     @Override
     public Loader<ChangePassword> onCreateLoader(int id, Bundle args) {
-        return new ChangePasswordLoader(mRequest);
+        return new ChangePasswordLoader(uid,oldPassword,newPassword);
 
     }
     @Override

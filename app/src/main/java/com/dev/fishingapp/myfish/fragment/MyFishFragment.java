@@ -1,7 +1,14 @@
 package com.dev.fishingapp.myfish.fragment;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,21 +16,28 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.dev.fishingapp.AbstractActivity;
 import com.dev.fishingapp.HomeActivity;
+import com.dev.fishingapp.LoaderCallbacks.MyFishCallback;
 import com.dev.fishingapp.R;
-import com.dev.fishingapp.data.model.MyFish;
+import com.dev.fishingapp.data.model.MyFishResponse;
 import com.dev.fishingapp.myfish.support.FishListAdapter;
 import com.dev.fishingapp.support.BaseToolbarFragment;
-
-import java.util.ArrayList;
+import com.dev.fishingapp.util.AlertMessageDialog;
+import com.dev.fishingapp.util.AppConstants;
+import com.dev.fishingapp.util.FishingPreferences;
 
 /**
  * Created by user on 4/18/2016.
  */
 public class MyFishFragment extends BaseToolbarFragment implements AdapterView.OnItemClickListener{
     private ListView mFishList;
-    private ArrayList<MyFish> myFishArrayList;
     private FishListAdapter mFishListAdapter;
+    private LoaderManager loaderManager;
+    private MyFishListBroadcastReceiver receiver;
+    private AlertMessageDialog dialog;
+    MyFishResponse fishList;
+
 
 
 
@@ -36,6 +50,7 @@ public class MyFishFragment extends BaseToolbarFragment implements AdapterView.O
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        loaderManager = getActivity().getSupportLoaderManager();
         ((HomeActivity) getActivity()).setToolBarTitle(getResources().getString(R.string.my_fish_header));
         ((HomeActivity) getActivity()).showRightOption(HomeActivity.ADD_FISH_OPTION, new View.OnClickListener() {
             @Override
@@ -46,21 +61,43 @@ public class MyFishFragment extends BaseToolbarFragment implements AdapterView.O
             }
         });
         mFishList=(ListView)view.findViewById(R.id.myfish_list);
-        myFishArrayList=new ArrayList<>();
-        for(int i=0;i<5;i++){
-            MyFish myFish=new MyFish("LONTAIL IN MI","USA","0.80kG","5 to 6 inches","21/04/16");
-            myFishArrayList.add(myFish);
+        String uid= FishingPreferences.getInstance().getCurrentUserId();
+
+        if(loaderManager.getLoader(R.id.loader_fish_list)== null){
+            loaderManager.initLoader(R.id.loader_fish_list, null, new MyFishCallback(((AbstractActivity) getActivity()),true,uid));
+        } else {
+            loaderManager.restartLoader(R.id.loader_fish_list, null, new MyFishCallback(((AbstractActivity) getActivity()),true,uid));
         }
-        mFishListAdapter=new FishListAdapter(getActivity(),myFishArrayList);
-        mFishList.setAdapter(mFishListAdapter);
-        mFishList.setOnItemClickListener(this);
+
+
+
 
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(getActivity());
+        IntentFilter intentFilter = new IntentFilter(AppConstants.MYFISH_LIST_CALLBACK_BROADCAST);
+        receiver = new MyFishListBroadcastReceiver();
+        localBroadcastManager.registerReceiver(receiver, intentFilter);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(getActivity());
+        localBroadcastManager.unregisterReceiver(receiver);
+    }
+
+    @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Bundle bundle = new Bundle();
+        bundle.putString("nid", fishList.get(position).getNid());
+        Fragment fragment=new FishDetailFragment();
+        fragment.setArguments(bundle);
         FragmentManager fm= getActivity().getSupportFragmentManager();
-        fm.beginTransaction().add(R.id.content_frame,new FishDetailFragment()).hide(this).addToBackStack(null).commit();
+        fm.beginTransaction().add(R.id.content_frame,fragment).hide(this).addToBackStack(null).commit();
 
     }
 
@@ -79,5 +116,29 @@ public class MyFishFragment extends BaseToolbarFragment implements AdapterView.O
             });
         }
 
+    }
+
+    class MyFishListBroadcastReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction().equalsIgnoreCase(AppConstants.MYFISH_LIST_CALLBACK_BROADCAST)) {
+                if (intent.getSerializableExtra("data") != null) {
+                    fishList=(MyFishResponse)intent.getSerializableExtra("data");
+                    if(fishList.size()>0){
+                        mFishListAdapter=new FishListAdapter(getActivity(),fishList);
+                        mFishList.setAdapter(mFishListAdapter);
+                        mFishList.setOnItemClickListener(MyFishFragment.this);
+                    }else{
+                        dialog=new AlertMessageDialog(((HomeActivity)getActivity()),getActivity().getString(R.string.error_txt),getString(R.string.empty_list));
+                        dialog.setAcceptButtonText(getString(R.string.ok_txt));
+                        dialog.show();
+
+                    }
+
+                }
+
+            }
+        }
     }
 }

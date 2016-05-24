@@ -10,6 +10,9 @@ import android.widget.TextView;
 
 import com.dev.fishingapp.R;
 import com.dev.fishingapp.data.model.MyFish;
+import com.dev.fishingapp.util.DotsProgressBar;
+import com.dev.fishingapp.util.FishingAppHelper;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
 
 import java.util.ArrayList;
 
@@ -20,6 +23,8 @@ public class FishListAdapter extends BaseAdapter {
     private ArrayList<MyFish> myFishArrayList;
     private Context context;
     LayoutInflater inflater;
+    private DotsProgressBar dotsProgressBar;
+    DisplayImageOptions options;
     public FishListAdapter(Context context,ArrayList<MyFish> myFishList){
          this.context=context;
         this.myFishArrayList=myFishList;
@@ -51,12 +56,20 @@ public class FishListAdapter extends BaseAdapter {
             mViewHolder = (MyViewHolder) convertView.getTag();
         }
 
-       mViewHolder.tvTitle.setText(myFishArrayList.get(position).getFishType());
-        mViewHolder.tvLength.setText(myFishArrayList.get(position).getLength());
+      mViewHolder.tvTitle.setText(myFishArrayList.get(position).getTitle());
+        mViewHolder.tvLength.setText(myFishArrayList.get(position).getFish_length());
         mViewHolder.tvWeight.setText(myFishArrayList.get(position).getWeight());
-        mViewHolder.tvLocation.setText(myFishArrayList.get(position).getWhereCaught());
-        mViewHolder.tvDate.setText(myFishArrayList.get(position).getDate());
-
+        mViewHolder.tvLocation.setText(myFishArrayList.get(position).getWhere_caught());
+        mViewHolder.tvDate.setText(myFishArrayList.get(position).getField_date_value());
+        dotsProgressBar = new DotsProgressBar(context, mViewHolder.ivIcon);
+        options = new DisplayImageOptions.Builder()
+                .showImageOnLoading(dotsProgressBar)
+                .showImageForEmptyUri(R.drawable.cf_list_no_image_thumbnail)
+                .showImageOnFail(R.drawable.cf_list_no_image_thumbnail)
+                .cacheInMemory(true)
+                .cacheOnDisc(true)
+                .build();
+        FishingAppHelper.getImageLoader().displayImage(myFishArrayList.get(position).getImageurl(), mViewHolder.ivIcon, options);
 
 
         return convertView;

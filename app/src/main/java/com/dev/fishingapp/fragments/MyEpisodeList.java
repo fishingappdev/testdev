@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.view.LayoutInflater;
@@ -18,8 +17,8 @@ import com.dev.fishingapp.AbstractActivity;
 import com.dev.fishingapp.HomeActivity;
 import com.dev.fishingapp.LoaderCallbacks.EpisodeListCallback;
 import com.dev.fishingapp.R;
-import com.dev.fishingapp.data.model.EpisodeList;
 import com.dev.fishingapp.data.model.EpisodeListResponse;
+import com.dev.fishingapp.support.BaseToolbarFragment;
 import com.dev.fishingapp.support.EpisodeListAdapter;
 import com.dev.fishingapp.util.AlertMessageDialog;
 import com.dev.fishingapp.util.AppConstants;
@@ -29,7 +28,7 @@ import java.util.ArrayList;
 /**
  * Created by user on 4/18/2016.
  */
-public class MyEpisodeList extends Fragment {
+public class MyEpisodeList extends BaseToolbarFragment {
     private ListView mEpisodeList;
     private ArrayList<String> episodeTitleList;
     private EpisodeListAdapter mEpisodeListAdapter;
@@ -67,8 +66,8 @@ public class MyEpisodeList extends Fragment {
         @Override
         public void onReceive(Context context, Intent intent) {
             if (intent.getAction().equalsIgnoreCase(AppConstants.EPISODE_LIST_CALLBACK_BROADCAST)) {
-                if (intent.getParcelableExtra("data") != null) {
-                    EpisodeListResponse episodeList= intent.getParcelableExtra("data");
+                if (intent.getSerializableExtra("data") != null) {
+                    EpisodeListResponse episodeList= (EpisodeListResponse)intent.getSerializableExtra("data");
                     if(episodeList.size()>0){
                         mEpisodeListAdapter=new EpisodeListAdapter(getActivity(),episodeList);
                         mEpisodeList.setAdapter(mEpisodeListAdapter);

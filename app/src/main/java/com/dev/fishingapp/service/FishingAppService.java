@@ -2,15 +2,17 @@ package com.dev.fishingapp.service;
 
 import com.dev.fishingapp.data.model.AddNewAlbumResponse;
 import com.dev.fishingapp.data.model.ChangePassword;
-import com.dev.fishingapp.data.model.ChangePasswordRequest;
 import com.dev.fishingapp.data.model.EpisodeListResponse;
 import com.dev.fishingapp.data.model.FacebookLoginRequest;
 import com.dev.fishingapp.data.model.FacebookResponse;
+import com.dev.fishingapp.data.model.FishDetailResponse;
+import com.dev.fishingapp.data.model.FishingRecordResponse;
 import com.dev.fishingapp.data.model.ForgotPassword;
 import com.dev.fishingapp.data.model.GetEditProfileResponse;
 import com.dev.fishingapp.data.model.Login;
 import com.dev.fishingapp.data.model.MyAlbumDetailResponse;
 import com.dev.fishingapp.data.model.MyAlbumResponse;
+import com.dev.fishingapp.data.model.MyFishResponse;
 import com.dev.fishingapp.data.model.SetEditProfileResponse;
 import com.dev.fishingapp.data.model.SignUpResponse;
 import com.dev.fishingapp.data.model.WatchVideoRequest;
@@ -34,8 +36,9 @@ public interface FishingAppService {
     @POST("/usersignup")
     SignUpResponse signUp(@Header("Content-Type")String contentType,@Header("Accept") String accept,@Field("apiaction") String apiaction, @Field("username") String username,@Field("email") String email,@Field("firstname") String firstname,@Field("lastname") String lastname,@Field("country") String country);
 
-    @POST("/change_password.json")
-    ChangePassword changePassword(@Header("Content-Type")String contentType,@Header("Accept") String accept,@Body ChangePasswordRequest mChangePasswordRequest);
+    @FormUrlEncoded
+    @POST("/changepassword")
+    ChangePassword changePassword(@Header("Content-Type")String contentType,@Header("Accept") String accept,@Field("apiaction")String apiaction, @Field("uid") String uid,@Field("oldpassword") String oldPassword, @Field("newpassword") String newPassword);
 
     @FormUrlEncoded
     @POST("/forgotpassword")
@@ -63,11 +66,26 @@ public interface FishingAppService {
     @FormUrlEncoded
     @POST("/myalbumdetails")
     MyAlbumDetailResponse getMyAlbumDetails(@Header("Content-Type") String contentType, @Header("Accept") String accept, @Field("apiaction") String apiaction , @Field("nid") String nid);
+
+    @FormUrlEncoded
     @POST("/getepisode")
     EpisodeListResponse getEpisodeList(@Header("Content-Type") String contentType,@Header("Accept") String accept,@Field("apiaction") String apiaction ,@Field("count") String count);
 
     @FormUrlEncoded
     @POST("/addnewalbum")
     AddNewAlbumResponse addNewAlbum(@Header("Content-Type") String contentType, @Header("Accept") String accept, @Field("apiaction") String apiaction , @Field("uid") String uid, @Field("title") String title, @Field("description") String description, @Field("locname") String locname, @Field("street") String street, @Field("additional") String additional, @Field("country_name") String country_name, @Field("country") String country, @Field("albumimage") String albumimage);
+
+    @FormUrlEncoded
+    @POST("/myfishlist")
+    MyFishResponse getMyFishList(@Header("Content-Type") String contentType,@Header("Accept") String accept,@Field("apiaction") String apiaction,@Field("uid") String uid ,@Field("count") String count);
+
+    @FormUrlEncoded
+    @POST("/myfishdetail")
+    FishDetailResponse getFishDetail(@Header("Content-Type") String contentType,@Header("Accept") String accept,@Field("apiaction") String apiaction,@Field("nid") String nid ,@Field("count") String count);
+
+
+    @FormUrlEncoded
+    @POST("/fishingrecords")
+    FishingRecordResponse getFishisngRecord(@Header("Content-Type") String contentType,@Header("Accept") String accept,@Field("apiaction") String apiaction,@Field("count") String count);
 
 }

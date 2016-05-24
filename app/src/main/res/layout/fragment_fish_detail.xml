@@ -18,6 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_200"
             android:background="@color/grey_bg"
+            android:scaleType="centerCrop"
             android:layout_alignParentTop="true"/>
         <RelativeLayout
             android:id="@+id/top_view"
@@ -26,16 +27,18 @@
             android:layout_below="@id/fish_image"
             android:layout_marginTop="@dimen/dp_10">
             <TextView
+                android:id="@+id/fishTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
-                android:text="LONGTAIL IN MI"
+                android:singleLine="true"
+                android:layout_toLeftOf="@+id/date"
                 android:textColor="@color/drawer_bg"/>
             <TextView
+                android:id="@+id/date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:text="21/04/2016"
                 android:textColor="@color/black"/>
         </RelativeLayout>
         <TextView
@@ -44,7 +47,6 @@
             android:layout_height="wrap_content"
             android:background="@color/white"
             android:textColor="@color/black"
-            android:text="@string/dummy_txt"
             android:layout_marginTop="@dimen/dp_10"
             android:layout_below="@id/top_view"/>
         <LinearLayout
@@ -72,9 +74,9 @@
                     android:textColor="@color/drawer_bg"
                     android:layout_marginTop="@dimen/dp_10"/>
                 <TextView
+                    android:id="@+id/where_caught_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="USA"
                     android:singleLine="true"
                     android:layout_marginBottom="@dimen/dp_10"
                     android:textColor="@color/black"/>
@@ -95,9 +97,9 @@
                     android:layout_marginTop="@dimen/dp_10"
                     android:textColor="@color/drawer_bg"/>
                 <TextView
+                    android:id="@+id/fish_weight"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="0.80KG"
                     android:singleLine="true"
                     android:layout_marginBottom="@dimen/dp_10"
                     android:textColor="@color/black"/>
@@ -113,14 +115,14 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/length_text"
                     android:singleLine="true"
+                    android:text="@string/length_text"
                     android:layout_marginTop="@dimen/dp_10"
                     android:textColor="@color/drawer_bg"/>
                 <TextView
+                    android:id="@+id/fish_length"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="5 TO 6 INCHES"
                     android:singleLine="true"
                     android:layout_marginBottom="@dimen/dp_10"
                     android:textColor="@color/black"/>

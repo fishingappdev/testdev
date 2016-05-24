@@ -14,6 +14,7 @@ public class FishingPreferences {
 
     private static final String TAG_CURRENT_USER_ID = "current_user_id";
     private static final String IS_SOCIAL_LOGIN = "is_social_login";
+    private static final String TAG_USERNAME = "username";
 
     private static SharedPreferences mPreferences;
     private static FishingPreferences mInstance;
@@ -44,6 +45,24 @@ public class FishingPreferences {
         return currentUserId;
 
     }
+
+
+    //get current ccount user id
+    public String getCurrentUsername() {
+        String currentUsername = "";
+        if (mPreferences.contains(TAG_USERNAME)) {
+            currentUsername = mPreferences.getString(TAG_USERNAME, "");
+        }
+        return currentUsername;
+
+    }
+
+    // save current account user id
+    public void saveCurrentUsername(String currentUsername) {
+        mEditor.putString(TAG_USERNAME, currentUsername);
+        mEditor.apply();
+    }
+
 
     // save current account user id
     public void saveCurrentUserId(String currentUserId) {

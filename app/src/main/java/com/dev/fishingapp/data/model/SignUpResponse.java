@@ -11,6 +11,17 @@ public class SignUpResponse implements Serializable {
     private String message;
 
 
+    public SignupProfileData getProfiledata() {
+        return profiledata;
+    }
+
+    public void setProfiledata(SignupProfileData profiledata) {
+        this.profiledata = profiledata;
+    }
+
+    private SignupProfileData profiledata;
+
+
     private SignupData userdata;
 
     public SignupData getUserdata() {

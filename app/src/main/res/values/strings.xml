@@ -12,6 +12,7 @@
         <item>MY ALBUMS</item>
         <item>MY FISHING LOG</item>
         <item>MY EPISODE LIST</item>
+        <item>FISHING RECORD</item>
         <item>CHANGE PASSWORD</item>
     </string-array>
 
@@ -403,6 +404,10 @@
     <string name="username_email_id_exists">Username or Email ID already exists!</string>
     <string name="some_error_occured">Some error occured!</string>
     <string name="retry_txt">Retry</string>
+    <string name="VIDEO_PLAYER_ERROR">"You need to install a video player to view this video. Download one on Google Play and try again"</string>
+    <string name="type_txt">Type:</string>
+    <string name="date_caught_txt">Date Caught:</string>
+    <string name="fishing_record_header">FISHING RECORDS</string>
 
 
     <string name="empty_album_title">Album title cannot be blank</string>

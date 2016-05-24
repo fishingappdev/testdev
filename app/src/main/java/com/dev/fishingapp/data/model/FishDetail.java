@@ -3,16 +3,13 @@ package com.dev.fishingapp.data.model;
 import java.io.Serializable;
 
 /**
- * Created by user on 4/21/2016.
+ * Created by user on 5/23/2016.
  */
-public class MyFish implements Serializable {
-
-
+public class FishDetail implements Serializable{
     private String nid;
     private String title;
+    private String description;
     private String where_caught;
-    private String weight;
-    private String fish_length;
 
     public String getNid() {
         return nid;
@@ -28,6 +25,14 @@ public class MyFish implements Serializable {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getWhere_caught() {
@@ -70,6 +75,8 @@ public class MyFish implements Serializable {
         this.imageurl = imageurl;
     }
 
+    private String weight;
+    private String fish_length;
     private String field_date_value;
     private String imageurl;
 

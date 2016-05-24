@@ -38,6 +38,16 @@ public class Login implements Parcelable{
 
 
     private LoginData userdata;
+
+    public ProfileData getProfiledata() {
+        return profiledata;
+    }
+
+    public void setProfiledata(ProfileData profiledata) {
+        this.profiledata = profiledata;
+    }
+
+    private ProfileData profiledata;
     public static final Parcelable.Creator<Login> CREATOR
             = new Parcelable.Creator<Login>() {
         public Login createFromParcel(Parcel in) {

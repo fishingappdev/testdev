@@ -2,7 +2,11 @@ package com.dev.fishingapp;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
+import android.net.Uri;
+import android.support.v4.content.ContextCompat;
 
 import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiscCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -13,6 +17,7 @@ import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.nostra13.universalimageloader.utils.StorageUtils;
 
 import java.io.File;
+import java.util.List;
 
 /**
  * Created by user on 4/20/2016.
@@ -65,5 +70,24 @@ public class FishingApplication extends Application {
             imageLoader.init(config);
         }
     }
+    public boolean checkCanOpenVideoMP4Url(String videoUrl) {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setDataAndType(Uri.parse(videoUrl), "video/mp4");
+        List<ResolveInfo> resolveInfo = getPackageManager().queryIntentActivities(intent, 0);
+        return (resolveInfo.size() > 0);
+    }
 
+    public File getFileCacheLocation() {
+//        return this.getExternalFilesDir(Environment.DIRECTORY_MOVIES);
+        File[] dirs = ContextCompat.getExternalCacheDirs(this);
+        if (dirs == null || dirs.length < 1 || dirs[0] == null) {
+            return null;
+        }
+        for (File s : dirs) {
+            if (s.canWrite() && s.canRead()) {
+                return new File(s.toString());
+            }
+        }
+        return null;
+    }
 }

@@ -8,18 +8,32 @@
         android:paddingLeft="@dimen/dp_10"
         android:paddingTop="@dimen/dp_10"
        >
-        <ImageView
-            android:id="@+id/video_thumbnail"
+        <FrameLayout
+            android:id="@+id/video_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/video_thumbnai"
-            android:layout_alignParentLeft="true"/>
+            android:layout_alignParentLeft="true">
+
+        <ImageView
+            android:id="@+id/video_thumbnail"
+            android:layout_width="150dp"
+            android:layout_height="100dp"
+            />
+        <ImageButton
+            android:id="@+id/video_play_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@android:drawable/ic_media_play"
+            android:layout_gravity="center"
+            />
+        </FrameLayout>
         <TextView
             android:id="@+id/episodeTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/video_thumbnail"
+            android:layout_toRightOf="@id/video_layout"
             android:textColor="@color/drawer_bg"
+            android:layout_marginTop="@dimen/dp_5"
             android:layout_marginLeft="@dimen/dp_10"/>
     </RelativeLayout>
 

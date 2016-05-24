@@ -7,5 +7,8 @@
     <item name="loader.myalbum" type="id" />
     <item name="loader.myalbumdetails" type="id" />
     <item name="loader.episode_list" type="id" />
+    <item name="loader.fish_list" type="id" />
+    <item name="loader.fish_detail" type="id" />
+    <item name="loader.fish_record" type="id" />
 
 </resources>

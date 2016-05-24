@@ -26,6 +26,7 @@ import android.widget.TextView;
 
 import com.dev.fishingapp.fishinglog.fragment.FishingLog;
 import com.dev.fishingapp.fragments.ChangePassword;
+import com.dev.fishingapp.fragments.FishingRecordFRagmnet;
 import com.dev.fishingapp.fragments.MyEpisodeList;
 import com.dev.fishingapp.myalbum.fragments.MyAlbumFragment;
 import com.dev.fishingapp.myfish.fragment.MyFishFragment;
@@ -45,6 +46,7 @@ import java.util.ArrayList;
  * Created by user on 4/18/2016.
  */
 public class HomeActivity extends AbstractActivity implements View.OnClickListener {
+    private TextView userName;
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
     private RelativeLayout mRelativeDrawerLayout;
@@ -92,6 +94,7 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
         updateImageUtil = UpdateImageUtil.getInstance(this);
         mRightOption = (ImageView) tb.findViewById(R.id.iv_right);
         logoutbtn = (TextView) findViewById(R.id.logout);
+        userName=(TextView)findViewById(R.id.username);
         logoutbtn.setOnClickListener(this);
 
         FacebookSdk.sdkInitialize(getApplicationContext());
@@ -115,8 +118,9 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
         navDrawerItems.add(new NavDrawerItem(navMenuTitles[3]));
         navDrawerItems.add(new NavDrawerItem(navMenuTitles[4]));
         navDrawerItems.add(new NavDrawerItem(navMenuTitles[5]));
+        navDrawerItems.add(new NavDrawerItem(navMenuTitles[6]));
         if(!FishingPreferences.getInstance().getIsSocailLogin()){
-            navDrawerItems.add(new NavDrawerItem(navMenuTitles[6]));
+            navDrawerItems.add(new NavDrawerItem(navMenuTitles[7]));
         }
 
 
@@ -150,6 +154,11 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
             // on first time display view for first nav item
             displayView(1);
         }
+
+
+        //set username
+        String username=FishingPreferences.getInstance().getCurrentUsername();
+        userName.setText(username);
     }
 
     @Override
@@ -199,6 +208,7 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
                 Intent intent = new Intent(this, LoginActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 FishingPreferences.getInstance().saveCurrentUserId("");
+                FishingPreferences.getInstance().saveCurrentUsername("");
                 if(FishingPreferences.getInstance().getIsSocailLogin()){
                     LoginManager.getInstance().logOut();
                     FishingPreferences.getInstance().setIsSocialLogin(false);
@@ -277,8 +287,12 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
                 fragment = new MyEpisodeList();
                 break;
             case 6:
+                fragment = new FishingRecordFRagmnet();
+                break;
+            case 7:
                 fragment = new ChangePassword();
                 break;
+
 
             default:
                 break;

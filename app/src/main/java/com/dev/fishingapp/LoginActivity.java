@@ -296,7 +296,9 @@ public class LoginActivity extends AbstractActivity implements OnClickListener {
                     Login loginData = intent.getParcelableExtra("data");
                     if (loginData.getStatus().equalsIgnoreCase(getResources().getString(R.string.success_txt))) {
                         String user_id = loginData.getData().getUser_id();
+                        String username=loginData.getProfiledata().getField_first_name()+" "+loginData.getProfiledata().getField_last_name();
                         FishingPreferences.getInstance().saveCurrentUserId(user_id);
+                        FishingPreferences.getInstance().saveCurrentUsername(username);
                         Log.d("user id", user_id + "");
                         Intent homeIntent = new Intent(LoginActivity.this, HomeActivity.class);
                         startActivity(homeIntent);

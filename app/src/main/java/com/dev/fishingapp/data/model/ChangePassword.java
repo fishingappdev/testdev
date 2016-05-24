@@ -7,15 +7,35 @@ import android.os.Parcelable;
  * Created by user on 5/2/2016.
  */
 public class ChangePassword implements Parcelable {
-    public boolean isResponse() {
-        return response;
+    private String faultcode;
+
+    public String getFaultcode() {
+        return faultcode;
     }
 
-    public void setResponse(boolean response) {
-        this.response = response;
+    public void setFaultcode(String faultcode) {
+        this.faultcode = faultcode;
     }
 
-    private boolean response;
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    private String status;
+    private String message;
+
 
 
     public static final Parcelable.Creator<ChangePassword> CREATOR
@@ -36,12 +56,16 @@ public class ChangePassword implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeByte((byte) (response ? 1 : 0));
+        dest.writeString(faultcode);
+        dest.writeString(message);
+        dest.writeString(status);
 
     }
 
     private ChangePassword(Parcel in){
-        response = in.readByte() != 0;
+        faultcode=in.readString();
+        message=in.readString();
+        status=in.readString();
 
     }
 }

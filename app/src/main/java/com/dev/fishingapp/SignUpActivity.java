@@ -145,7 +145,9 @@ public class SignUpActivity extends AbstractActivity implements OnClickListener 
                     SignUpResponse signUpResponse = (SignUpResponse) intent.getSerializableExtra("data");
                     if (signUpResponse.getStatus().equals("success")) {
                         String user_id = signUpResponse.getUserdata().getUser_id();
+                        String username=signUpResponse.getProfiledata().getField_first_name()+" "+signUpResponse.getProfiledata().getField_last_name();
                         FishingPreferences.getInstance().saveCurrentUserId(user_id);
+                        FishingPreferences.getInstance().saveCurrentUserId(username);
                         Log.d("user id", user_id + "");
                         Intent homeIntent = new Intent(SignUpActivity.this, HomeActivity.class);
                         startActivity(homeIntent);
