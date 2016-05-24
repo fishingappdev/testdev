@@ -122,14 +122,12 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
         navDrawerItems.add(new NavDrawerItem(navMenuTitles[3]));
         navDrawerItems.add(new NavDrawerItem(navMenuTitles[4]));
         navDrawerItems.add(new NavDrawerItem(navMenuTitles[5]));
-<<<<<<< HEAD
         navDrawerItems.add(new NavDrawerItem(navMenuTitles[6]));
-        if(!FishingPreferences.getInstance().getIsSocailLogin()){
+        if(!FishingPreferences.getInstance().getIsSocailLogin()) {
             navDrawerItems.add(new NavDrawerItem(navMenuTitles[7]));
-=======
+        }
         if (!FishingPreferences.getInstance().getIsSocailLogin()) {
             navDrawerItems.add(new NavDrawerItem(navMenuTitles[6]));
->>>>>>> AddAlbum:Image Integrated
         }
 
 
@@ -217,12 +215,8 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
                 Intent intent = new Intent(this, LoginActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 FishingPreferences.getInstance().saveCurrentUserId("");
-<<<<<<< HEAD
                 FishingPreferences.getInstance().saveCurrentUsername("");
                 if(FishingPreferences.getInstance().getIsSocailLogin()){
-=======
-                if (FishingPreferences.getInstance().getIsSocailLogin()) {
->>>>>>> AddAlbum:Image Integrated
                     LoginManager.getInstance().logOut();
                     FishingPreferences.getInstance().setIsSocialLogin(false);
                 }

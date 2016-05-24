@@ -16,14 +16,11 @@ public class AppConstants {
     public static final String MY_ALBUM_DETAIL_CALLBACK_BROADCAST = "my_album_detail_callback_broadcast";
     public static final String ADD_ALBUM_CALLBACK_BROADCAST = "add_album_callback_broadcast";
     public static final String LOAD_ALBUM_LIST_CALLBACK_BROADCAST = "load_album_list_callback_broadcast";
-<<<<<<< HEAD
     public static final String EPISODE_LIST_CALLBACK_BROADCAST = "Episode_list_callback_broadcast";
     public static final String MYFISH_LIST_CALLBACK_BROADCAST = "my_fish_list_callback_broadcast";
     public static final String FISH_DETAIL_CALLBACK_BROADCAST = "fish_detail_callback_broadcast";
     public static final String FISHING_RECORD_CALLBACK_BROADCAST = "fishing_record_callback_broadcast";
-=======
     public static final String SET_IMAGE_ALBUM_CALLBACK_BROADCAST = "set_image_album_callback_broadcast";
->>>>>>> AddAlbum:Image Integrated
 
     /*API ACTION NAMES*/
     public static final String LOGIN_API_ACTION="userloginapi";

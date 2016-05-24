@@ -39,14 +39,9 @@ public interface FishingAppService {
     @POST("/usersignup")
     SignUpResponse signUp(@Header("Content-Type") String contentType, @Header("Accept") String accept, @Field("apiaction") String apiaction, @Field("username") String username, @Field("email") String email, @Field("firstname") String firstname, @Field("lastname") String lastname, @Field("country") String country);
 
-<<<<<<< HEAD
     @FormUrlEncoded
     @POST("/changepassword")
     ChangePassword changePassword(@Header("Content-Type")String contentType,@Header("Accept") String accept,@Field("apiaction")String apiaction, @Field("uid") String uid,@Field("oldpassword") String oldPassword, @Field("newpassword") String newPassword);
-=======
-    @POST("/change_password.json")
-    ChangePassword changePassword(@Header("Content-Type") String contentType, @Header("Accept") String accept, @Body ChangePasswordRequest mChangePasswordRequest);
->>>>>>> AddAlbum:Image Integrated
 
     @FormUrlEncoded
     @POST("/forgotpassword")
