@@ -71,7 +71,7 @@ public class MyAlbumListAdapter extends BaseAdapter {
                 .cacheInMemory(true)
                 .cacheOnDisc(true)
                 .build();
-        FishingAppHelper.getImageLoader().displayImage(currentAlbum.getImageUrl(), mViewHolder.ivIcon, options);
+        FishingAppHelper.getImageLoader().displayImage(currentAlbum.getImageurl(), mViewHolder.ivIcon, options);
         return convertView;
     }
 

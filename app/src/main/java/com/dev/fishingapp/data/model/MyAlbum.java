@@ -9,7 +9,7 @@ public class MyAlbum implements Serializable{
     String nid;
     String title;
     String description;
-    String imageUrl;
+    String imageurl;
     String country;
 
     public MyAlbum() {
@@ -19,7 +19,7 @@ public class MyAlbum implements Serializable{
     public MyAlbum(String nid, String title, String description, String imageUrl, String country) {
         this.title = title;
         this.description = description;
-        this.imageUrl = imageUrl;
+        this.imageurl = imageUrl;
         this.country = country;
     }
 
@@ -39,12 +39,12 @@ public class MyAlbum implements Serializable{
         this.description = description;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
+    public String getImageurl() {
+        return imageurl;
     }
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+    public void setImageurl(String imageurl) {
+        this.imageurl = imageurl;
     }
 
     public String getCountry() {

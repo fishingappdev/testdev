@@ -21,10 +21,10 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.MultiAutoCompleteTextView;
 import android.widget.Toast;
 
 import com.dev.fishingapp.HomeActivity;
@@ -46,7 +46,7 @@ import retrofit.mime.TypedFile;
  * Created by user on 4/21/2016.
  */
 public class AddAlbumDialogFragment extends DialogFragment implements View.OnClickListener {
-    private AutoCompleteTextView mCountry;
+    private MultiAutoCompleteTextView mCountry;
     private String[] values;
     private AddAlbumBroadcastReceiver receiver;
     private LoaderManager loaderManager;
@@ -76,7 +76,8 @@ public class AddAlbumDialogFragment extends DialogFragment implements View.OnCli
         super.onViewCreated(view, savedInstanceState);
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         getDialog().getWindow().getAttributes().windowAnimations = R.style.DialogTheme;
-        mCountry = (AutoCompleteTextView) view.findViewById(R.id.country);
+        mCountry = (MultiAutoCompleteTextView) view.findViewById(R.id.country);
+        mCountry.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
         et_title = (EditText) view.findViewById(R.id.et_title);
         et_details = (EditText) view.findViewById(R.id.et_details);
         et_location = (EditText) view.findViewById(R.id.et_details);
@@ -181,8 +182,8 @@ public class AddAlbumDialogFragment extends DialogFragment implements View.OnCli
         locname = et_location.getText().toString();
         street = et_street_address.getText().toString();
         additional = "";
-        country_name = mCountry.getText().toString();
-        country = "";
+        country_name = "";
+        country = mCountry.getText().toString();
         if (TextUtils.isEmpty(image_url)) {
             albumimage = "no";
         } else {

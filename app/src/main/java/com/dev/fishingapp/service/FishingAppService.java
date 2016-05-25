@@ -18,14 +18,15 @@ import com.dev.fishingapp.data.model.SignUpResponse;
 import com.dev.fishingapp.data.model.WatchVideoRequest;
 import com.dev.fishingapp.data.model.WatchVideoResponse;
 
-import java.io.File;
-
 import retrofit.http.Body;
 import retrofit.http.Field;
 import retrofit.http.FormUrlEncoded;
 import retrofit.http.Header;
+import retrofit.http.Multipart;
 import retrofit.http.POST;
 import retrofit.http.Part;
+import retrofit.mime.TypedFile;
+import retrofit.mime.TypedString;
 
 /**
  * Created by skumari on 4/19/2016.
@@ -78,9 +79,9 @@ public interface FishingAppService {
     @POST("/addnewalbum")
     AddNewAlbumResponse addNewAlbum(@Field("apiaction") String apiaction, @Field("uid") String uid, @Field("title") String title, @Field("description") String description, @Field("locname") String locname, @Field("street") String street, @Field("additional") String additional, @Field("country_name") String country_name, @Field("country") String country, @Part("albumimage") String albumimage);
 
-    @FormUrlEncoded
+    @Multipart
     @POST("/addnewalbum")
-    AddNewAlbumResponse addNewAlbumWithFile(@Field("apiaction") String apiaction, @Field("uid") String uid, @Field("title") String title, @Field("description") String description, @Field("locname") String locname, @Field("street") String street, @Field("additional") String additional, @Field("country_name") String country_name, @Field("country") String country, @Field("albumimage") String albumimage, @Field("image") File image);
+    AddNewAlbumResponse addNewAlbumWithFile(@Part("apiaction") TypedString apiaction, @Part("uid") TypedString uid, @Part("title") TypedString title, @Part("description") TypedString description, @Part("locname") TypedString locname, @Part("street") TypedString street, @Part("additional") TypedString additional, @Part("country_name") TypedString country_name, @Part("country") TypedString country, @Part("albumimage") TypedString albumimage, @Part("image") TypedFile image);
 
     @FormUrlEncoded
     @POST("/myfishlist")
