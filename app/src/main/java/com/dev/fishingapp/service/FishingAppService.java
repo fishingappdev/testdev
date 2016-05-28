@@ -1,11 +1,15 @@
 package com.dev.fishingapp.service;
 
+import com.dev.fishingapp.data.model.AddFishResponse;
 import com.dev.fishingapp.data.model.AddNewAlbumResponse;
 import com.dev.fishingapp.data.model.ChangePassword;
 import com.dev.fishingapp.data.model.EpisodeListResponse;
 import com.dev.fishingapp.data.model.FacebookLoginRequest;
 import com.dev.fishingapp.data.model.FacebookResponse;
 import com.dev.fishingapp.data.model.FishDetailResponse;
+import com.dev.fishingapp.data.model.FishTypeResponse;
+import com.dev.fishingapp.data.model.FishingLogDetail;
+import com.dev.fishingapp.data.model.FishingLogResponse;
 import com.dev.fishingapp.data.model.FishingRecordResponse;
 import com.dev.fishingapp.data.model.ForgotPassword;
 import com.dev.fishingapp.data.model.GetEditProfileResponse;
@@ -95,5 +99,31 @@ public interface FishingAppService {
     @FormUrlEncoded
     @POST("/fishingrecords")
     FishingRecordResponse getFishisngRecord(@Header("Content-Type") String contentType,@Header("Accept") String accept,@Field("apiaction") String apiaction,@Field("count") String count);
+
+
+    @FormUrlEncoded
+    @POST("/myfishinglogs")
+    FishingLogResponse getFishisngLog(@Header("Content-Type") String contentType,@Header("Accept") String accept,@Field("apiaction") String apiaction,@Field("count") String count);
+
+
+    @FormUrlEncoded
+    @POST("/myfishinglogsdetails")
+    FishingLogDetail getFishisngLogDetail(@Header("Content-Type") String contentType,@Header("Accept") String accept,@Field("apiaction") String apiaction,@Field("nid") String nid);
+
+    @FormUrlEncoded
+    @POST("/typeoffish")
+    FishTypeResponse getFishType(@Header("Content-Type") String contentType, @Header("Accept") String accept,@Field("apiaction") String apiaction);
+
+
+    @FormUrlEncoded
+    @POST("/addnmyfish")
+    AddFishResponse addFish(@Header("Content-Type") String contentType, @Header("Accept") String accept,@Field("apiaction") String apiaction,@Field("uid") String uid,@Field("title") String title,@Field("description") String description,@Field("pbval") String pbval,@Field("typeoffishnid") String typeoffishnid,@Field("date") String date, @Field("where_caught") String whereCaught, @Field("length") String length, @Field("weight") String weight,@Field("fishimage") String fishImage);
+
+    @Multipart
+    @POST("/addnmyfish")
+    AddFishResponse addNewFishWithFile(@Part("apiaction") TypedString apiaction, @Part("uid") TypedString uid, @Part("title") TypedString title, @Part("description") TypedString description, @Part("pbval") TypedString pbval, @Part("typeoffishnid") TypedString typeoffishnid, @Part("date") TypedString date, @Part("where_caught") TypedString where_caught, @Part("length") TypedString length, @Part("weight") TypedString weight,@Part("fishimage") TypedString fishimage, @Part("image") TypedFile image);
+
+
+
 
 }

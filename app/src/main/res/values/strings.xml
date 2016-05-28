@@ -412,4 +412,6 @@
 
     <string name="empty_album_title">Album title cannot be blank</string>
     <string name="submitted_by">Submitted by</string>
+    <string name="select_date_error">Please select the date</string>
+
 </resources>

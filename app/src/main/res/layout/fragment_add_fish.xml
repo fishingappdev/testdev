@@ -132,6 +132,7 @@
                             android:layout_height="@dimen/dp_30"
                             android:singleLine="true"
                             android:padding="@dimen/dp_5"
+                            android:inputType="number"
                             android:background="@color/white"/>
                     </LinearLayout>
                     <LinearLayout
@@ -151,11 +152,13 @@
                             android:layout_height="@dimen/dp_30"
                             android:singleLine="true"
                             android:padding="@dimen/dp_5"
+                            android:inputType="number"
                             android:background="@color/white"/>
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
             <EditText
+                android:id="@+id/fish_desc"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_100"
                 android:hint="@string/add_detail_txt"

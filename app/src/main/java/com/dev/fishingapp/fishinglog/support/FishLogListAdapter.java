@@ -8,7 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.dev.fishingapp.R;
-import com.dev.fishingapp.data.model.FishingLogResponse;
+import com.dev.fishingapp.data.model.FishingLogData;
 
 import java.util.ArrayList;
 
@@ -16,10 +16,10 @@ import java.util.ArrayList;
  * Created by user on 4/23/2016.
  */
 public class FishLogListAdapter extends BaseAdapter {
-    private ArrayList<FishingLogResponse> myFishArrayList;
+    private ArrayList<FishingLogData> myFishArrayList;
     private Context context;
     LayoutInflater inflater;
-    public FishLogListAdapter(Context context,ArrayList<FishingLogResponse> myFishList){
+    public FishLogListAdapter(Context context,ArrayList<FishingLogData> myFishList){
         this.context=context;
         this.myFishArrayList=myFishList;
         inflater = LayoutInflater.from(this.context);
@@ -50,7 +50,7 @@ public class FishLogListAdapter extends BaseAdapter {
             mViewHolder = (MyViewHolder) convertView.getTag();
         }
 
-        mViewHolder.tvLogTitle.setText(myFishArrayList.get(position).getFishTitle());
+        mViewHolder.tvLogTitle.setText(myFishArrayList.get(position).getTitle());
         mViewHolder.tvLogDetail.setText(myFishArrayList.get(position).getDescription());
         mViewHolder.tvLogDate.setText(myFishArrayList.get(position).getDate());
         mViewHolder.tvLogLocation.setText(myFishArrayList.get(position).getLocation());

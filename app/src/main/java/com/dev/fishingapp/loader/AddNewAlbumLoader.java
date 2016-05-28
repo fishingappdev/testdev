@@ -12,12 +12,12 @@ import retrofit.mime.TypedString;
  * Created by user on 4/20/2016.
  */
 public class AddNewAlbumLoader extends AbstractLoader<AddNewAlbumResponse> {
-    private AddNewAlbumRequest addNewAlbumRequest;
+private AddNewAlbumRequest addNewAlbumRequest;
 
-    public AddNewAlbumLoader(AddNewAlbumRequest addNewAlbumRequest) {
+public AddNewAlbumLoader(AddNewAlbumRequest addNewAlbumRequest) {
         super(FishingApplication.getContext());
         this.addNewAlbumRequest = addNewAlbumRequest;
-    }
+        }
 
     @Override
     protected AddNewAlbumResponse doLoadInBackground() {
@@ -29,5 +29,5 @@ public class AddNewAlbumLoader extends AbstractLoader<AddNewAlbumResponse> {
             response = getService().addNewAlbumWithFile(new TypedString(AppConstants.ADD_ALBUM_API_ACTION), new TypedString(addNewAlbumRequest.getUid()), new TypedString(addNewAlbumRequest.getTitle()), new TypedString(addNewAlbumRequest.getDescription()), new TypedString(addNewAlbumRequest.getLocname()), new TypedString(addNewAlbumRequest.getStreet()), new TypedString(addNewAlbumRequest.getAdditional()), new TypedString(addNewAlbumRequest.getCountry_name()), new TypedString(addNewAlbumRequest.getCountry()), new TypedString(addNewAlbumRequest.getAlbumimage()),typedFile );
         }
         return response;
-    }
-}
+        }
+        }

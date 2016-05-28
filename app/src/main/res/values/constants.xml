@@ -10,5 +10,11 @@
     <item name="loader.fish_list" type="id" />
     <item name="loader.fish_detail" type="id" />
     <item name="loader.fish_record" type="id" />
+    <item name="loader.fish_log" type="id" />
+    <item name="loader.fish_log_detail" type="id" />
+    <item name="loader.fish_type" type="id" />
+    <item name="loader.add_fish" type="id" />
+
+
 
 </resources>

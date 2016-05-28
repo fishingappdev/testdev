@@ -35,6 +35,7 @@ public class MyFishFragment extends BaseToolbarFragment implements AdapterView.O
     private FishListAdapter mFishListAdapter;
     private LoaderManager loaderManager;
     private MyFishListBroadcastReceiver receiver;
+    private LoadFishBroadcastReceiver loadreceiver;
     private AlertMessageDialog dialog;
     MyFishResponse fishList;
 
@@ -77,17 +78,25 @@ public class MyFishFragment extends BaseToolbarFragment implements AdapterView.O
     @Override
     public void onResume() {
         super.onResume();
+        Log.d("My Fish","On RESUME");
         LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(getActivity());
         IntentFilter intentFilter = new IntentFilter(AppConstants.MYFISH_LIST_CALLBACK_BROADCAST);
+        IntentFilter intentfilter = new IntentFilter(AppConstants.LOAD_FISH_CALLBACK_BROADCAST);
+
         receiver = new MyFishListBroadcastReceiver();
+        loadreceiver = new LoadFishBroadcastReceiver();
         localBroadcastManager.registerReceiver(receiver, intentFilter);
+        localBroadcastManager.registerReceiver(loadreceiver, intentfilter);
+
     }
 
     @Override
     public void onStop() {
         super.onStop();
+        Log.d("My Fish","On stop");
         LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(getActivity());
         localBroadcastManager.unregisterReceiver(receiver);
+        localBroadcastManager.unregisterReceiver(loadreceiver);
     }
 
     @Override
@@ -141,4 +150,15 @@ public class MyFishFragment extends BaseToolbarFragment implements AdapterView.O
             }
         }
     }
+
+    class LoadFishBroadcastReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction().equalsIgnoreCase(AppConstants.LOAD_FISH_CALLBACK_BROADCAST)) {
+                loaderManager.initLoader(R.id.loader_fish_list, null, new MyFishCallback(((AbstractActivity) getActivity()),true,FishingPreferences.getInstance().getCurrentUserId()));
+            }
+        }
+    }
+
 }

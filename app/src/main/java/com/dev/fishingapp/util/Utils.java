@@ -11,11 +11,16 @@ import com.dev.fishingapp.R;
 import org.apache.commons.validator.routines.UrlValidator;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 /**
  * Created by user on 5/2/2016.
  */
-public class Utils {
+public class Utils{
+
+public static String dateFormat = " EEE dd/MM/yyyy hh:mm";
+private static SimpleDateFormat simpleDateFormat = new SimpleDateFormat(dateFormat);
     public static void watchVideo(String imageUrl, Activity activity) {
         if (imageUrl != null
                 && !imageUrl.isEmpty()
@@ -38,6 +43,15 @@ public class Utils {
                 activity.startActivity(i);
             }
         }
+    }
+
+
+
+
+    public static String ConvertMilliSecondsToFormattedDate(String milliSeconds){
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(Long.parseLong(milliSeconds));
+        return simpleDateFormat.format(calendar.getTime());
     }
 
 }

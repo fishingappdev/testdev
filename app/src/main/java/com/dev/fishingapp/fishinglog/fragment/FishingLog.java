@@ -1,8 +1,15 @@
 package com.dev.fishingapp.fishinglog.fragment;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.LocalBroadcastManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,11 +17,16 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
+import com.dev.fishingapp.AbstractActivity;
 import com.dev.fishingapp.HomeActivity;
+import com.dev.fishingapp.LoaderCallbacks.FishingLogCallback;
 import com.dev.fishingapp.R;
+import com.dev.fishingapp.data.model.FishingLogData;
 import com.dev.fishingapp.data.model.FishingLogResponse;
 import com.dev.fishingapp.fishinglog.support.FishLogListAdapter;
 import com.dev.fishingapp.support.BaseToolbarFragment;
+import com.dev.fishingapp.util.AlertMessageDialog;
+import com.dev.fishingapp.util.AppConstants;
 
 import java.util.ArrayList;
 
@@ -23,8 +35,11 @@ import java.util.ArrayList;
  */
 public class FishingLog extends BaseToolbarFragment implements OnItemClickListener {
     private ListView mLogList;
-    private ArrayList<FishingLogResponse> myFishLogArrayList;
+    private ArrayList<FishingLogData> myFishLogArrayList;
     private FishLogListAdapter mFishLogAdapter;
+    private LoaderManager loaderManager;
+    private FishingLogBroadcastReceiver receiver;
+    private AlertMessageDialog dialog;
 
     @Nullable
     @Override
@@ -45,20 +60,43 @@ public class FishingLog extends BaseToolbarFragment implements OnItemClickListen
         });
 
         mLogList = (ListView) view.findViewById(R.id.fishlog_list);
-        myFishLogArrayList = new ArrayList<>();
-        for (int i = 0; i < 7; i++) {
-            FishingLogResponse logResponse = new FishingLogResponse("BIG FISH", "Australia", "Lorem Ipsum is the simply dummy text of the printing and typesetting industry", "21/04/16");
-            myFishLogArrayList.add(logResponse);
+
+
+        loaderManager = getActivity().getSupportLoaderManager();
+
+        if(loaderManager.getLoader(R.id.loader_fish_log)== null){
+            loaderManager.initLoader(R.id.loader_fish_log, null, new FishingLogCallback(((AbstractActivity) getActivity()),true));
+        } else {
+            loaderManager.restartLoader(R.id.loader_fish_log, null, new FishingLogCallback(((AbstractActivity) getActivity()),true));
         }
-        mFishLogAdapter = new FishLogListAdapter(getActivity(), myFishLogArrayList);
-        mLogList.setAdapter(mFishLogAdapter);
+
         mLogList.setOnItemClickListener(this);
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(getActivity());
+        IntentFilter intentFilter = new IntentFilter(AppConstants.FISHING_LOG_CALLBACK_BROADCAST);
+        receiver = new FishingLogBroadcastReceiver();
+        localBroadcastManager.registerReceiver(receiver, intentFilter);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(getActivity());
+        localBroadcastManager.unregisterReceiver(receiver);
+    }
+
+    @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Bundle bundle = new Bundle();
+        bundle.putString("nid", myFishLogArrayList.get(position).getNid());
+        Fragment fragment=new FishingLogDetail();
+        fragment.setArguments(bundle);
         FragmentManager fm = getActivity().getSupportFragmentManager();
-        fm.beginTransaction().add(R.id.content_frame, new FishingLogDetail()).hide(this).addToBackStack(null).commit();
+        fm.beginTransaction().add(R.id.content_frame, fragment).hide(this).addToBackStack(null).commit();
 
     }
 
@@ -73,6 +111,30 @@ public class FishingLog extends BaseToolbarFragment implements OnItemClickListen
                     fm.beginTransaction().add(R.id.content_frame, new AddFishingLog()).hide(FishingLog.this).addToBackStack(null).commit();
                 }
             });
+        }
+    }
+
+
+    class FishingLogBroadcastReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction().equalsIgnoreCase(AppConstants.FISHING_LOG_CALLBACK_BROADCAST)) {
+                if (intent.getSerializableExtra("data") != null) {
+                    myFishLogArrayList=(FishingLogResponse)intent.getSerializableExtra("data");
+                    if(myFishLogArrayList.size()>0){
+                        mFishLogAdapter = new FishLogListAdapter(getActivity(), myFishLogArrayList);
+                        mLogList.setAdapter(mFishLogAdapter);
+                    }else{
+                        dialog=new AlertMessageDialog(((HomeActivity)getActivity()),getActivity().getString(R.string.error_txt),getString(R.string.empty_list));
+                        dialog.setAcceptButtonText(getString(R.string.ok_txt));
+                        dialog.show();
+
+                    }
+
+                }
+
+            }
         }
     }
 }
