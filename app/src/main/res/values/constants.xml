@@ -14,6 +14,8 @@
     <item name="loader.fish_log_detail" type="id" />
     <item name="loader.fish_type" type="id" />
     <item name="loader.add_fish" type="id" />
+    <item name="loader.friends" type="id" />
+    <item name="loader.friends.detail" type="id" />
 
 
 

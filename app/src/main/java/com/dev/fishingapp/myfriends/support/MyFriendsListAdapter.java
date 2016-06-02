@@ -5,6 +5,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -15,16 +17,19 @@ import com.dev.fishingapp.util.FishingAppHelper;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by user on 4/21/2016.
  */
-public class MyFriendsListAdapter extends BaseAdapter {
-    private ArrayList<Friend> myFriendsArrayList;
+public class MyFriendsListAdapter extends BaseAdapter implements Filterable {
+    private List<Friend> myFriendsArrayList;
     private Context context;
     LayoutInflater inflater;
     private DotsProgressBar dotsProgressBar;
     DisplayImageOptions options;
+    List<Friend> mOriginalValues;
+    List<String> mListItem; // any k
 
     public MyFriendsListAdapter(Context context, ArrayList<Friend> myFriendsArrayList) {
         this.context = context;
@@ -59,7 +64,7 @@ public class MyFriendsListAdapter extends BaseAdapter {
         }
 
         Friend currentFriend = myFriendsArrayList.get(position);
-        mViewHolder.tvTitle.setText(myFriendsArrayList.get(position).getTitle());
+        mViewHolder.tvTitle.setText(myFriendsArrayList.get(position).getName());
         dotsProgressBar = new DotsProgressBar(context, mViewHolder.ivIcon);
         options = new DisplayImageOptions.Builder()
                 .showImageOnLoading(dotsProgressBar)
@@ -68,8 +73,74 @@ public class MyFriendsListAdapter extends BaseAdapter {
                 .cacheInMemory(true)
                 .cacheOnDisc(true)
                 .build();
-        FishingAppHelper.getImageLoader().displayImage(currentFriend.getImageUrl(), mViewHolder.ivIcon, options);
+        FishingAppHelper.getImageLoader().displayImage(currentFriend.getPicture(), mViewHolder.ivIcon, options);
         return convertView;
+    }
+
+    @Override
+    public Filter getFilter() {
+        /**
+         * A filter object which will
+         * filter message key
+         * */
+        Filter filter = new Filter() {
+
+            @SuppressWarnings("unchecked")
+            @Override
+            protected void publishResults(CharSequence constraint, FilterResults results) {
+
+                myFriendsArrayList = (List<Friend>) results.values; // has the filtered values
+                notifyDataSetChanged();  // notifies the data with new filtered values. Only filtered values will be shown on the list
+            }
+
+            @Override
+            protected FilterResults performFiltering(CharSequence constraint) {
+                FilterResults results = new FilterResults();        // Holds the results of a filtering operation for publishing
+
+                List<Friend> FilteredArrList = new ArrayList<Friend>();
+
+                if (mOriginalValues == null) {
+                    mOriginalValues = new ArrayList<Friend>(myFriendsArrayList); // saves the original data in mOriginalValues
+                }
+
+                if (mListItem == null) {
+                    mListItem = new ArrayList<String>();
+                    for (Friend friend : mOriginalValues) {
+                        mListItem.add(friend.getName());
+                    }
+                }
+
+                /**
+                 *
+                 *  If constraint(CharSequence that is received) is null returns the mOriginalValues(Original) values
+                 *  else does the Filtering and returns FilteredArrList(Filtered)
+                 *
+                 **/
+
+                if (constraint == null || constraint.length() == 0) {
+
+                    /* CONTRACT FOR IMPLEMENTING FILTER : set the Original values to result which will be returned for publishing */
+                    results.count = mOriginalValues.size();
+                    results.values = mOriginalValues;
+                } else {
+                    /* Do the filtering */
+                    constraint = constraint.toString().toLowerCase();
+
+                    for (int i = 0; i < mListItem.size(); i++) {
+                        String data = mListItem.get(i);
+                        if (data.toLowerCase().startsWith(constraint.toString())) {
+                            FilteredArrList.add(mOriginalValues.get(i));
+                        }
+                    }
+
+                    // set the Filtered result to return
+                    results.count = FilteredArrList.size();
+                    results.values = FilteredArrList;
+                }
+                return results;
+            }
+        };
+        return filter;
     }
 
     private class MyViewHolder {

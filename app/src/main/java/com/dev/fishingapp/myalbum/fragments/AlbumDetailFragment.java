@@ -72,8 +72,8 @@ public class AlbumDetailFragment extends BaseToolbarFragment implements View.OnC
         comment_list = (LinearLayout) view.findViewById(R.id.comment_list);
         add_comments = (Button) view.findViewById(R.id.add_comments);
         inflater = LayoutInflater.from(getActivity());
-        loaderManager = getActivity().getSupportLoaderManager();
         add_comments.setOnClickListener(this);
+        loaderManager = getActivity().getSupportLoaderManager();
         loaderManager.initLoader(R.id.loader_myalbumdetails, null, new MyAlbumDetailCallback((AppCompatActivity) getActivity(), true, nid));
     }
 

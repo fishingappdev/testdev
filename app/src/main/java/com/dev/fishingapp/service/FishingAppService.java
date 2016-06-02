@@ -1,6 +1,7 @@
 package com.dev.fishingapp.service;
 
 import com.dev.fishingapp.data.model.AddFishResponse;
+import com.dev.fishingapp.data.model.AddFriendResponse;
 import com.dev.fishingapp.data.model.AddNewAlbumResponse;
 import com.dev.fishingapp.data.model.ChangePassword;
 import com.dev.fishingapp.data.model.EpisodeListResponse;
@@ -12,6 +13,8 @@ import com.dev.fishingapp.data.model.FishingLogDetail;
 import com.dev.fishingapp.data.model.FishingLogResponse;
 import com.dev.fishingapp.data.model.FishingRecordResponse;
 import com.dev.fishingapp.data.model.ForgotPassword;
+import com.dev.fishingapp.data.model.FriendDetailResponse;
+import com.dev.fishingapp.data.model.FriendsResponse;
 import com.dev.fishingapp.data.model.GetEditProfileResponse;
 import com.dev.fishingapp.data.model.Login;
 import com.dev.fishingapp.data.model.MyAlbumDetailResponse;
@@ -123,7 +126,19 @@ public interface FishingAppService {
     @POST("/addnmyfish")
     AddFishResponse addNewFishWithFile(@Part("apiaction") TypedString apiaction, @Part("uid") TypedString uid, @Part("title") TypedString title, @Part("description") TypedString description, @Part("pbval") TypedString pbval, @Part("typeoffishnid") TypedString typeoffishnid, @Part("date") TypedString date, @Part("where_caught") TypedString where_caught, @Part("length") TypedString length, @Part("weight") TypedString weight,@Part("fishimage") TypedString fishimage, @Part("image") TypedFile image);
 
+    @FormUrlEncoded
+    @POST("/findfriends")
+    FriendsResponse getAllfriends(@Header("Content-Type") String contentType, @Header("Accept") String accept, @Field("apiaction") String apiaction, @Field("searchby") String searchby);
 
+
+    @FormUrlEncoded
+    @POST("/frienddetail")
+    FriendDetailResponse getFriendDetail(@Header("Content-Type") String contentType, @Header("Accept") String accept, @Field("apiaction") String apiaction, @Field("uid") String uid);
+
+
+    @FormUrlEncoded
+    @POST("/addfriend")
+    AddFriendResponse addFriend(@Header("Content-Type") String contentType, @Header("Accept") String accept, @Field("apiaction") String apiaction, @Field("myuid") String myuid, @Field("frienduid") String frienduid);
 
 
 }

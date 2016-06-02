@@ -26,6 +26,9 @@ public class AppConstants {
     public static final String FISH_TYPE_CALLBACK_BROADCAST = "fish_type_callback_broadcast";
     public static final String ADD_FISH_CALLBACK_BROADCAST = "add_fish_callback_broadcast";
     public static final String LOAD_FISH_CALLBACK_BROADCAST = "load_fish_callback_broadcast";
+    public static final String FRIEND_CALLBACK_BROADCAST = "friend_callback_broadcast";
+    public static final String FRIEND_DETAIL_CALLBACK_BROADCAST = "friend_detail_callback_broadcast";
+    public static final String ADD_FRIEND_CALLBACK_BROADCAST = "add_friend_callback_broadcast";
 
 
 
@@ -48,6 +51,9 @@ public class AppConstants {
     public static final String FISHING_LOG_DETAIL_API_ACTION="myfishinglogsdetailsapi";
     public static final String FISH_TYPE_API_ACTION="typeoffishapi";
     public static final String ADD_FISH_API_ACTION="addnmyfishapi";
+    public static final String FRIENDS_API_ACTION="findfriendsapi";
+    public static final String FRIEND_DETAILS_API_ACTION="frienddetailapi";
+    public static final String ADD_FRIEND_API_ACTION="addfriendapi";
 
 
 }
