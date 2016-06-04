@@ -15,6 +15,7 @@ public class FishingPreferences {
     private static final String TAG_CURRENT_USER_ID = "current_user_id";
     private static final String IS_SOCIAL_LOGIN = "is_social_login";
     private static final String TAG_USERNAME = "username";
+    private static final String PROFILE_IMAGE_URL="profileimage";
 
     private static SharedPreferences mPreferences;
     private static FishingPreferences mInstance;
@@ -54,6 +55,24 @@ public class FishingPreferences {
             currentUsername = mPreferences.getString(TAG_USERNAME, "");
         }
         return currentUsername;
+
+    }
+
+
+    //get current account user image
+    public String getProfileImageUrl() {
+        String currentUserId = "";
+        if (mPreferences.contains(PROFILE_IMAGE_URL)) {
+            currentUserId = mPreferences.getString(PROFILE_IMAGE_URL, "");
+        }
+        return currentUserId;
+
+    }
+
+
+    public void setProfileImageUrl(String imageUrl) {
+        mEditor.putString(PROFILE_IMAGE_URL, imageUrl);
+        mEditor.apply();
 
     }
 

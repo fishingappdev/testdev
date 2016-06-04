@@ -200,11 +200,13 @@
                     android:layout_marginLeft="@dimen/dp_10"
                     android:layout_marginRight="@dimen/dp_10"
                     android:padding="@dimen/dp_10"
+                    android:visibility="gone"
                     android:background="@color/commment_bg">
 
 
                 </LinearLayout>
                 <Button
+                    android:id="@+id/CommentBtn"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="@color/white"

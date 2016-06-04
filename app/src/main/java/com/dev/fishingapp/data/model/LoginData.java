@@ -12,6 +12,16 @@ public class LoginData implements Parcelable{
     private String pass;
     private String mail;
 
+    public String getProfilepic() {
+        return profilepic;
+    }
+
+    public void setProfilepic(String profilepic) {
+        this.profilepic = profilepic;
+    }
+
+    private String profilepic;
+
     public String getName() {
         return name;
     }

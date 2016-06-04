@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar_layout"
+        android:layout_width="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_height="@dimen/actionbar_height"
+        />
+
+    <EditText
+        android:id="@+id/commentTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Title"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black"
+        android:layout_marginTop="@dimen/dp_10"
+        android:layout_below="@+id/toolbar"
+        android:layout_margin="@dimen/dp_10"
+        android:backgroundTint="@color/grey_bg"/>
+
+    <EditText
+        android:id="@+id/comment_desc"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_100"
+        android:hint="@string/add_detail_txt"
+        android:background="@color/grey_bg"
+        android:gravity="top|left"
+        android:layout_marginTop="@dimen/dp_10"
+        android:padding="@dimen/dp_10"
+        android:layout_margin="@dimen/dp_10"
+        android:layout_below="@+id/commentTitle"/>
+
+    <Button
+        android:id="@+id/CommentBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:text="@string/add_comment_txt"
+        android:background="@color/drawer_bg"
+        android:layout_margin="@dimen/dp_20"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"/>
+
+
+</RelativeLayout>

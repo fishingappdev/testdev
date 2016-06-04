@@ -119,7 +119,7 @@ public class ChangePassword extends BaseToolbarFragment {
     }
 
 
-    @Override
+   @Override
     public void onResume() {
         super.onResume();
         LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(getActivity());

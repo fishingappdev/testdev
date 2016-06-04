@@ -29,6 +29,16 @@ public class AppConstants {
     public static final String FRIEND_CALLBACK_BROADCAST = "friend_callback_broadcast";
     public static final String FRIEND_DETAIL_CALLBACK_BROADCAST = "friend_detail_callback_broadcast";
     public static final String ADD_FRIEND_CALLBACK_BROADCAST = "add_friend_callback_broadcast";
+    public static final String ADD_FISHING_LOG_CALLBACK_BROADCAST = "add_fish_log_callback_broadcast";
+    public static final String ADD_COMMENT_CALLBACK_BROADCAST = "add_comment_callback_broadcast";
+    public static final String UPDATE_PROFILE_PIC_CALLBACK_BROADCAST = "update_profile_pic_callback_broadcast";
+    public static final String LOAD_COMMENT_CALLBACK_BROADCAST = "load_comment_callback_broadcast";
+    public static final String USER_PROFILE_CALLBACK_BROADCAST = "user_profile_callback_broadcast";
+    public static final String FISH_CATEGORY_CALLBACK_BROADCAST = "fish_category_callback_broadcast";
+
+
+
+
 
 
 
@@ -54,6 +64,13 @@ public class AppConstants {
     public static final String FRIENDS_API_ACTION="findfriendsapi";
     public static final String FRIEND_DETAILS_API_ACTION="frienddetailapi";
     public static final String ADD_FRIEND_API_ACTION="addfriendapi";
+    public static final String ADD_FISH_LOG_API_ACTION="addnfishinglogsapi";
+    public static final String ADD_COMMENT_API_ACTION="addcommentapi";
+    public static final String UPDATE_PROFILE_PIC_API_ACTION="editprofilepicapi";
+    public static final String USER_PROFILE_API_ACTION="userdatabyemailapi";
+    public static final String FISH_CATEGORY_API_ACTION="myfishlistbycatapi";
+
+
 
 
 }

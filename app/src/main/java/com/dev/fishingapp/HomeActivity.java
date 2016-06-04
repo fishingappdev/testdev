@@ -2,6 +2,7 @@ package com.dev.fishingapp;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -9,6 +10,7 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
@@ -25,6 +27,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.dev.fishingapp.fishinglog.fragment.FishingLog;
+import com.dev.fishingapp.fishinglog.fragment.FishingLogDetail;
 import com.dev.fishingapp.fragments.ChangePassword;
 import com.dev.fishingapp.fragments.FishingRecordFRagmnet;
 import com.dev.fishingapp.fragments.MyEpisodeList;
@@ -34,11 +37,15 @@ import com.dev.fishingapp.myfriends.fragments.MyFriendsFragment;
 import com.dev.fishingapp.myprofile.fragments.MyProfile;
 import com.dev.fishingapp.support.DrawerItemAdapter;
 import com.dev.fishingapp.support.NavDrawerItem;
+import com.dev.fishingapp.util.AppConstants;
+import com.dev.fishingapp.util.DotsProgressBar;
+import com.dev.fishingapp.util.FishingAppHelper;
 import com.dev.fishingapp.util.FishingPreferences;
 import com.dev.fishingapp.util.UpdateAlbumImageUtil;
 import com.dev.fishingapp.util.UpdateImageUtil;
 import com.facebook.FacebookSdk;
 import com.facebook.login.LoginManager;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
 
 import java.util.ArrayList;
 
@@ -75,6 +82,11 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
     private ImageView center_logo;
     Fragment currentFragment = null;
     boolean album;
+    UpdateImageUtil.UpdateProfileImageBroadcastReceiver receiver;
+    private DotsProgressBar dotsProgressBar;
+    DisplayImageOptions options;
+
+    FishingLogDetail.AddCommentBroadcastReceiver mreceiver;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -164,6 +176,17 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
         //set username
         String username=FishingPreferences.getInstance().getCurrentUsername();
         userName.setText(username);
+        String profileImageUrl=FishingPreferences.getInstance().getProfileImageUrl();
+
+        dotsProgressBar = new DotsProgressBar(this, mProfilePic);
+        options = new DisplayImageOptions.Builder()
+                .showImageOnLoading(dotsProgressBar)
+                .showImageForEmptyUri(R.drawable.cf_list_no_image_thumbnail)
+                .showImageOnFail(R.drawable.cf_list_no_image_thumbnail)
+                .cacheInMemory(true)
+                .cacheOnDisc(true)
+                .build();
+        FishingAppHelper.getImageLoader().displayImage(profileImageUrl, mProfilePic, options);
     }
 
     @Override
@@ -214,6 +237,7 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 FishingPreferences.getInstance().saveCurrentUserId("");
                 FishingPreferences.getInstance().saveCurrentUsername("");
+                FishingPreferences.getInstance().setProfileImageUrl("");
                 if(FishingPreferences.getInstance().getIsSocailLogin()){
                     LoginManager.getInstance().logOut();
                     FishingPreferences.getInstance().setIsSocialLogin(false);
@@ -224,6 +248,13 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
             break;
         }
     }
+
+   /* @Override
+    public void onCommentAdd() {
+        com.dev.fishingapp.fishinglog.fragment.FishingLogDetail fragment = (com.dev.fishingapp.fishinglog.fragment.FishingLogDetail) getSupportFragmentManager().findFragmentById(R.id.content_frame);
+        fragment.loadContent();
+        Log.d("Inteface call","Received");
+    }*/
 
 
     /**
@@ -402,10 +433,34 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(this);
+        IntentFilter intentFilter = new IntentFilter(AppConstants.UPDATE_PROFILE_PIC_CALLBACK_BROADCAST);
+        receiver =updateImageUtil.new UpdateProfileImageBroadcastReceiver();
+        localBroadcastManager.registerReceiver(receiver, intentFilter);
+
+     /*   localBroadcastManager.registerReceiver(receiver, intentFilter);
+        IntentFilter commentFilter = new IntentFilter(AppConstants.LOAD_COMMENT_CALLBACK_BROADCAST);
+        mreceiver = new FishingLogDetail ().new AddCommentBroadcastReceiver();
+        localBroadcastManager.registerReceiver(mreceiver, commentFilter);*/
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(this);
+        localBroadcastManager.unregisterReceiver(receiver);
+       // localBroadcastManager.unregisterReceiver(mreceiver);
+    }
+
+   /* @Override
     public void onBackPressed() {
         if (currentFragment instanceof MyFishFragment) {
             super.onBackPressed();
-        } else {
+        } *//*else if(currentFragment instanceof FishingLogDetail){
+          getSupportFragmentManager().popBackStack();
+        } *//* else {
             FragmentManager fm = getSupportFragmentManager();
             Fragment fragment = new MyFishFragment();
             fm.beginTransaction().replace(R.id.content_frame, fragment).commit();
@@ -416,7 +471,7 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
             mDrawerLayout.closeDrawer(mRelativeDrawerLayout);
             currentFragment = fragment;
         }
-    } /*else {
+    }*/ /*else {
             super.onBackPressed();
             Fragment f = getSupportFragmentManager().findFragmentById(R.id.content_frame);
             currentFragment=f;

@@ -373,12 +373,16 @@
 
     </string-array>
     <string-array name="moon_type_array">
-        <item>Moon</item>
+        <item>New Moon</item>
+        <item>First Quarter</item>
+        <item>Full Moon</item>
+        <item>Last Quarter</item>
 
 
     </string-array>
     <string-array name="tide_type_array">
-        <item>Tide</item>
+        <item>High</item>
+        <item>Low</item>
 
 
     </string-array>

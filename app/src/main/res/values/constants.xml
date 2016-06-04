@@ -16,6 +16,11 @@
     <item name="loader.add_fish" type="id" />
     <item name="loader.friends" type="id" />
     <item name="loader.friends.detail" type="id" />
+    <item name="loader.add_log_fish" type="id" />
+    <item name="loader.upload_pic" type="id" />
+    <item name="loader.add_comment" type="id" />
+    <item name="loader.fish_category" type="id" />
+
 
 
 

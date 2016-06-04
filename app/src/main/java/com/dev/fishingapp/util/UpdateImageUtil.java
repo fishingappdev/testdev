@@ -1,6 +1,7 @@
 package com.dev.fishingapp.util;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -9,11 +10,17 @@ import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.LoaderManager;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.dev.fishingapp.AbstractActivity;
+import com.dev.fishingapp.HomeActivity;
+import com.dev.fishingapp.LoaderCallbacks.UpdateProfilePicCallback;
 import com.dev.fishingapp.R;
+import com.dev.fishingapp.data.model.AddFishResponse;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.soundcloud.android.crop.Crop;
@@ -38,6 +45,9 @@ public class UpdateImageUtil {
     private static final String IMAGE_DIRECTORY_NAME = "FishingApp";
     private Object mParent;
     private ImageView imageView;
+    private LoaderManager loaderManager;
+    private AlertMessageDialog dialog;
+    Uri finalUri;
 
     /**
      * @param parent parent should be an activity or a fragment
@@ -159,17 +169,21 @@ public class UpdateImageUtil {
 
     protected void handleCrop(int resultCode, Intent result) {
         if (resultCode == Activity.RESULT_OK) {
-            Uri finalUri = Crop.getOutput(result);
+            Context context = null;
+             finalUri = Crop.getOutput(result);
             if (finalUri != null) {
-                final DisplayImageOptions displayImageOptions = new DisplayImageOptions.Builder()
-                        .displayer(new RoundedBitmapDisplayer((int) getContext().getResources().getDimension(R.dimen.dp_100)))
-                        .showImageOnLoading(R.drawable.user_icon)
-                        .showImageForEmptyUri(R.drawable.user_icon)
-                        .showImageOnFail(R.drawable.user_icon)
-                        .cacheInMemory(true).cacheOnDisc(true)
-                        .bitmapConfig(Bitmap.Config.RGB_565).build();
-                FishingAppHelper.removeImageFromCache(finalUri.toString());
-                FishingAppHelper.getImageLoader().displayImage(finalUri.toString(), imageView, displayImageOptions);
+                //call Api to set profile pic
+                File photoFile = new File(finalUri.getPath().toString());
+
+                loaderManager = ((FragmentActivity) getContext()).getSupportLoaderManager();
+                if (loaderManager.getLoader(R.id.loader_upload_pic) == null) {
+                    loaderManager.initLoader(R.id.loader_upload_pic, null, new UpdateProfilePicCallback(((AbstractActivity) getContext()), true, photoFile));
+                } else {
+                    loaderManager.restartLoader(R.id.loader_upload_pic, null, new UpdateProfilePicCallback(((AbstractActivity) getContext()), true, photoFile));
+                }
+
+
+
             }
 
         } else if (resultCode == Crop.RESULT_ERROR) {
@@ -238,5 +252,37 @@ public class UpdateImageUtil {
             }
         } else if (resultCode == Activity.RESULT_CANCELED) {
         }
+    }
+
+   public class UpdateProfileImageBroadcastReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction().equalsIgnoreCase(AppConstants.UPDATE_PROFILE_PIC_CALLBACK_BROADCAST)) {
+                if (intent.getSerializableExtra("data") != null) {
+                    AddFishResponse response = (AddFishResponse) intent.getSerializableExtra("data");
+                    if (response.getStatus().equalsIgnoreCase(getContext().getString(R.string.success_txt))) {
+                        final DisplayImageOptions displayImageOptions = new DisplayImageOptions.Builder()
+                                .displayer(new RoundedBitmapDisplayer((int) getContext().getResources().getDimension(R.dimen.dp_100)))
+                                .showImageOnLoading(R.drawable.user_icon)
+                                .showImageForEmptyUri(R.drawable.user_icon)
+                                .showImageOnFail(R.drawable.user_icon)
+                                .cacheInMemory(true).cacheOnDisc(true)
+                                .bitmapConfig(Bitmap.Config.RGB_565).build();
+                        FishingAppHelper.removeImageFromCache(finalUri.toString());
+                        FishingAppHelper.getImageLoader().displayImage(finalUri.toString(), imageView, displayImageOptions);
+                  } else {
+                        dialog = new AlertMessageDialog(((HomeActivity) getContext()), getContext().getString(R.string.error_txt), response.getMessage());
+                        dialog.setAcceptButtonText(getContext().getString(R.string.ok_txt));
+                        dialog.show();
+
+                    }
+
+                }
+
+            }
+
+        }
+
     }
 }

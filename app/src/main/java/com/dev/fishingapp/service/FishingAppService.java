@@ -135,10 +135,30 @@ public interface FishingAppService {
     @POST("/frienddetail")
     FriendDetailResponse getFriendDetail(@Header("Content-Type") String contentType, @Header("Accept") String accept, @Field("apiaction") String apiaction, @Field("uid") String uid);
 
+    @FormUrlEncoded
+    @POST("/addnfishinglogs")
+    AddFishResponse addFishLog(@Header("Content-Type") String contentType, @Header("Accept") String accept,@Field("apiaction") String apiaction,@Field("uid") String uid,@Field("title") String title,@Field("description") String description,@Field("location") String location,@Field("moon") String moon,@Field("date") String date, @Field("tide") String tide, @Field("weather") String weather, @Field("latitude") String latitude,@Field("longitude") String longitude);
+
+    @FormUrlEncoded
+    @POST("/addcomment")
+    AddFishResponse addComment(@Header("Content-Type") String contentType, @Header("Accept") String accept,@Field("apiaction") String apiaction,@Field("uid") String uid,@Field("subject") String subject,@Field("comment_body") String comment_body,@Field("nid") String nid);
+
+    @Multipart
+    @POST("/usereditprofilepic")
+    AddFishResponse updateProfileImage(@Part("apiaction") TypedString apiaction, @Part("uid") TypedString uid, @Part("profileimage") TypedString fishimage, @Part("image") TypedFile image);
 
     @FormUrlEncoded
     @POST("/addfriend")
     AddFriendResponse addFriend(@Header("Content-Type") String contentType, @Header("Accept") String accept, @Field("apiaction") String apiaction, @Field("myuid") String myuid, @Field("frienduid") String frienduid);
+
+    @FormUrlEncoded
+    @POST("/userdatabyemail")
+    Login getUserProfile(@Header("Content-Type") String contentType, @Header("Accept") String accept,@Field("apiaction") String apiaction,@Field("email") String email);
+
+
+    @FormUrlEncoded
+    @POST("/myfishlistbycat")
+    MyFishResponse getFishListCategory(@Header("Content-Type") String contentType,@Header("Accept") String accept,@Field("apiaction") String apiaction,@Field("uid") String uid ,@Field("catid") String catid,@Field("count") String count);
 
 
 }

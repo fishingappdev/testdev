@@ -13,6 +13,15 @@ public class MyFish implements Serializable {
     private String where_caught;
     private String weight;
     private String fish_length;
+     private String catid;
+
+    public String getCatid() {
+        return catid;
+    }
+
+    public void setCatid(String catid) {
+        this.catid = catid;
+    }
 
     public String getNid() {
         return nid;

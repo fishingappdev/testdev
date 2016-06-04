@@ -16,7 +16,7 @@ private String uid;
 
     @Override
     protected MyFishResponse doLoadInBackground() {
-        MyFishResponse reponse=getService().getMyFishList("application/x-www-form-urlencoded", "application/json", AppConstants.MYFISH_LIST_API_ACTION,"12","all");
+        MyFishResponse reponse=getService().getMyFishList("application/x-www-form-urlencoded", "application/json", AppConstants.MYFISH_LIST_API_ACTION,uid,"all");
         return reponse;
     }
 }

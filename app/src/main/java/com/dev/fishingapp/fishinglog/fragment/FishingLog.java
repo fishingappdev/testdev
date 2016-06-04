@@ -91,12 +91,13 @@ public class FishingLog extends BaseToolbarFragment implements OnItemClickListen
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Fragment fragment=new FishingLogDetail();
         Bundle bundle = new Bundle();
         bundle.putString("nid", myFishLogArrayList.get(position).getNid());
-        Fragment fragment=new FishingLogDetail();
         fragment.setArguments(bundle);
         FragmentManager fm = getActivity().getSupportFragmentManager();
-        fm.beginTransaction().add(R.id.content_frame, fragment).hide(this).addToBackStack(null).commit();
+        android.support.v4.app.FragmentTransaction fragmentTransaction = fm.beginTransaction();
+        fragmentTransaction.add(R.id.content_frame, fragment).hide(FishingLog.this).addToBackStack(null).commit();
 
     }
 
