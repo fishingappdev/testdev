@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * Created by Swati on 5/19/2016.
  */
-public class AddFriendResponse implements Serializable {
+public class AddRemoveFriendResponse implements Serializable {
     int faultcode;
     String status;
     String message;

@@ -14,6 +14,7 @@ public class FriendData implements Serializable {
     String about_me;
     String fishing_preferences;
     String field_country;
+    String friendstatus;
 
     public String getUid() {
         return uid;
@@ -69,5 +70,13 @@ public class FriendData implements Serializable {
 
     public void setField_country(String field_country) {
         this.field_country = field_country;
+    }
+
+    public String getFriendstatus() {
+        return friendstatus;
+    }
+
+    public void setFriendstatus(String friendstatus) {
+        this.friendstatus = friendstatus;
     }
 }

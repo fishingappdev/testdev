@@ -398,6 +398,8 @@
     <string name="my_friends_header">MY FRIENDS</string>
     <string name="my_albums_header">MY ALBUMS</string>
     <string name="add_friend">Add Friend</string>
+    <string name="remove_friend">Remove Friend</string>
+    <string name="remove_friend_request">Remove Friend Request</string>
     <string name="my_albums_txt">My Albums</string>
     <string name="my_friends_txt">My Friends</string>
     <string name="my_fishing_log_txt">My Fishing Log</string>

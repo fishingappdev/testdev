@@ -17,8 +17,9 @@ import android.widget.TextView;
 import com.dev.fishingapp.AbstractActivity;
 import com.dev.fishingapp.LoaderCallbacks.AddFriendCallback;
 import com.dev.fishingapp.LoaderCallbacks.FriendDetailCallback;
+import com.dev.fishingapp.LoaderCallbacks.RemoveFriendCallback;
 import com.dev.fishingapp.R;
-import com.dev.fishingapp.data.model.AddFriendResponse;
+import com.dev.fishingapp.data.model.AddRemoveFriendResponse;
 import com.dev.fishingapp.data.model.FriendData;
 import com.dev.fishingapp.data.model.FriendDetailResponse;
 import com.dev.fishingapp.util.AlertMessageDialog;
@@ -37,6 +38,8 @@ public class FriendDetailsActivity extends AbstractActivity {
     private LoaderManager loaderManager;
     private FriendDetailBroadcastReceiver receiver;
     private AddFriendBroadcastReceiver addreceiver;
+    private RemoveFriendBroadcastReceiver removereceiver;
+    FriendData data;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +71,8 @@ public class FriendDetailsActivity extends AbstractActivity {
                 if (intent.getSerializableExtra("data") != null) {
                     FriendDetailResponse response = (FriendDetailResponse) intent.getSerializableExtra("data");
                     if (response.getStatus().equals("success")) {
-                        updateUI(response.getData());
+                        data = response.getData();
+                        updateUI();
                     } else {
                         AlertMessageDialog dialog = new AlertMessageDialog(FriendDetailsActivity.this, getString(R.string.error_txt), getString(R.string.some_error_occured));
                         dialog.setAcceptButtonText(getString(R.string.ok_txt));
@@ -86,16 +90,39 @@ public class FriendDetailsActivity extends AbstractActivity {
         public void onReceive(Context context, Intent intent) {
             if (intent.getAction().equalsIgnoreCase(AppConstants.ADD_FRIEND_CALLBACK_BROADCAST)) {
                 if (intent.getSerializableExtra("data") != null) {
-                    AddFriendResponse response = (AddFriendResponse) intent.getSerializableExtra("data");
+                    AddRemoveFriendResponse response = (AddRemoveFriendResponse) intent.getSerializableExtra("data");
                     AlertMessageDialog dialog = new AlertMessageDialog(FriendDetailsActivity.this, response.getStatus(), response.getMessage());
                     dialog.setAcceptButtonText(getString(R.string.ok_txt));
                     dialog.show();
+                    if (response.getStatus().equalsIgnoreCase("success")) {
+                        data.setFriendstatus("pending");
+                        updateUI();
+                    }
                 }
             }
         }
     }
 
-    private void updateUI(final FriendData data) {
+    class RemoveFriendBroadcastReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction().equalsIgnoreCase(AppConstants.REMOVE_FRIEND_CALLBACK_BROADCAST)) {
+                if (intent.getSerializableExtra("data") != null) {
+                    AddRemoveFriendResponse response = (AddRemoveFriendResponse) intent.getSerializableExtra("data");
+                    AlertMessageDialog dialog = new AlertMessageDialog(FriendDetailsActivity.this, response.getStatus(), response.getMessage());
+                    dialog.setAcceptButtonText(getString(R.string.ok_txt));
+                    dialog.show();
+                    if (response.getStatus().equalsIgnoreCase("success")) {
+                        data.setFriendstatus("nofriend");
+                        updateUI();
+                    }
+                }
+            }
+        }
+    }
+
+    private void updateUI() {
         DotsProgressBar dotsProgressBar;
         DisplayImageOptions options;
 
@@ -119,11 +146,22 @@ public class FriendDetailsActivity extends AbstractActivity {
                 .cacheOnDisc(true)
                 .build();
         FishingAppHelper.getImageLoader().displayImage(data.getPicture(), iv_friend, options);
+        if (data.getFriendstatus().equalsIgnoreCase("nofriend")) {
+            tv_add_friemd.setText(R.string.add_friend);
+        } else if (data.getFriendstatus().equalsIgnoreCase("friend")) {
+            tv_add_friemd.setText(R.string.remove_friend);
+        } else {
+            tv_add_friemd.setText(R.string.remove_friend_request);
+        }
         tv_add_friemd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 loaderManager = getSupportLoaderManager();
-                loaderManager.initLoader(R.id.loader_friends_detail, null, new AddFriendCallback(FriendDetailsActivity.this, true, FishingPreferences.getInstance().getCurrentUserId(), data.getUid()));
+                if (data.getFriendstatus().equalsIgnoreCase("nofriend")) {
+                    loaderManager.initLoader(R.id.loader_add_friends, null, new AddFriendCallback(FriendDetailsActivity.this, true, FishingPreferences.getInstance().getCurrentUserId(), data.getUid()));
+                } else {
+                    loaderManager.initLoader(R.id.loader_remove_friends, null, new RemoveFriendCallback(FriendDetailsActivity.this, true, FishingPreferences.getInstance().getCurrentUserId(), data.getUid()));
+                }
             }
         });
     }
@@ -138,6 +176,9 @@ public class FriendDetailsActivity extends AbstractActivity {
         intentFilter = new IntentFilter(AppConstants.ADD_FRIEND_CALLBACK_BROADCAST);
         addreceiver = new AddFriendBroadcastReceiver();
         localBroadcastManager.registerReceiver(addreceiver, intentFilter);
+        intentFilter = new IntentFilter(AppConstants.REMOVE_FRIEND_CALLBACK_BROADCAST);
+        removereceiver = new RemoveFriendBroadcastReceiver();
+        localBroadcastManager.registerReceiver(removereceiver, intentFilter);
     }
 
     @Override
@@ -146,5 +187,6 @@ public class FriendDetailsActivity extends AbstractActivity {
         LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(this);
         localBroadcastManager.unregisterReceiver(receiver);
         localBroadcastManager.unregisterReceiver(addreceiver);
+        localBroadcastManager.unregisterReceiver(removereceiver);
     }
 }

@@ -175,7 +175,6 @@ public class AddFishFragment extends BaseToolbarFragment implements OnClickListe
         setAlbumBroadcastReceiver = new SetAlbumBroadcastReceiver();
 
 
-
         localBroadcastManager.registerReceiver(receiver, intentFilter);
         localBroadcastManager.registerReceiver(addreceiver, intentFilter1);
         localBroadcastManager.registerReceiver(setAlbumBroadcastReceiver, intentFilter2);
@@ -184,11 +183,11 @@ public class AddFishFragment extends BaseToolbarFragment implements OnClickListe
     @Override
     public void onStop() {
         super.onStop();
-        Log.d("Add Fish","On Stop"+">>>>>");
+        Log.d("Add Fish", "On Stop" + ">>>>>");
         LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(getActivity());
         localBroadcastManager.unregisterReceiver(receiver);
         localBroadcastManager.unregisterReceiver(addreceiver);
-       // localBroadcastManager.unregisterReceiver(setAlbumBroadcastReceiver);
+        // localBroadcastManager.unregisterReceiver(setAlbumBroadcastReceiver);
 
     }
 
@@ -199,7 +198,7 @@ public class AddFishFragment extends BaseToolbarFragment implements OnClickListe
             case R.id.save_btn:
                 if (validateFields()) {
                     TypedFile photoTypedFile = null;
-                    File photoFile=null;
+                    File photoFile = null;
                     String uid = FishingPreferences.getInstance().getCurrentUserId();
                     String date = mDate.getText().toString().trim();
                     String description = mDescription.getText().toString().trim();
@@ -217,7 +216,7 @@ public class AddFishFragment extends BaseToolbarFragment implements OnClickListe
                         photoTypedFile = new TypedFile("image/*", photoFile);
                     }
 
-                    AddFishRequest request = new AddFishRequest(mTitle, description, pbVal, typeoffishnid, date, location, length, weight, albumimage, uid,photoFile);
+                    AddFishRequest request = new AddFishRequest(mTitle, description, pbVal, typeoffishnid, date, location, length, weight, albumimage, uid, photoFile);
 
                     if (loaderManager.getLoader(R.id.loader_add_fish) == null) {
                         loaderManager.initLoader(R.id.loader_add_fish, null, new AddFishCallback(((AbstractActivity) getActivity()), true, request));
@@ -229,7 +228,7 @@ public class AddFishFragment extends BaseToolbarFragment implements OnClickListe
                 break;
             case R.id.fish_img:
                 showImageOptions();
-                        break;
+                break;
 
         }
     }
@@ -309,31 +308,32 @@ public class AddFishFragment extends BaseToolbarFragment implements OnClickListe
             }
         }
     }
-        private void showImageOptions() {
-            ((HomeActivity) getActivity()).setAlbum(true);
-            final CharSequence[] items = {
-                    "Gallery", "Camera"
-            };
 
-            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-            builder.setTitle("Make your selection");
-            builder.setItems(items, new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int item) {
-                    switch (item) {
-                        case 0: {
-                            updateImageUtil.updateProfilePic(UpdateImageUtil.GALLERY_CAPTURE_IMAGE_REQUEST_CODE, mFishImg);
-                        }
-                        break;
-                        case 1: {
-                            updateImageUtil.updateProfilePic(UpdateImageUtil.CAMERA_CAPTURE_IMAGE_REQUEST_CODE, mFishImg);
-                        }
-                        break;
+    private void showImageOptions() {
+        ((HomeActivity) getActivity()).setAlbum(true);
+        final CharSequence[] items = {
+                "Gallery", "Camera"
+        };
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("Make your selection");
+        builder.setItems(items, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int item) {
+                switch (item) {
+                    case 0: {
+                        updateImageUtil.updateProfilePic(UpdateImageUtil.GALLERY_CAPTURE_IMAGE_REQUEST_CODE, mFishImg, 0);
                     }
+                    break;
+                    case 1: {
+                        updateImageUtil.updateProfilePic(UpdateImageUtil.CAMERA_CAPTURE_IMAGE_REQUEST_CODE, mFishImg, 0);
+                    }
+                    break;
                 }
-            });
-            AlertDialog alert = builder.create();
-            alert.show();
-        }
+            }
+        });
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
 
 
 }

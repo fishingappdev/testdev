@@ -6,11 +6,10 @@ import java.io.Serializable;
  * Created by Swati on 5/23/2016.
  */
 
-public class AddNewAlbumResponse implements Serializable{
+public class UpdateNewAlbumResponse implements Serializable{
     int faultcode;
     String status;
     String message;
-    String nid;
 
     public int getFaultcode() {
         return faultcode;
@@ -36,11 +35,4 @@ public class AddNewAlbumResponse implements Serializable{
         this.message = message;
     }
 
-    public String getNid() {
-        return nid;
-    }
-
-    public void setNid(String nid) {
-        this.nid = nid;
-    }
 }

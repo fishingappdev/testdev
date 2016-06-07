@@ -6,6 +6,7 @@
     <item name="loader.facebook_login" type="id" />
     <item name="loader.myalbum" type="id" />
     <item name="loader.myalbumdetails" type="id" />
+    <item name="loader.addalbum" type="id" />
     <item name="loader.episode_list" type="id" />
     <item name="loader.fish_list" type="id" />
     <item name="loader.fish_detail" type="id" />
@@ -20,8 +21,6 @@
     <item name="loader.upload_pic" type="id" />
     <item name="loader.add_comment" type="id" />
     <item name="loader.fish_category" type="id" />
-
-
-
-
+    <item name="loader.add.friends" type="id" />
+    <item name="loader.remove.friends" type="id" />
 </resources>

@@ -1,7 +1,7 @@
 package com.dev.fishingapp.service;
 
 import com.dev.fishingapp.data.model.AddFishResponse;
-import com.dev.fishingapp.data.model.AddFriendResponse;
+import com.dev.fishingapp.data.model.AddRemoveFriendResponse;
 import com.dev.fishingapp.data.model.AddNewAlbumResponse;
 import com.dev.fishingapp.data.model.ChangePassword;
 import com.dev.fishingapp.data.model.EpisodeListResponse;
@@ -22,6 +22,7 @@ import com.dev.fishingapp.data.model.MyAlbumResponse;
 import com.dev.fishingapp.data.model.MyFishResponse;
 import com.dev.fishingapp.data.model.SetEditProfileResponse;
 import com.dev.fishingapp.data.model.SignUpResponse;
+import com.dev.fishingapp.data.model.UpdateNewAlbumResponse;
 import com.dev.fishingapp.data.model.WatchVideoRequest;
 import com.dev.fishingapp.data.model.WatchVideoResponse;
 
@@ -49,7 +50,7 @@ public interface FishingAppService {
 
     @FormUrlEncoded
     @POST("/changepassword")
-    ChangePassword changePassword(@Header("Content-Type")String contentType,@Header("Accept") String accept,@Field("apiaction")String apiaction, @Field("uid") String uid,@Field("oldpassword") String oldPassword, @Field("newpassword") String newPassword);
+    ChangePassword changePassword(@Header("Content-Type") String contentType, @Header("Accept") String accept, @Field("apiaction") String apiaction, @Field("uid") String uid, @Field("oldpassword") String oldPassword, @Field("newpassword") String newPassword);
 
     @FormUrlEncoded
     @POST("/forgotpassword")
@@ -80,7 +81,7 @@ public interface FishingAppService {
 
     @FormUrlEncoded
     @POST("/getepisode")
-    EpisodeListResponse getEpisodeList(@Header("Content-Type") String contentType,@Header("Accept") String accept,@Field("apiaction") String apiaction ,@Field("count") String count);
+    EpisodeListResponse getEpisodeList(@Header("Content-Type") String contentType, @Header("Accept") String accept, @Field("apiaction") String apiaction, @Field("count") String count);
 
     @FormUrlEncoded
     @POST("/addnewalbum")
@@ -92,39 +93,39 @@ public interface FishingAppService {
 
     @FormUrlEncoded
     @POST("/myfishlist")
-    MyFishResponse getMyFishList(@Header("Content-Type") String contentType,@Header("Accept") String accept,@Field("apiaction") String apiaction,@Field("uid") String uid ,@Field("count") String count);
+    MyFishResponse getMyFishList(@Header("Content-Type") String contentType, @Header("Accept") String accept, @Field("apiaction") String apiaction, @Field("uid") String uid, @Field("count") String count);
 
     @FormUrlEncoded
     @POST("/myfishdetail")
-    FishDetailResponse getFishDetail(@Header("Content-Type") String contentType,@Header("Accept") String accept,@Field("apiaction") String apiaction,@Field("nid") String nid ,@Field("count") String count);
+    FishDetailResponse getFishDetail(@Header("Content-Type") String contentType, @Header("Accept") String accept, @Field("apiaction") String apiaction, @Field("nid") String nid, @Field("count") String count);
 
 
     @FormUrlEncoded
     @POST("/fishingrecords")
-    FishingRecordResponse getFishisngRecord(@Header("Content-Type") String contentType,@Header("Accept") String accept,@Field("apiaction") String apiaction,@Field("count") String count);
+    FishingRecordResponse getFishisngRecord(@Header("Content-Type") String contentType, @Header("Accept") String accept, @Field("apiaction") String apiaction, @Field("count") String count);
 
 
     @FormUrlEncoded
     @POST("/myfishinglogs")
-    FishingLogResponse getFishisngLog(@Header("Content-Type") String contentType,@Header("Accept") String accept,@Field("apiaction") String apiaction,@Field("count") String count);
+    FishingLogResponse getFishisngLog(@Header("Content-Type") String contentType, @Header("Accept") String accept, @Field("apiaction") String apiaction, @Field("count") String count);
 
 
     @FormUrlEncoded
     @POST("/myfishinglogsdetails")
-    FishingLogDetail getFishisngLogDetail(@Header("Content-Type") String contentType,@Header("Accept") String accept,@Field("apiaction") String apiaction,@Field("nid") String nid);
+    FishingLogDetail getFishisngLogDetail(@Header("Content-Type") String contentType, @Header("Accept") String accept, @Field("apiaction") String apiaction, @Field("nid") String nid);
 
     @FormUrlEncoded
     @POST("/typeoffish")
-    FishTypeResponse getFishType(@Header("Content-Type") String contentType, @Header("Accept") String accept,@Field("apiaction") String apiaction);
+    FishTypeResponse getFishType(@Header("Content-Type") String contentType, @Header("Accept") String accept, @Field("apiaction") String apiaction);
 
 
     @FormUrlEncoded
     @POST("/addnmyfish")
-    AddFishResponse addFish(@Header("Content-Type") String contentType, @Header("Accept") String accept,@Field("apiaction") String apiaction,@Field("uid") String uid,@Field("title") String title,@Field("description") String description,@Field("pbval") String pbval,@Field("typeoffishnid") String typeoffishnid,@Field("date") String date, @Field("where_caught") String whereCaught, @Field("length") String length, @Field("weight") String weight,@Field("fishimage") String fishImage);
+    AddFishResponse addFish(@Header("Content-Type") String contentType, @Header("Accept") String accept, @Field("apiaction") String apiaction, @Field("uid") String uid, @Field("title") String title, @Field("description") String description, @Field("pbval") String pbval, @Field("typeoffishnid") String typeoffishnid, @Field("date") String date, @Field("where_caught") String whereCaught, @Field("length") String length, @Field("weight") String weight, @Field("fishimage") String fishImage);
 
     @Multipart
     @POST("/addnmyfish")
-    AddFishResponse addNewFishWithFile(@Part("apiaction") TypedString apiaction, @Part("uid") TypedString uid, @Part("title") TypedString title, @Part("description") TypedString description, @Part("pbval") TypedString pbval, @Part("typeoffishnid") TypedString typeoffishnid, @Part("date") TypedString date, @Part("where_caught") TypedString where_caught, @Part("length") TypedString length, @Part("weight") TypedString weight,@Part("fishimage") TypedString fishimage, @Part("image") TypedFile image);
+    AddFishResponse addNewFishWithFile(@Part("apiaction") TypedString apiaction, @Part("uid") TypedString uid, @Part("title") TypedString title, @Part("description") TypedString description, @Part("pbval") TypedString pbval, @Part("typeoffishnid") TypedString typeoffishnid, @Part("date") TypedString date, @Part("where_caught") TypedString where_caught, @Part("length") TypedString length, @Part("weight") TypedString weight, @Part("fishimage") TypedString fishimage, @Part("image") TypedFile image);
 
     @FormUrlEncoded
     @POST("/findfriends")
@@ -133,7 +134,7 @@ public interface FishingAppService {
 
     @FormUrlEncoded
     @POST("/frienddetail")
-    FriendDetailResponse getFriendDetail(@Header("Content-Type") String contentType, @Header("Accept") String accept, @Field("apiaction") String apiaction, @Field("uid") String uid);
+    FriendDetailResponse getFriendDetail(@Header("Content-Type") String contentType, @Header("Accept") String accept, @Field("apiaction") String apiaction, @Field("uid") String uid, @Field("myuid") String myuid);
 
     @FormUrlEncoded
     @POST("/addnfishinglogs")
@@ -149,7 +150,17 @@ public interface FishingAppService {
 
     @FormUrlEncoded
     @POST("/addfriend")
-    AddFriendResponse addFriend(@Header("Content-Type") String contentType, @Header("Accept") String accept, @Field("apiaction") String apiaction, @Field("myuid") String myuid, @Field("frienduid") String frienduid);
+    AddRemoveFriendResponse addFriend(@Header("Content-Type") String contentType, @Header("Accept") String accept, @Field("apiaction") String apiaction, @Field("myuid") String myuid, @Field("frienduid") String frienduid);
+
+
+    @FormUrlEncoded
+    @POST("/removefriend")
+    AddRemoveFriendResponse removeFriend(@Header("Content-Type") String contentType, @Header("Accept") String accept, @Field("apiaction") String apiaction, @Field("myuid") String myuid, @Field("frienduid") String frienduid);
+
+
+    @Multipart
+    @POST("/updatealbum")
+    UpdateNewAlbumResponse updateAlbum(@Part("apiaction") TypedString apiaction, @Part("uid") TypedString uid, @Part("nid") TypedString nid, @Part("image") TypedFile image);
 
     @FormUrlEncoded
     @POST("/userdatabyemail")

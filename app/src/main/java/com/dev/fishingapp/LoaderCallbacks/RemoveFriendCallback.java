@@ -10,6 +10,7 @@ import android.util.Log;
 import com.dev.fishingapp.data.model.AddRemoveFriendResponse;
 import com.dev.fishingapp.loader.AbstractLoader;
 import com.dev.fishingapp.loader.AddFriendLoader;
+import com.dev.fishingapp.loader.RemoveFriendLoader;
 import com.dev.fishingapp.util.AppConstants;
 
 import retrofit.RetrofitError;
@@ -17,11 +18,11 @@ import retrofit.RetrofitError;
 /**
  * Created by user on 4/20/2016.
  */
-public class AddFriendCallback extends AddFriendLoader.AbstractLoaderCallbacks<AddRemoveFriendResponse> {
+public class RemoveFriendCallback extends AddFriendLoader.AbstractLoaderCallbacks<AddRemoveFriendResponse> {
     private String myuid, frienduid;
     private AppCompatActivity abstractActivity;
 
-    public AddFriendCallback(AppCompatActivity activity, boolean showProgressDialog, String myuid, String frienduid) {
+    public RemoveFriendCallback(AppCompatActivity activity, boolean showProgressDialog, String myuid, String frienduid) {
         super(activity, showProgressDialog);
         this.abstractActivity = activity;
         this.myuid = myuid;
@@ -31,14 +32,14 @@ public class AddFriendCallback extends AddFriendLoader.AbstractLoaderCallbacks<A
     @Override
     public void onResponse(AbstractLoader<AddRemoveFriendResponse> loader, AddRemoveFriendResponse response) {
         Log.d("on response", ">>>>");
-        Intent intent = new Intent(AppConstants.ADD_FRIEND_CALLBACK_BROADCAST);
+        Intent intent = new Intent(AppConstants.REMOVE_FRIEND_CALLBACK_BROADCAST);
         intent.putExtra("data", response);
         LocalBroadcastManager.getInstance(abstractActivity).sendBroadcast(intent);
     }
 
     @Override
     public Loader<AddRemoveFriendResponse> onCreateLoader(int id, Bundle args) {
-        return new AddFriendLoader(myuid, frienduid);
+        return new RemoveFriendLoader(myuid, frienduid);
 
     }
 

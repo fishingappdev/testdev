@@ -39,6 +39,7 @@ public class UpdateAlbumImageUtil {
     private static final String IMAGE_DIRECTORY_NAME = "FishingApp";
     private Object mParent;
     private ImageView imageView;
+    private int position;
 
     /**
      * @param parent parent should be an activity or a fragment
@@ -58,8 +59,9 @@ public class UpdateAlbumImageUtil {
         }
     }
 
-    public void updateProfilePic(int what, ImageView imageView) {
+    public void updateProfilePic(int what, ImageView imageView, int position) {
         this.imageView = imageView;
+        this.position = position;
         if (!isDeviceSupportCamera()) {
             Toast.makeText(getContext().getApplicationContext(),
                     "Sorry!! Your device doesn't support Camera",
@@ -126,7 +128,7 @@ public class UpdateAlbumImageUtil {
             b = BitmapUtils.getOrientatedScaledBitmap(file, getContext().getApplicationContext());
 //            b = ThumbnailUtils.extractThumbnail(BitmapUtils.getOrientatedScaledBitmap(file, getActivity().getApplicationContext()), THUMBSIZE, THUMBSIZE);
             // create a file to write bitmap data
-            mReturnFile = new File(getContext().getApplicationContext().getCacheDir().getAbsolutePath(), "AlbumImage.jpeg");
+            mReturnFile = new File(getContext().getApplicationContext().getCacheDir().getAbsolutePath(), "AlbumImage" + position + ".jpeg");
             // Convert bitmap to byte array
             FileOutputStream fout;
             fout = new FileOutputStream(mReturnFile);
@@ -145,7 +147,7 @@ public class UpdateAlbumImageUtil {
     }
 
     protected void performCrop(Uri picUri) {
-        Uri destination = Uri.fromFile(new File(getContext().getApplicationContext().getCacheDir(), "albumcropped.jpg"));
+        Uri destination = Uri.fromFile(new File(getContext().getApplicationContext().getCacheDir(), "albumcropped"+position+".jpg"));
         if (mParent instanceof Activity) {
             Crop.of(picUri, destination).start(((Activity) mParent), Crop.REQUEST_CROP);
         } else {
@@ -178,6 +180,7 @@ public class UpdateAlbumImageUtil {
                 FishingAppHelper.getImageLoader().displayImage(finalUri.toString(), imageView, displayImageOptions);
                 Intent intent = new Intent(AppConstants.SET_IMAGE_ALBUM_CALLBACK_BROADCAST);
                 intent.putExtra("data", finalUri.getPath().toString());
+                intent.putExtra("position", position);
                 LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
             }
 

@@ -35,12 +35,8 @@ public class AppConstants {
     public static final String LOAD_COMMENT_CALLBACK_BROADCAST = "load_comment_callback_broadcast";
     public static final String USER_PROFILE_CALLBACK_BROADCAST = "user_profile_callback_broadcast";
     public static final String FISH_CATEGORY_CALLBACK_BROADCAST = "fish_category_callback_broadcast";
-
-
-
-
-
-
+    public static final String REMOVE_FRIEND_CALLBACK_BROADCAST = "remove_friend_callback_broadcast";
+    public static final String UPDATE_ALBUM_CALLBACK_BROADCAST = "update_album_callback_broadcast";
 
 
     /*API ACTION NAMES*/
@@ -69,8 +65,6 @@ public class AppConstants {
     public static final String UPDATE_PROFILE_PIC_API_ACTION="editprofilepicapi";
     public static final String USER_PROFILE_API_ACTION="userdatabyemailapi";
     public static final String FISH_CATEGORY_API_ACTION="myfishlistbycatapi";
-
-
-
-
+    public static final String REMOVE_FRIEND_API_ACTION="removefriendapi";
+    public static final String UPDATE_ALBUM_API_ACTION = "updatealbumapi";
 }

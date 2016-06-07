@@ -11,6 +11,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -29,9 +30,12 @@ import android.widget.Toast;
 
 import com.dev.fishingapp.HomeActivity;
 import com.dev.fishingapp.LoaderCallbacks.AddNewAlbumCallback;
+import com.dev.fishingapp.LoaderCallbacks.UpdateAlbumCallback;
 import com.dev.fishingapp.R;
 import com.dev.fishingapp.data.model.AddNewAlbumRequest;
 import com.dev.fishingapp.data.model.AddNewAlbumResponse;
+import com.dev.fishingapp.data.model.UpdateNewAlbumResponse;
+import com.dev.fishingapp.myalbum.support.CustomAddAlbumPagerAdapter;
 import com.dev.fishingapp.util.AlertMessageDialog;
 import com.dev.fishingapp.util.AppConstants;
 import com.dev.fishingapp.util.FishingPreferences;
@@ -39,8 +43,7 @@ import com.dev.fishingapp.util.UpdateAlbumImageUtil;
 import com.dev.fishingapp.util.UpdateImageUtil;
 
 import java.io.File;
-
-import retrofit.mime.TypedFile;
+import java.util.ArrayList;
 
 /**
  * Created by user on 4/21/2016.
@@ -52,10 +55,14 @@ public class AddAlbumDialogFragment extends DialogFragment implements View.OnCli
     private LoaderManager loaderManager;
     private EditText et_title, et_details, et_location, et_street_address;
     Button save_btn;
-    ImageView fish_img;
-    String image_url;
+    private ViewPager pager;
     UpdateAlbumImageUtil updateImageUtil;
     SetAlbumBroadcastReceiver setAlbumBroadcastReceiver;
+    UpdateAlbumBroadcastReceiver updateReceiver;
+    private CustomAddAlbumPagerAdapter adapter;
+    private ArrayList<String> urlList;
+    private int lastUploaded = -1;
+    AddNewAlbumResponse response;
 
 
     @Override
@@ -83,15 +90,34 @@ public class AddAlbumDialogFragment extends DialogFragment implements View.OnCli
         et_location = (EditText) view.findViewById(R.id.et_details);
         et_street_address = (EditText) view.findViewById(R.id.et_street_address);
         save_btn = (Button) view.findViewById(R.id.save_btn);
-        fish_img = (ImageView) view.findViewById(R.id.fish_img);
+        pager = (ViewPager) view.findViewById(R.id.pager);
         values = getResources().getStringArray(R.array.countries_array);
         ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, values);
         spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        urlList = new ArrayList<>();
+        for (int i = 0; i < 4; i++)
+            urlList.add("");
+        adapter = new CustomAddAlbumPagerAdapter(getActivity(), urlList, uploadClick);
+        pager.setAdapter(adapter);
+        pager.setOffscreenPageLimit(4);
         mCountry.setAdapter(spinnerArrayAdapter);
         mCountry.setOnClickListener(this);
         save_btn.setOnClickListener(this);
-        fish_img.setOnClickListener(this);
-        updateImageUtil = ((HomeActivity)getActivity()).getUpdateAlbumImageUtil();
+        updateImageUtil = ((HomeActivity) getActivity()).getUpdateAlbumImageUtil();
+        registerReceivers();
+    }
+
+    private void registerReceivers() {
+        LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(getActivity());
+        IntentFilter intentFilter = new IntentFilter(AppConstants.ADD_ALBUM_CALLBACK_BROADCAST);
+        receiver = new AddAlbumBroadcastReceiver();
+        localBroadcastManager.registerReceiver(receiver, intentFilter);
+        setAlbumBroadcastReceiver = new SetAlbumBroadcastReceiver();
+        intentFilter = new IntentFilter(AppConstants.SET_IMAGE_ALBUM_CALLBACK_BROADCAST);
+        localBroadcastManager.registerReceiver(setAlbumBroadcastReceiver, intentFilter);
+        updateReceiver = new UpdateAlbumBroadcastReceiver();
+        intentFilter = new IntentFilter(AppConstants.UPDATE_ALBUM_CALLBACK_BROADCAST);
+        localBroadcastManager.registerReceiver(updateReceiver, intentFilter);
     }
 
     @Override
@@ -104,13 +130,6 @@ public class AddAlbumDialogFragment extends DialogFragment implements View.OnCli
         int width = size.x;
         int height = size.y;
         window.setLayout(width, WindowManager.LayoutParams.MATCH_PARENT);
-        LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(getActivity());
-        IntentFilter intentFilter = new IntentFilter(AppConstants.ADD_ALBUM_CALLBACK_BROADCAST);
-        receiver = new AddAlbumBroadcastReceiver();
-        localBroadcastManager.registerReceiver(receiver, intentFilter);
-        setAlbumBroadcastReceiver = new SetAlbumBroadcastReceiver();
-        intentFilter = new IntentFilter(AppConstants.SET_IMAGE_ALBUM_CALLBACK_BROADCAST);
-        localBroadcastManager.registerReceiver(setAlbumBroadcastReceiver, intentFilter);
     }
 
     @Override
@@ -122,9 +141,9 @@ public class AddAlbumDialogFragment extends DialogFragment implements View.OnCli
             case R.id.save_btn:
                 addAlbum();
                 break;
-            case R.id.fish_img:
-                showImageOptions();
-                break;
+//            case R.id.fish_img:
+//                showImageOptions();
+//                break;
         }
     }
 
@@ -136,10 +155,32 @@ public class AddAlbumDialogFragment extends DialogFragment implements View.OnCli
                 if (intent.getSerializableExtra("data") != null) {
                     AddNewAlbumResponse response = (AddNewAlbumResponse) intent.getSerializableExtra("data");
                     if (response.getFaultcode() == 1) {
-                        Intent loadIntent = new Intent(AppConstants.LOAD_ALBUM_LIST_CALLBACK_BROADCAST);
-                        intent.putExtra("data", response);
-                        LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(loadIntent);
-                        AddAlbumDialogFragment.this.dismiss();
+                        LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(getActivity());
+                        localBroadcastManager.unregisterReceiver(receiver);
+                        lastUploaded++;
+                        AddAlbumDialogFragment.this.response = response;
+                        uploadRestImages();
+                    } else {
+                        AlertMessageDialog dialog = new AlertMessageDialog(getActivity(), getString(R.string.error_txt), response.getMessage());
+                        dialog.setAcceptButtonText(getString(R.string.ok_txt));
+                        dialog.show();
+                    }
+                }
+
+            }
+        }
+    }
+
+    class UpdateAlbumBroadcastReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction().equalsIgnoreCase(AppConstants.UPDATE_ALBUM_CALLBACK_BROADCAST)) {
+                if (intent.getSerializableExtra("data") != null) {
+                    UpdateNewAlbumResponse response = (UpdateNewAlbumResponse) intent.getSerializableExtra("data");
+                    if (response.getFaultcode() == 1) {
+                        lastUploaded++;
+                        uploadRestImages();
                     } else {
                         AlertMessageDialog dialog = new AlertMessageDialog(getActivity(), getString(R.string.error_txt), response.getMessage());
                         dialog.setAcceptButtonText(getString(R.string.ok_txt));
@@ -152,30 +193,41 @@ public class AddAlbumDialogFragment extends DialogFragment implements View.OnCli
     }
 
 
+    private void uploadRestImages() {
+        if (lastUploaded >= (urlList.size() - 1) || TextUtils.isEmpty(urlList.get(lastUploaded + 1))) {
+            finishAddAlbum(response);
+        } else {
+            File photoFile = new File(urlList.get(lastUploaded + 1));
+            loaderManager.initLoader(R.id.loader_addalbum, null, new UpdateAlbumCallback((AppCompatActivity) getActivity(), true, response.getNid(), photoFile));
+        }
+    }
+
+    private void finishAddAlbum(AddNewAlbumResponse response) {
+        Intent loadIntent = new Intent(AppConstants.LOAD_ALBUM_LIST_CALLBACK_BROADCAST);
+        loadIntent.putExtra("data", response);
+        LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(loadIntent);
+        AddAlbumDialogFragment.this.dismiss();
+    }
+
+
     class SetAlbumBroadcastReceiver extends BroadcastReceiver {
 
         @Override
         public void onReceive(Context context, Intent intent) {
             if (intent.getAction().equalsIgnoreCase(AppConstants.SET_IMAGE_ALBUM_CALLBACK_BROADCAST)) {
                 if (intent.getStringExtra("data") != null) {
-                    image_url = intent.getStringExtra("data");
+                    String image_url = intent.getStringExtra("data");
+                    int position = intent.getIntExtra("position", 0);
+                    urlList.set(position, image_url);
                 }
             }
         }
     }
 
 
-    @Override
-    public void onStop() {
-        super.onStop();
-        LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(getActivity());
-        localBroadcastManager.unregisterReceiver(receiver);
-    }
-
     public void addAlbum() {
         String uid, title, description, locname, street, additional, country_name, country, albumimage;
-        TypedFile photoTypedFile = null;
-        File photoFile=null;
+        File photoFile = null;
         uid = FishingPreferences.getInstance().getCurrentUserId();
         title = et_title.getText().toString();
         description = et_details.getText().toString();
@@ -184,12 +236,11 @@ public class AddAlbumDialogFragment extends DialogFragment implements View.OnCli
         additional = "";
         country_name = "";
         country = mCountry.getText().toString();
-        if (TextUtils.isEmpty(image_url)) {
+        if (TextUtils.isEmpty(urlList.get(0))) {
             albumimage = "no";
         } else {
             albumimage = "yes";
-            photoFile = new File(image_url);
-            photoTypedFile = new TypedFile("image/*", photoFile);
+            photoFile = new File(urlList.get(0));
         }
         if (TextUtils.isEmpty(title)) {
             Toast.makeText(getActivity(), R.string.empty_album_title, Toast.LENGTH_SHORT).show();
@@ -197,10 +248,27 @@ public class AddAlbumDialogFragment extends DialogFragment implements View.OnCli
         }
 
         AddNewAlbumRequest addNewAlbumRequest = new AddNewAlbumRequest(uid, title, description, locname, street, additional, country_name, country, albumimage, photoFile);
-        loaderManager.initLoader(R.id.loader_myalbumdetails, null, new AddNewAlbumCallback((AppCompatActivity) getActivity(), true, addNewAlbumRequest));
+        loaderManager.initLoader(R.id.loader_addalbum, null, new AddNewAlbumCallback((AppCompatActivity) getActivity(), true, addNewAlbumRequest));
     }
 
-    private void showImageOptions() {
+    View.OnClickListener uploadClick = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            int position = (int) view.getTag();
+            boolean canUpload = true;
+            for (int i = 0; i < position; i++) {
+                if (TextUtils.isEmpty(urlList.get(i))) {
+                    canUpload = false;
+                    break;
+                }
+            }
+            if (canUpload)
+                showImageOptions(view, position);
+        }
+    };
+
+
+    private void showImageOptions(final View view, final int position) {
         ((HomeActivity) getActivity()).setAlbum(true);
         final CharSequence[] items = {
                 "Gallery", "Camera"
@@ -212,11 +280,11 @@ public class AddAlbumDialogFragment extends DialogFragment implements View.OnCli
             public void onClick(DialogInterface dialog, int item) {
                 switch (item) {
                     case 0: {
-                        updateImageUtil.updateProfilePic(UpdateImageUtil.GALLERY_CAPTURE_IMAGE_REQUEST_CODE, fish_img);
+                        updateImageUtil.updateProfilePic(UpdateImageUtil.GALLERY_CAPTURE_IMAGE_REQUEST_CODE, (ImageView) view, position);
                     }
                     break;
                     case 1: {
-                        updateImageUtil.updateProfilePic(UpdateImageUtil.CAMERA_CAPTURE_IMAGE_REQUEST_CODE, fish_img);
+                        updateImageUtil.updateProfilePic(UpdateImageUtil.CAMERA_CAPTURE_IMAGE_REQUEST_CODE, (ImageView) view, position);
                     }
                     break;
                 }
@@ -230,6 +298,7 @@ public class AddAlbumDialogFragment extends DialogFragment implements View.OnCli
     public void onDismiss(DialogInterface dialog) {
         LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(getActivity());
         localBroadcastManager.unregisterReceiver(setAlbumBroadcastReceiver);
+        localBroadcastManager.unregisterReceiver(updateReceiver);
         super.onDismiss(dialog);
     }
 }
