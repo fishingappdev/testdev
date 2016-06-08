@@ -25,11 +25,13 @@ import com.dev.fishingapp.LoaderCallbacks.MyAlbumDetailCallback;
 import com.dev.fishingapp.R;
 import com.dev.fishingapp.data.model.MyAlbumDetailResponse;
 import com.dev.fishingapp.data.model.MyAlbumDetails;
+import com.dev.fishingapp.fishinglog.fragment.AddCommentFragment;
 import com.dev.fishingapp.myalbum.support.CustomGridAdapter;
 import com.dev.fishingapp.myalbum.support.CustomPagerAdapter;
 import com.dev.fishingapp.support.BaseToolbarFragment;
 import com.dev.fishingapp.util.AlertMessageDialog;
 import com.dev.fishingapp.util.AppConstants;
+import com.dev.fishingapp.util.Utils;
 
 import java.util.ArrayList;
 
@@ -49,7 +51,9 @@ public class AlbumDetailFragment extends BaseToolbarFragment implements View.OnC
     private TextView description, location, country_list;
     private LinearLayout comment_list;
     LayoutInflater inflater;
-    private Button add_comments;
+    private LinearLayout mCommentLayout;
+    private Button mCommentBtn;
+    private AddCommentBroadcastReceiver coomentReceiver;
 
     @Nullable
     @Override
@@ -70,11 +74,11 @@ public class AlbumDetailFragment extends BaseToolbarFragment implements View.OnC
         location = (TextView) view.findViewById(R.id.location);
         country_list = (TextView) view.findViewById(R.id.country);
         comment_list = (LinearLayout) view.findViewById(R.id.comment_list);
-        add_comments = (Button) view.findViewById(R.id.add_comments);
+        mCommentBtn = (Button) view.findViewById(R.id.CommentBtn);
+        mCommentLayout = (LinearLayout) view.findViewById(R.id.commentView);
         inflater = LayoutInflater.from(getActivity());
-        add_comments.setOnClickListener(this);
         loaderManager = getActivity().getSupportLoaderManager();
-        loaderManager.initLoader(R.id.loader_myalbumdetails, null, new MyAlbumDetailCallback((AppCompatActivity) getActivity(), true, nid));
+        loadAlbumDetails();
     }
 
     @Override
@@ -92,10 +96,6 @@ public class AlbumDetailFragment extends BaseToolbarFragment implements View.OnC
                 if (curIndex > 0) {
                     pager.setCurrentItem(curIndex - 1, true);
                 }
-            }
-            break;
-            case R.id.add_comments: {
-
             }
             break;
         }
@@ -144,23 +144,30 @@ public class AlbumDetailFragment extends BaseToolbarFragment implements View.OnC
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
+    public void onAttach(Context context) {
+        super.onAttach(context);
         LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(getActivity());
         IntentFilter intentFilter = new IntentFilter(AppConstants.MY_ALBUM_DETAIL_CALLBACK_BROADCAST);
         receiver = new MyAlbumBroadcastReceiver();
         localBroadcastManager.registerReceiver(receiver, intentFilter);
-
+        IntentFilter commentFilter = new IntentFilter(AppConstants.LOAD_COMMENT_CALLBACK_BROADCAST);
+        coomentReceiver = new AddCommentBroadcastReceiver();
+        localBroadcastManager.registerReceiver(coomentReceiver, commentFilter);
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
+    public void onDetach() {
         LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(getActivity());
         localBroadcastManager.unregisterReceiver(receiver);
+        super.onDetach();
     }
 
-    private void setUpUI(MyAlbumDetails myAlbumDetails) {
+    private void setUpUI(final MyAlbumDetails myAlbumDetails) {
+        if(myAlbumDetails.getComment().size()==0){
+            mCommentLayout.setVisibility(View.GONE);
+        }else {
+            mCommentLayout.setVisibility(View.VISIBLE);
+        }
         urlList.addAll(myAlbumDetails.getImageurl());
         customGridAdapter = new CustomGridAdapter(getActivity(), urlList);
         customPagerAdapter = new CustomPagerAdapter(getActivity(), urlList);
@@ -176,19 +183,42 @@ public class AlbumDetailFragment extends BaseToolbarFragment implements View.OnC
             country_list.setText(strCountryList);
         }
 
-        location.setText(myAlbumDetails.getLocation().getName() + "\n" + myAlbumDetails.getLocation().getStreet() + "\n" + myAlbumDetails.getLocation().getCountry_name());
-        if (myAlbumDetails.getComment() != null && myAlbumDetails.getComment().size() > 0) {
-            ArrayList<String> commentList = myAlbumDetails.getComment();
-            for (String comment : commentList) {
-                TextView comment_title, comment_description, submitted_by;
-                LinearLayout view = (LinearLayout) inflater.inflate(R.layout.album_comment_row, comment_list, false);
-                comment_title = (TextView) view.findViewById(R.id.comment_title);
-                comment_description = (TextView) view.findViewById(R.id.comment_description);
-                submitted_by = (TextView) view.findViewById(R.id.submitted_by);
-                comment_title.setText(comment);
-                comment_list.addView(view);
+        mCommentBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), AddCommentFragment.class);
+                intent.putExtra("nid", myAlbumDetails.getNid());
+                startActivity(intent);
+
             }
+        });
+
+        location.setText(myAlbumDetails.getLocation().getName() + "\n" + myAlbumDetails.getLocation().getStreet() + "\n" + myAlbumDetails.getLocation().getCountry_name());
+        for (int i = 0; i < myAlbumDetails.getComment().size(); i++) {
+            View layout2 = LayoutInflater.from(getActivity()).inflate(R.layout.view_comment, mCommentLayout, false);
+            TextView title = (TextView) layout2.findViewById(R.id.commentTitle);
+            TextView description = (TextView) layout2.findViewById(R.id.commentBody);
+            TextView author = (TextView) layout2.findViewById(R.id.commentAuthor);
+            title.setText(myAlbumDetails.getComment().get(i).getSubject());
+            description.setText(myAlbumDetails.getComment().get(i).getComment_body());
+            author.setText(getString(R.string.submitted_by) + " " + myAlbumDetails.getComment().get(i).getRegistered_name() + " on " + Utils.ConvertMilliSecondsToFormattedDate(myAlbumDetails.getComment().get(i).getCreated()));
+            mCommentLayout.addView(layout2);
         }
 
     }
+
+    public class AddCommentBroadcastReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction().equalsIgnoreCase(AppConstants.LOAD_COMMENT_CALLBACK_BROADCAST)) {
+                loadAlbumDetails();
+            }
+        }
+    }
+
+    private void loadAlbumDetails() {
+        loaderManager.initLoader(R.id.loader_myalbumdetails, null, new MyAlbumDetailCallback((AppCompatActivity) getActivity(), true, nid));
+    }
+
 }

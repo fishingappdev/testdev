@@ -121,18 +121,22 @@
                     android:textColor="@color/drawer_bg" />
 
                 <LinearLayout
-                    android:id="@+id/comment_list"
+                    android:id="@+id/commentView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/dp_10"
                     android:layout_marginRight="@dimen/dp_10"
-                    android:orientation="vertical">
+                    android:layout_marginTop="@dimen/dp_10"
+                    android:background="@color/commment_bg"
+                    android:orientation="vertical"
+                    android:padding="@dimen/dp_10"
+                    android:visibility="gone">
 
 
                 </LinearLayout>
 
                 <Button
-                    android:id="@+id/add_comments"
+                    android:id="@+id/CommentBtn"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/dp_10"

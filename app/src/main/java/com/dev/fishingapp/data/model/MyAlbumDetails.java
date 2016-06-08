@@ -12,7 +12,7 @@ public class MyAlbumDetails implements Serializable {
     String body;
     ArrayList<String> imageurl;
     ArrayList<String> country;
-    ArrayList<String> comment;
+    ArrayList<FishingLogComment> comment;
     Location location;
 
     public String getNid() {
@@ -55,19 +55,19 @@ public class MyAlbumDetails implements Serializable {
         this.country = country;
     }
 
-    public ArrayList<String> getComment() {
-        return comment;
-    }
-
-    public void setComment(ArrayList<String> comment) {
-        this.comment = comment;
-    }
-
     public Location getLocation() {
         return location;
     }
 
     public void setLocation(Location location) {
         this.location = location;
+    }
+
+    public ArrayList<FishingLogComment> getComment() {
+        return comment;
+    }
+
+    public void setComment(ArrayList<FishingLogComment> comment) {
+        this.comment = comment;
     }
 }
