@@ -85,7 +85,7 @@ public interface FishingAppService {
 
     @FormUrlEncoded
     @POST("/addnewalbum")
-    AddNewAlbumResponse addNewAlbum(@Field("apiaction") String apiaction, @Field("uid") String uid, @Field("title") String title, @Field("description") String description, @Field("locname") String locname, @Field("street") String street, @Field("additional") String additional, @Field("country_name") String country_name, @Field("country") String country, @Part("albumimage") String albumimage);
+    AddNewAlbumResponse addNewAlbum(@Field("apiaction") String apiaction, @Field("uid") String uid, @Field("title") String title, @Field("description") String description, @Field("locname") String locname, @Field("street") String street, @Field("additional") String additional, @Field("country_name") String country_name, @Field("country") String country, @Field("albumimage") String albumimage);
 
     @Multipart
     @POST("/addnewalbum")

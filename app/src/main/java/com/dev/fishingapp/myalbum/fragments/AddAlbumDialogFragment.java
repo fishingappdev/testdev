@@ -297,6 +297,7 @@ public class AddAlbumDialogFragment extends DialogFragment implements View.OnCli
     @Override
     public void onDismiss(DialogInterface dialog) {
         LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(getActivity());
+        localBroadcastManager.unregisterReceiver(receiver);
         localBroadcastManager.unregisterReceiver(setAlbumBroadcastReceiver);
         localBroadcastManager.unregisterReceiver(updateReceiver);
         super.onDismiss(dialog);

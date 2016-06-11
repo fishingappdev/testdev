@@ -97,7 +97,8 @@ public class MyAlbumFragment extends BaseToolbarFragment implements AdapterView.
             bundle.putString("nid", myAlbumArraylist.get(position).getNid());
             AlbumDetailFragment frag = new AlbumDetailFragment();
             frag.setArguments(bundle);
-            fm.beginTransaction().add(R.id.content_frame, frag).hide(this).addToBackStack(null).commit();
+            ((HomeActivity)getActivity()).setCurrentFragment(frag);
+            fm.beginTransaction().replace(R.id.content_frame, frag).addToBackStack("back").commit();
         }
 
     }
@@ -153,8 +154,8 @@ public class MyAlbumFragment extends BaseToolbarFragment implements AdapterView.
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
+    public void onAttach(Context context) {
+        super.onAttach(context);
         LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(getActivity());
         IntentFilter intentFilter = new IntentFilter(AppConstants.MY_ALBUM_CALLBACK_BROADCAST);
         receiver = new MyAlbumBroadcastReceiver();
@@ -166,8 +167,8 @@ public class MyAlbumFragment extends BaseToolbarFragment implements AdapterView.
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
+    public void onDetach() {
+        super.onDetach();
         LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(getActivity());
         localBroadcastManager.unregisterReceiver(receiver);
         localBroadcastManager.unregisterReceiver(loadAlbumBroadcastReceiver);

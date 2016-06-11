@@ -79,8 +79,8 @@ public class FishCategoryFragment extends BaseToolbarFragment implements Adapter
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
+    public void onAttach(Context context) {
+        super.onAttach(context);
         Log.d("My Fish category", "On RESUME");
         LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(getActivity());
         IntentFilter intentFilter = new IntentFilter(AppConstants.FISH_CATEGORY_CALLBACK_BROADCAST);
@@ -90,8 +90,8 @@ public class FishCategoryFragment extends BaseToolbarFragment implements Adapter
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
+    public void onDetach() {
+        super.onDetach();
         Log.d("My Fish category", "On stop");
         LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(getActivity());
         localBroadcastManager.unregisterReceiver(receiver);

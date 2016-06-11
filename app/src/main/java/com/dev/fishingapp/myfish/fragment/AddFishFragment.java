@@ -161,8 +161,8 @@ public class AddFishFragment extends BaseToolbarFragment implements OnClickListe
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
+    public void onAttach(Context context) {
+        super.onAttach(context);
         Log.d("Add Fish", "On Resume" + ">>>>>");
 
         LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(getActivity());
@@ -182,8 +182,8 @@ public class AddFishFragment extends BaseToolbarFragment implements OnClickListe
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
+    public void onDetach() {
+        super.onDetach();
         Log.d("Add Fish", "On Stop" + ">>>>>");
         LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(getActivity());
         localBroadcastManager.unregisterReceiver(receiver);

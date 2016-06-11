@@ -192,7 +192,7 @@ public class AlbumDetailFragment extends BaseToolbarFragment implements View.OnC
 
             }
         });
-
+        mCommentLayout.removeAllViews();
         location.setText(myAlbumDetails.getLocation().getName() + "\n" + myAlbumDetails.getLocation().getStreet() + "\n" + myAlbumDetails.getLocation().getCountry_name());
         for (int i = 0; i < myAlbumDetails.getComment().size(); i++) {
             View layout2 = LayoutInflater.from(getActivity()).inflate(R.layout.view_comment, mCommentLayout, false);
