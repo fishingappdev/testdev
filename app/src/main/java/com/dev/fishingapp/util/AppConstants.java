@@ -66,6 +66,7 @@ public class AppConstants {
     public static final String FISH_TYPE_API_ACTION="typeoffishapi";
     public static final String ADD_FISH_API_ACTION="addnmyfishapi";
     public static final String FRIENDS_API_ACTION="findfriendsapi";
+    public static final String MY_FRIENDS_API_ACTION="myfriendsapi";
     public static final String FRIEND_DETAILS_API_ACTION="frienddetailapi";
     public static final String ADD_FRIEND_API_ACTION="addfriendapi";
     public static final String ADD_FISH_LOG_API_ACTION="addnfishinglogsapi";

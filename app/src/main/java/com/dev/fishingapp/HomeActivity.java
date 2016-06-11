@@ -85,8 +85,20 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
     UpdateImageUtil.UpdateProfileImageBroadcastReceiver receiver;
     private DotsProgressBar dotsProgressBar;
     DisplayImageOptions options;
-
     FishingLogDetail.AddCommentBroadcastReceiver mreceiver;
+    private boolean locked;
+
+    public static final int MY_PROFILE = 0;
+    public static final int MY_FISH = 1;
+    public static final int MY_FRIENDS = 2;
+    public static final int FIND_FRIENDS = 3;
+    public static final int ALBUM = 4;
+    public static final int FISHING_LOG = 5;
+    public static final int EPISODE_LIST = 6;
+    public static final int FISHING_RECORD = 7;
+    public static final int CHANGE_PASSWORD = 8;
+
+    private int selectedFragment = MY_FISH;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -98,11 +110,6 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
         center_logo = (ImageView) tb.findViewById(R.id.center_logo);
         // Get the ActionBar here to configure the way it behaves.
         final ActionBar ab = getSupportActionBar();
-        //ab.setHomeAsUpIndicator(R.drawable.ic_menu); // set a custom icon for the default home button
-        ab.setDisplayShowHomeEnabled(true); // show or hide the default home button
-        ab.setDisplayHomeAsUpEnabled(true);
-        ab.setDisplayShowCustomEnabled(true); // enable overriding the default toolbar layout
-        ab.setDisplayShowTitleEnabled(false);
         mHeader = (TextView) tb.findViewById(R.id.title);
         mAddFishBtn = (Button) tb.findViewById(R.id.add_fish);
         mAddLogBtn = (Button) tb.findViewById(R.id.add_log);
@@ -110,7 +117,7 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
         updateAlbumImageUtil = UpdateAlbumImageUtil.getInstance(this);
         mRightOption = (ImageView) tb.findViewById(R.id.iv_right);
         logoutbtn = (TextView) findViewById(R.id.logout);
-        userName=(TextView)findViewById(R.id.username);
+        userName = (TextView) findViewById(R.id.username);
         logoutbtn.setOnClickListener(this);
 
         FacebookSdk.sdkInitialize(getApplicationContext());
@@ -128,17 +135,14 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
         navMenuTitles = getResources().getStringArray(R.array.navigation_drawer_items_array);
 
         // adding nav drawer items to array
-        navDrawerItems.add(new NavDrawerItem(navMenuTitles[0]));
-        navDrawerItems.add(new NavDrawerItem(navMenuTitles[1]));
-        navDrawerItems.add(new NavDrawerItem(navMenuTitles[2]));
-        navDrawerItems.add(new NavDrawerItem(navMenuTitles[3]));
-        navDrawerItems.add(new NavDrawerItem(navMenuTitles[4]));
-        navDrawerItems.add(new NavDrawerItem(navMenuTitles[5]));
-        if (!FishingPreferences.getInstance().getIsSocailLogin()) {
-            navDrawerItems.add(new NavDrawerItem(navMenuTitles[6]));
+        for (int i = 0; i < navMenuTitles.length - 2; i++) {
+            navDrawerItems.add(new NavDrawerItem(navMenuTitles[i]));
         }
-        if(!FishingPreferences.getInstance().getIsSocailLogin()) {
-            navDrawerItems.add(new NavDrawerItem(navMenuTitles[7]));
+        if (!FishingPreferences.getInstance().getIsSocailLogin()) {
+            navDrawerItems.add(new NavDrawerItem(navMenuTitles[navMenuTitles.length - 2]));
+        }
+        if (!FishingPreferences.getInstance().getIsSocailLogin()) {
+            navDrawerItems.add(new NavDrawerItem(navMenuTitles[navMenuTitles.length - 1]));
         }
 
         // setting the nav drawer list adapter
@@ -162,21 +166,31 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
         mDrawerLayout.setDrawerListener(mDrawerToggle);
 
         // enabling action bar app icon and behaving it as toggle button
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.sidebar_ic);
-
+        locked = getIntent().getBooleanExtra("locked", false);
+        if (locked) {
+            mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+            ab.setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setHomeAsUpIndicator(R.drawable.white_close);
+            selectedFragment = getIntent().getIntExtra("selected_fragment", MY_FISH);
+        } else {
+            ab.setDisplayShowHomeEnabled(true); // show or hide the default home button
+            ab.setDisplayHomeAsUpEnabled(true);
+            ab.setDisplayShowCustomEnabled(true); // enable overriding the default toolbar layout
+            ab.setDisplayShowTitleEnabled(false);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setHomeButtonEnabled(true);
+            getSupportActionBar().setHomeAsUpIndicator(R.drawable.sidebar_ic);
+        }
 
         if (savedInstanceState == null) {
             // on first time display view for first nav item
-            displayView(1);
+            displayView(selectedFragment);
         }
 
-
         //set username
-        String username=FishingPreferences.getInstance().getCurrentUsername();
+        String username = FishingPreferences.getInstance().getCurrentUsername();
         userName.setText(username);
-        String profileImageUrl=FishingPreferences.getInstance().getProfileImageUrl();
+        String profileImageUrl = FishingPreferences.getInstance().getProfileImageUrl();
 
         dotsProgressBar = new DotsProgressBar(this, mProfilePic);
         options = new DisplayImageOptions.Builder()
@@ -238,7 +252,7 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
                 FishingPreferences.getInstance().saveCurrentUserId("");
                 FishingPreferences.getInstance().saveCurrentUsername("");
                 FishingPreferences.getInstance().setProfileImageUrl("");
-                if(FishingPreferences.getInstance().getIsSocailLogin()){
+                if (FishingPreferences.getInstance().getIsSocailLogin()) {
                     LoginManager.getInstance().logOut();
                     FishingPreferences.getInstance().setIsSocialLogin(false);
                 }
@@ -272,17 +286,29 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // toggle nav drawer on selecting action bar app icon/title
-        if (mDrawerToggle.onOptionsItemSelected(item)) {
+        // Handle action bar actions click
+        if (!locked && mDrawerToggle.onOptionsItemSelected(item)) {
             return true;
         }
-        // Handle action bar actions click
+        boolean toReturn = super.onOptionsItemSelected(item);
         switch (item.getItemId()) {
+            case android.R.id.home: {
+                if (locked) {
+                    finish();
+                    toReturn = true;
+                } else {
+                    toReturn = super.onOptionsItemSelected(item);
+                }
+            }
+            break;
             case R.id.action_settings:
-                return true;
+                toReturn = true;
+                break;
             default:
-                return super.onOptionsItemSelected(item);
+                toReturn = super.onOptionsItemSelected(item);
+                break;
         }
+        return toReturn;
     }
 
     /* *
@@ -304,28 +330,47 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
         // update the main content by replacing fishinglog
         Fragment fragment = null;
         switch (position) {
-            case 0:
+            case MY_PROFILE:
                 fragment = new MyProfile();
                 break;
-            case 1:
+            case MY_FISH:
                 fragment = new MyFishFragment();
                 break;
-            case 2:
+            case MY_FRIENDS: {
                 fragment = new MyFriendsFragment();
-                break;
-            case 3:
+                Bundle bundle = new Bundle();
+                bundle.putString("uid", getIntent().getStringExtra("uid"));
+                fragment.setArguments(bundle);
+            }
+            break;
+            case FIND_FRIENDS: {
+                fragment = new MyFriendsFragment();
+                Bundle bundle = new Bundle();
+                bundle.putBoolean("find_friends", true);
+                fragment.setArguments(bundle);
+            }
+            break;
+            case ALBUM: {
                 fragment = new MyAlbumFragment();
-                break;
-            case 4:
+                Bundle bundle = new Bundle();
+                bundle.putString("uid", getIntent().getStringExtra("uid"));
+                fragment.setArguments(bundle);
+            }
+            break;
+            case FISHING_LOG: {
                 fragment = new FishingLog();
-                break;
-            case 5:
+                Bundle bundle = new Bundle();
+                bundle.putString("uid", getIntent().getStringExtra("uid"));
+                fragment.setArguments(bundle);
+            }
+            break;
+            case EPISODE_LIST:
                 fragment = new MyEpisodeList();
                 break;
-            case 6:
+            case FISHING_RECORD:
                 fragment = new FishingRecordFRagmnet();
                 break;
-            case 7:
+            case CHANGE_PASSWORD:
                 fragment = new ChangePassword();
                 break;
 
@@ -437,7 +482,7 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
         super.onResume();
         LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(this);
         IntentFilter intentFilter = new IntentFilter(AppConstants.UPDATE_PROFILE_PIC_CALLBACK_BROADCAST);
-        receiver =updateImageUtil.new UpdateProfileImageBroadcastReceiver();
+        receiver = updateImageUtil.new UpdateProfileImageBroadcastReceiver();
         localBroadcastManager.registerReceiver(receiver, intentFilter);
 
      /*   localBroadcastManager.registerReceiver(receiver, intentFilter);
@@ -451,7 +496,7 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
         super.onStop();
         LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(this);
         localBroadcastManager.unregisterReceiver(receiver);
-       // localBroadcastManager.unregisterReceiver(mreceiver);
+        // localBroadcastManager.unregisterReceiver(mreceiver);
     }
 
    @Override

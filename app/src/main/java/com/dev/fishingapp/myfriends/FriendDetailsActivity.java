@@ -11,10 +11,12 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.dev.fishingapp.AbstractActivity;
+import com.dev.fishingapp.HomeActivity;
 import com.dev.fishingapp.LoaderCallbacks.AddFriendCallback;
 import com.dev.fishingapp.LoaderCallbacks.FriendDetailCallback;
 import com.dev.fishingapp.LoaderCallbacks.RemoveFriendCallback;
@@ -40,6 +42,7 @@ public class FriendDetailsActivity extends AbstractActivity {
     private AddFriendBroadcastReceiver addreceiver;
     private RemoveFriendBroadcastReceiver removereceiver;
     FriendData data;
+    private Button btn_my_albums, btn_my_friends, btn_my_fishing_log;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -132,6 +135,9 @@ public class FriendDetailsActivity extends AbstractActivity {
         TextView about_me_description = (TextView) findViewById(R.id.about_me_description);
         TextView tv_preferences = (TextView) findViewById(R.id.tv_preferences);
         TextView tv_add_friemd = (TextView) findViewById(R.id.tv_add_friemd);
+        btn_my_albums = (Button) findViewById(R.id.btn_my_albums);
+        btn_my_fishing_log = (Button) findViewById(R.id.btn_my_fishing_log);
+        btn_my_friends = (Button) findViewById(R.id.btn_my_friends);
         mHeader.setText(data.getName());
         tv_title.setText(data.getName());
         tv_country.setText(data.getField_country());
@@ -162,6 +168,37 @@ public class FriendDetailsActivity extends AbstractActivity {
                 } else {
                     loaderManager.initLoader(R.id.loader_remove_friends, null, new RemoveFriendCallback(FriendDetailsActivity.this, true, FishingPreferences.getInstance().getCurrentUserId(), data.getUid()));
                 }
+            }
+        });
+        btn_my_albums.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(FriendDetailsActivity.this, HomeActivity.class);
+                intent.putExtra("locked", true);
+                intent.putExtra("selected_fragment", HomeActivity.ALBUM);
+                intent.putExtra("uid", data.getUid());
+                startActivity(intent);
+            }
+        });
+
+        btn_my_fishing_log.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(FriendDetailsActivity.this, HomeActivity.class);
+                intent.putExtra("locked", true);
+                intent.putExtra("selected_fragment", HomeActivity.FISHING_LOG);
+                intent.putExtra("uid", data.getUid());
+                startActivity(intent);
+            }
+        });
+        btn_my_friends.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(FriendDetailsActivity.this, HomeActivity.class);
+                intent.putExtra("locked", true);
+                intent.putExtra("selected_fragment", HomeActivity.MY_FRIENDS);
+                intent.putExtra("uid", data.getUid());
+                startActivity(intent);
             }
         });
     }

@@ -19,12 +19,16 @@ import retrofit.RetrofitError;
  */
 public class FriendsCallback extends FriendLoader.AbstractLoaderCallbacks<FriendsResponse> {
     private String searchby;
+    private String uid;
+    private boolean find_friends;
     private AppCompatActivity abstractActivity;
 
-    public FriendsCallback(AppCompatActivity activity, boolean showProgressDialog, String searchby) {
+    public FriendsCallback(AppCompatActivity activity, boolean showProgressDialog, String searchby, String uid, boolean find_friends) {
         super(activity, showProgressDialog);
-        this.abstractActivity=activity;
-        this.searchby=searchby;
+        this.abstractActivity = activity;
+        this.searchby = searchby;
+        this.uid = uid;
+        this.find_friends = find_friends;
     }
 
     @Override
@@ -37,9 +41,10 @@ public class FriendsCallback extends FriendLoader.AbstractLoaderCallbacks<Friend
 
     @Override
     public Loader<FriendsResponse> onCreateLoader(int id, Bundle args) {
-        return new FriendLoader(searchby);
+        return new FriendLoader(searchby, uid, find_friends);
 
     }
+
     @Override
     public boolean onError(AbstractLoader<FriendsResponse> loader, RetrofitError error) {
         return super.onError(loader, error);

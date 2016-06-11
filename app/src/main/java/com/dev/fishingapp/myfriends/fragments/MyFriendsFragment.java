@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
@@ -30,6 +31,7 @@ import com.dev.fishingapp.myfriends.support.MyFriendsListAdapter;
 import com.dev.fishingapp.support.BaseToolbarFragment;
 import com.dev.fishingapp.util.AlertMessageDialog;
 import com.dev.fishingapp.util.AppConstants;
+import com.dev.fishingapp.util.FishingPreferences;
 
 import java.util.ArrayList;
 
@@ -42,6 +44,24 @@ public class MyFriendsFragment extends BaseToolbarFragment implements AdapterVie
     private MyFriendsListAdapter myFriendsListAdapter;
     private LoaderManager loaderManager;
     private FriendBroadcastReceiver receiver;
+    private boolean isNavigation;
+    private String uid;
+    private boolean find_friends;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            isNavigation = bundle.getBoolean("locked", false);
+            uid = bundle.getString("uid");
+            find_friends = bundle.getBoolean("find_friends", false);
+        }
+        if (uid == null) {
+            uid = FishingPreferences.getInstance().getCurrentUserId();
+        }
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -53,11 +73,13 @@ public class MyFriendsFragment extends BaseToolbarFragment implements AdapterVie
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ((HomeActivity) getActivity()).setToolBarTitle(getResources().getString(R.string.my_friends_header));
+        if (find_friends)
+            ((HomeActivity) getActivity()).setToolBarTitle(getResources().getString(R.string.find_friends_header));
+        else
+            ((HomeActivity) getActivity()).setToolBarTitle(getResources().getString(R.string.my_friends_header));
         mFriendListView = (ListView) view.findViewById(R.id.myfriend_list);
         loaderManager = getActivity().getSupportLoaderManager();
-        loaderManager.initLoader(R.id.loader_friends, null, new FriendsCallback((AppCompatActivity) getActivity(), true, "all"));
-
+        loaderManager.initLoader(R.id.loader_friends, null, new FriendsCallback((AppCompatActivity) getActivity(), true, "all", uid, find_friends));
         mFriendList = new ArrayList<>();
         myFriendsListAdapter = new MyFriendsListAdapter(getActivity(), mFriendList);
         mFriendListView.setAdapter(myFriendsListAdapter);
@@ -67,9 +89,11 @@ public class MyFriendsFragment extends BaseToolbarFragment implements AdapterVie
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Intent intent = new Intent(getActivity(), FriendDetailsActivity.class);
-        intent.putExtra("userId", mFriendList.get(position).getUid());
-        startActivity(intent);
+        if (uid.equals(FishingPreferences.getInstance().getCurrentUserId())) {
+            Intent intent = new Intent(getActivity(), FriendDetailsActivity.class);
+            intent.putExtra("userId", mFriendList.get(position).getUid());
+            startActivity(intent);
+        }
     }
 
     class FriendBroadcastReceiver extends BroadcastReceiver {

@@ -107,7 +107,7 @@ public interface FishingAppService {
 
     @FormUrlEncoded
     @POST("/myfishinglogs")
-    FishingLogResponse getFishisngLog(@Header("Content-Type") String contentType, @Header("Accept") String accept, @Field("apiaction") String apiaction, @Field("count") String count);
+    FishingLogResponse getFishisngLog(@Header("Content-Type") String contentType, @Header("Accept") String accept, @Field("apiaction") String apiaction, @Field("count") String count, @Field("uid") String uid);
 
 
     @FormUrlEncoded
@@ -129,8 +129,11 @@ public interface FishingAppService {
 
     @FormUrlEncoded
     @POST("/findfriends")
-    FriendsResponse getAllfriends(@Header("Content-Type") String contentType, @Header("Accept") String accept, @Field("apiaction") String apiaction, @Field("searchby") String searchby);
+    FriendsResponse getAllfriends(@Header("Content-Type") String contentType, @Header("Accept") String accept, @Field("apiaction") String apiaction, @Field("searchby") String searchby, @Field("uid") String uid);
 
+    @FormUrlEncoded
+    @POST("/myfriends")
+    FriendsResponse getMyfriends(@Header("Content-Type") String contentType, @Header("Accept") String accept, @Field("apiaction") String apiaction, @Field("searchby") String searchby, @Field("uid") String uid);
 
     @FormUrlEncoded
     @POST("/frienddetail")
@@ -138,11 +141,11 @@ public interface FishingAppService {
 
     @FormUrlEncoded
     @POST("/addnfishinglogs")
-    AddFishResponse addFishLog(@Header("Content-Type") String contentType, @Header("Accept") String accept,@Field("apiaction") String apiaction,@Field("uid") String uid,@Field("title") String title,@Field("description") String description,@Field("location") String location,@Field("moon") String moon,@Field("date") String date, @Field("tide") String tide, @Field("weather") String weather, @Field("latitude") String latitude,@Field("longitude") String longitude);
+    AddFishResponse addFishLog(@Header("Content-Type") String contentType, @Header("Accept") String accept, @Field("apiaction") String apiaction, @Field("uid") String uid, @Field("title") String title, @Field("description") String description, @Field("location") String location, @Field("moon") String moon, @Field("date") String date, @Field("tide") String tide, @Field("weather") String weather, @Field("latitude") String latitude, @Field("longitude") String longitude);
 
     @FormUrlEncoded
     @POST("/addcomment")
-    AddFishResponse addComment(@Header("Content-Type") String contentType, @Header("Accept") String accept,@Field("apiaction") String apiaction,@Field("uid") String uid,@Field("subject") String subject,@Field("comment_body") String comment_body,@Field("nid") String nid);
+    AddFishResponse addComment(@Header("Content-Type") String contentType, @Header("Accept") String accept, @Field("apiaction") String apiaction, @Field("uid") String uid, @Field("subject") String subject, @Field("comment_body") String comment_body, @Field("nid") String nid);
 
     @Multipart
     @POST("/usereditprofilepic")
@@ -164,12 +167,12 @@ public interface FishingAppService {
 
     @FormUrlEncoded
     @POST("/userdatabyemail")
-    Login getUserProfile(@Header("Content-Type") String contentType, @Header("Accept") String accept,@Field("apiaction") String apiaction,@Field("email") String email);
+    Login getUserProfile(@Header("Content-Type") String contentType, @Header("Accept") String accept, @Field("apiaction") String apiaction, @Field("email") String email);
 
 
     @FormUrlEncoded
     @POST("/myfishlistbycat")
-    MyFishResponse getFishListCategory(@Header("Content-Type") String contentType,@Header("Accept") String accept,@Field("apiaction") String apiaction,@Field("uid") String uid ,@Field("catid") String catid,@Field("count") String count);
+    MyFishResponse getFishListCategory(@Header("Content-Type") String contentType, @Header("Accept") String accept, @Field("apiaction") String apiaction, @Field("uid") String uid, @Field("catid") String catid, @Field("count") String count);
 
 
 }

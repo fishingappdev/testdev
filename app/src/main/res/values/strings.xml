@@ -9,6 +9,7 @@
         <item>MY PROFILE</item>
         <item>MY FISH</item>
         <item>MY FRIENDS</item>
+        <item>FIND FRIENDS</item>
         <item>MY ALBUMS</item>
         <item>MY FISHING LOG</item>
         <item>MY EPISODE LIST</item>
@@ -396,6 +397,7 @@
     <string name="street_address_txt">Street, Address</string>
     <string name="select_nultiple_countries">Select Multiple Countries</string>
     <string name="my_friends_header">MY FRIENDS</string>
+    <string name="find_friends_header">FIND FRIENDS</string>
     <string name="my_albums_header">MY ALBUMS</string>
     <string name="add_friend">Add Friend</string>
     <string name="remove_friend">Remove Friend</string>

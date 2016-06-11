@@ -20,10 +20,12 @@ import retrofit.RetrofitError;
 public class FishingLogCallback  extends FishingLogLoader.AbstractLoaderCallbacks<FishingLogResponse> {
 
     private AppCompatActivity abstractActivity;
+    private String uid;
 
-    public FishingLogCallback(AppCompatActivity activity, boolean showProgressDialog) {
+    public FishingLogCallback(AppCompatActivity activity, boolean showProgressDialog, String uid) {
         super(activity, showProgressDialog);
         this.abstractActivity=activity;
+        this.uid=uid;
 
     }
 
@@ -37,7 +39,7 @@ public class FishingLogCallback  extends FishingLogLoader.AbstractLoaderCallback
 
     @Override
     public Loader<FishingLogResponse> onCreateLoader(int id, Bundle args) {
-        return new FishingLogLoader();
+        return new FishingLogLoader(uid);
 
     }
     @Override

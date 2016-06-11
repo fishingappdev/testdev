@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.LoaderManager;
@@ -39,6 +40,22 @@ public class MyAlbumFragment extends BaseToolbarFragment implements AdapterView.
     private LoaderManager loaderManager;
     private MyAlbumBroadcastReceiver receiver;
     private LoadAlbumBroadcastReceiver loadAlbumBroadcastReceiver;
+    private boolean isNavigation;
+    private String uid;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            isNavigation = bundle.getBoolean("locked", false);
+            uid = bundle.getString("uid");
+        }
+        if (uid == null) {
+            uid = FishingPreferences.getInstance().getCurrentUserId();
+        }
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -51,17 +68,19 @@ public class MyAlbumFragment extends BaseToolbarFragment implements AdapterView.
         super.onViewCreated(view, savedInstanceState);
         ((HomeActivity) getActivity()).setToolBarTitle(getResources().getString(R.string.my_albums_header));
         mAlbumList = (ListView) view.findViewById(R.id.myalbum_list);
-        ((HomeActivity) getActivity()).showRightOption(HomeActivity.CAMERA_OPTION, new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AddAlbumDialogFragment performDialogFragment = new AddAlbumDialogFragment();
-                performDialogFragment.setStyle(DialogFragment.STYLE_NO_TITLE, android.R.style.Theme_Holo_Dialog);
-                performDialogFragment.setCancelable(true);
-                performDialogFragment.setTargetFragment(MyAlbumFragment.this, 1001);
-                ((HomeActivity) getActivity()).executeFragment(performDialogFragment);
+        if (uid.equals(FishingPreferences.getInstance().getCurrentUserId())) {
+            ((HomeActivity) getActivity()).showRightOption(HomeActivity.CAMERA_OPTION, new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    AddAlbumDialogFragment performDialogFragment = new AddAlbumDialogFragment();
+                    performDialogFragment.setStyle(DialogFragment.STYLE_NO_TITLE, android.R.style.Theme_Holo_Dialog);
+                    performDialogFragment.setCancelable(true);
+                    performDialogFragment.setTargetFragment(MyAlbumFragment.this, 1001);
+                    ((HomeActivity) getActivity()).executeFragment(performDialogFragment);
 
-            }
-        });
+                }
+            });
+        }
         loaderManager = getActivity().getSupportLoaderManager();
         loaderManager.initLoader(R.id.loader_myalbum, null, new MyAlbumCallback((AppCompatActivity) getActivity(), true, FishingPreferences.getInstance().getCurrentUserId()));
         myAlbumArraylist = new ArrayList<>();
@@ -72,12 +91,14 @@ public class MyAlbumFragment extends BaseToolbarFragment implements AdapterView.
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        FragmentManager fm = getActivity().getSupportFragmentManager();
-        Bundle bundle = new Bundle();
-        bundle.putString("nid", myAlbumArraylist.get(position).getNid());
-        AlbumDetailFragment frag = new AlbumDetailFragment();
-        frag.setArguments(bundle);
-        fm.beginTransaction().add(R.id.content_frame, frag).hide(this).addToBackStack(null).commit();
+        if (uid.equals(FishingPreferences.getInstance().getCurrentUserId())) {
+            FragmentManager fm = getActivity().getSupportFragmentManager();
+            Bundle bundle = new Bundle();
+            bundle.putString("nid", myAlbumArraylist.get(position).getNid());
+            AlbumDetailFragment frag = new AlbumDetailFragment();
+            frag.setArguments(bundle);
+            fm.beginTransaction().add(R.id.content_frame, frag).hide(this).addToBackStack(null).commit();
+        }
 
     }
 
@@ -126,7 +147,7 @@ public class MyAlbumFragment extends BaseToolbarFragment implements AdapterView.
         @Override
         public void onReceive(Context context, Intent intent) {
             if (intent.getAction().equalsIgnoreCase(AppConstants.LOAD_ALBUM_LIST_CALLBACK_BROADCAST)) {
-                loaderManager.initLoader(R.id.loader_myalbum, null, new MyAlbumCallback((AppCompatActivity) getActivity(), true, FishingPreferences.getInstance().getCurrentUserId()));
+                loaderManager.initLoader(R.id.loader_myalbum, null, new MyAlbumCallback((AppCompatActivity) getActivity(), true, uid));
             }
         }
     }
