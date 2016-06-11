@@ -83,7 +83,7 @@ public abstract class AbstractLoader<T> extends AsyncTaskLoader<T> {
 
         public AbstractLoaderCallbacks(final AppCompatActivity activity, boolean showProgressDialog) {
             mActivity = activity;
-            if (showProgressDialog)
+            if (showProgressDialog && mActivity != null)
                 ((AbstractActivity) mActivity).showProgressDialog();
         }
 
@@ -116,7 +116,7 @@ public abstract class AbstractLoader<T> extends AsyncTaskLoader<T> {
                 mHandler.post(new Runnable() {
                     @Override
                     public void run() {
-                        AlertMessageDialog dialog = new AlertMessageDialog(mActivity,mActivity.getString(R.string.error_txt),mActivity.getString(R.string.network_error));
+                        AlertMessageDialog dialog = new AlertMessageDialog(mActivity, mActivity.getString(R.string.error_txt), mActivity.getString(R.string.network_error));
                         dialog.setAcceptButtonText(mActivity.getString(R.string.ok_txt));
                         dialog.show();
                         /*GeneralDialogFragment networkErrorDialog = GeneralDialogFragment.newInstance(R.string.network_error);
@@ -125,7 +125,7 @@ public abstract class AbstractLoader<T> extends AsyncTaskLoader<T> {
                     }
                 });
                 return true;
-            } else{
+            } else {
                 ErrorResponse errorResponse = getErrorResponse(error);
                 Toast.makeText(mActivity, errorResponse.getMessage(), Toast.LENGTH_SHORT).show();
                 return true;

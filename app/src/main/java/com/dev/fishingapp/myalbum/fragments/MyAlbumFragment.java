@@ -66,6 +66,7 @@ public class MyAlbumFragment extends BaseToolbarFragment implements AdapterView.
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        ((HomeActivity) getActivity()).setCurrentFragment(MyAlbumFragment.this);
         ((HomeActivity) getActivity()).setToolBarTitle(getResources().getString(R.string.my_albums_header));
         mAlbumList = (ListView) view.findViewById(R.id.myalbum_list);
         if (uid.equals(FishingPreferences.getInstance().getCurrentUserId())) {
@@ -97,7 +98,7 @@ public class MyAlbumFragment extends BaseToolbarFragment implements AdapterView.
             bundle.putString("nid", myAlbumArraylist.get(position).getNid());
             AlbumDetailFragment frag = new AlbumDetailFragment();
             frag.setArguments(bundle);
-            ((HomeActivity)getActivity()).setCurrentFragment(frag);
+            ((HomeActivity) getActivity()).setCurrentFragment(frag);
             fm.beginTransaction().replace(R.id.content_frame, frag).addToBackStack("back").commit();
         }
 
@@ -156,14 +157,7 @@ public class MyAlbumFragment extends BaseToolbarFragment implements AdapterView.
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(getActivity());
-        IntentFilter intentFilter = new IntentFilter(AppConstants.MY_ALBUM_CALLBACK_BROADCAST);
-        receiver = new MyAlbumBroadcastReceiver();
-        localBroadcastManager.registerReceiver(receiver, intentFilter);
-        intentFilter = new IntentFilter(AppConstants.LOAD_ALBUM_LIST_CALLBACK_BROADCAST);
-        loadAlbumBroadcastReceiver = new LoadAlbumBroadcastReceiver();
-        localBroadcastManager.registerReceiver(loadAlbumBroadcastReceiver, intentFilter);
-
+        registerReceivers();
     }
 
     @Override
@@ -172,5 +166,15 @@ public class MyAlbumFragment extends BaseToolbarFragment implements AdapterView.
         LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(getActivity());
         localBroadcastManager.unregisterReceiver(receiver);
         localBroadcastManager.unregisterReceiver(loadAlbumBroadcastReceiver);
+    }
+
+    private void registerReceivers() {
+        LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(getActivity());
+        IntentFilter intentFilter = new IntentFilter(AppConstants.MY_ALBUM_CALLBACK_BROADCAST);
+        receiver = new MyAlbumBroadcastReceiver();
+        localBroadcastManager.registerReceiver(receiver, intentFilter);
+        intentFilter = new IntentFilter(AppConstants.LOAD_ALBUM_LIST_CALLBACK_BROADCAST);
+        loadAlbumBroadcastReceiver = new LoadAlbumBroadcastReceiver();
+        localBroadcastManager.registerReceiver(loadAlbumBroadcastReceiver, intentFilter);
     }
 }
