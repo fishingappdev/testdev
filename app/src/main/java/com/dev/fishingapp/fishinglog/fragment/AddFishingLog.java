@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.view.LayoutInflater;
@@ -19,7 +20,6 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 import com.dev.fishingapp.AbstractActivity;
 import com.dev.fishingapp.HomeActivity;
@@ -27,6 +27,7 @@ import com.dev.fishingapp.LoaderCallbacks.AddLogCallback;
 import com.dev.fishingapp.R;
 import com.dev.fishingapp.data.model.AddLogRequest;
 import com.dev.fishingapp.support.BaseToolbarFragment;
+import com.dev.fishingapp.util.AlertMessageDialog;
 import com.dev.fishingapp.util.AppConstants;
 import com.dev.fishingapp.util.FishingPreferences;
 
@@ -40,7 +41,7 @@ import java.util.Locale;
 public class AddFishingLog extends BaseToolbarFragment implements View.OnClickListener,AdapterView.OnItemSelectedListener{
     private Spinner mMoonSpinner,mtideSpinner;
     private EditText title,description,location,weather,longitude,latitude;
-    private TextView mDate;
+    private EditText mDate;
     private Button mSaveBtn;
     private String mMoonValue;
     private String mTideValue;
@@ -48,6 +49,8 @@ public class AddFishingLog extends BaseToolbarFragment implements View.OnClickLi
     private LoaderManager loaderManager;
     private AddLogBroadcastReceiver receiver;
     Calendar myCalendar = Calendar.getInstance();
+    private AlertMessageDialog dialog;
+
 
     @Nullable
     @Override
@@ -69,7 +72,7 @@ public class AddFishingLog extends BaseToolbarFragment implements View.OnClickLi
         weather=(EditText)view.findViewById(R.id.weather);
         longitude=(EditText)view.findViewById(R.id.longitude);
         latitude=(EditText)view.findViewById(R.id.latitude);
-        mDate=(TextView)view.findViewById(R.id.date_value);
+        mDate=(EditText)view.findViewById(R.id.date_value);
         mSaveBtn=(Button)view.findViewById(R.id.save_btn);
 
         mSaveBtn.setOnClickListener(this);
@@ -188,22 +191,23 @@ public class AddFishingLog extends BaseToolbarFragment implements View.OnClickLi
         public void onReceive(Context context, Intent intent) {
             if (intent.getAction().equalsIgnoreCase(AppConstants.ADD_FISHING_LOG_CALLBACK_BROADCAST)) {
                 if (intent.getSerializableExtra("data") != null) {
-                   /* mFishTypeList = (AddFishResponse) intent.getSerializableExtra("data");
-                    if (mFishTypeList.size() > 0) {
-                        ArrayAdapter<FishType> adapter = new ArrayAdapter<FishType>(getActivity(), android.R.layout.simple_spinner_item, mFishTypeList);
-                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                        mTypeFishSpinner.setAdapter(adapter);
+                        Intent intent1 = new Intent(AppConstants.LOAD_FISH_LOG_CALLBACK_BROADCAST);
+                        LocalBroadcastManager.getInstance((AbstractActivity) getActivity()).sendBroadcast(intent1);
+                        FragmentManager fm = getActivity().getSupportFragmentManager();
+                        for(int i = 0; i < fm.getBackStackEntryCount(); ++i) {
+                            fm.popBackStack();
+                        }
 
                     } else {
                         dialog = new AlertMessageDialog(((HomeActivity) getActivity()), getActivity().getString(R.string.error_txt), getString(R.string.empty_list));
                         dialog.setAcceptButtonText(getString(R.string.ok_txt));
                         dialog.show();
 
-                    }*/
+                    }
 
                 }
 
             }
         }
     }
-}
+

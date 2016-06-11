@@ -37,6 +37,14 @@ public class AppConstants {
     public static final String FISH_CATEGORY_CALLBACK_BROADCAST = "fish_category_callback_broadcast";
     public static final String REMOVE_FRIEND_CALLBACK_BROADCAST = "remove_friend_callback_broadcast";
     public static final String UPDATE_ALBUM_CALLBACK_BROADCAST = "update_album_callback_broadcast";
+    public static final String LOAD_FISH_LOG_CALLBACK_BROADCAST = "load_fish_log_callback_broadcast";
+
+
+
+
+
+
+
 
 
     /*API ACTION NAMES*/

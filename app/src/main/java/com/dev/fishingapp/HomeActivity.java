@@ -454,29 +454,31 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
        // localBroadcastManager.unregisterReceiver(mreceiver);
     }
 
-   /* @Override
+   @Override
     public void onBackPressed() {
-        if (currentFragment instanceof MyFishFragment) {
-            super.onBackPressed();
-        } *//*else if(currentFragment instanceof FishingLogDetail){
-          getSupportFragmentManager().popBackStack();
-        } *//* else {
-            FragmentManager fm = getSupportFragmentManager();
-            Fragment fragment = new MyFishFragment();
-            fm.beginTransaction().replace(R.id.content_frame, fragment).commit();
-            // update selected item and title, then close the drawer
-            mDrawerList.setItemChecked(1, true);
-            mDrawerList.setSelection(1);
-            setTitle(navMenuTitles[1]);
-            mDrawerLayout.closeDrawer(mRelativeDrawerLayout);
-            currentFragment = fragment;
-        }
-    }*/ /*else {
-            super.onBackPressed();
-            Fragment f = getSupportFragmentManager().findFragmentById(R.id.content_frame);
-            currentFragment=f;
+       if (currentFragment instanceof MyFishFragment) {
+           super.onBackPressed();
+       } else if (currentFragment instanceof MyProfile || currentFragment instanceof MyFriendsFragment || currentFragment instanceof MyAlbumFragment || currentFragment instanceof MyEpisodeList || currentFragment instanceof FishingRecordFRagmnet || currentFragment instanceof ChangePassword) {
+           FragmentManager fm = getSupportFragmentManager();
+           Fragment fragment = new MyFishFragment();
+           fm.beginTransaction().replace(R.id.content_frame, fragment).commit();
+           // update selected item and title, then close the drawer
+           mDrawerList.setItemChecked(1, true);
+           mDrawerList.setSelection(1);
+           setTitle(navMenuTitles[1]);
+           mDrawerLayout.closeDrawer(mRelativeDrawerLayout);
+           currentFragment = fragment;
 
-        }*/
+       } else {
+           super.onBackPressed();
+       }
+   }
+   /* else {
+           super.onBackPressed();
+           Fragment f = getSupportFragmentManager().findFragmentById(R.id.content_frame);
+           currentFragment=f;
+
+       }*/
 
     public void setAlbum(boolean album) {
         this.album = album;

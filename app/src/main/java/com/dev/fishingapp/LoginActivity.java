@@ -315,6 +315,7 @@ public class LoginActivity extends AbstractActivity implements OnClickListener {
                         String imageUrl=loginData.getData().getProfilepic();
                         FishingPreferences.getInstance().saveCurrentUserId(user_id);
                         FishingPreferences.getInstance().saveCurrentUsername(username);
+                        if(imageUrl!=null && !imageUrl.isEmpty())
                         FishingPreferences.getInstance().setProfileImageUrl(imageUrl);
                         Log.d("user id", user_id + "");
                         Intent homeIntent = new Intent(LoginActivity.this, HomeActivity.class);
@@ -345,6 +346,7 @@ public class LoginActivity extends AbstractActivity implements OnClickListener {
                         String imageUrl=loginData.getData().getProfilepic();
                         FishingPreferences.getInstance().saveCurrentUserId(user_id);
                         FishingPreferences.getInstance().saveCurrentUsername(username);
+                        if(imageUrl!=null && !imageUrl.isEmpty())
                         FishingPreferences.getInstance().setProfileImageUrl(imageUrl);
                         FishingPreferences.getInstance().setIsSocialLogin(true);
 

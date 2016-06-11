@@ -40,6 +40,7 @@ public class FishingLog extends BaseToolbarFragment implements OnItemClickListen
     private LoaderManager loaderManager;
     private FishingLogBroadcastReceiver receiver;
     private AlertMessageDialog dialog;
+    private LoadFishLogBroadcastReceiver logReceiver;
 
     @Nullable
     @Override
@@ -78,8 +79,11 @@ public class FishingLog extends BaseToolbarFragment implements OnItemClickListen
         super.onResume();
         LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(getActivity());
         IntentFilter intentFilter = new IntentFilter(AppConstants.FISHING_LOG_CALLBACK_BROADCAST);
+        IntentFilter intentFiter1 =new IntentFilter(AppConstants.LOAD_FISH_LOG_CALLBACK_BROADCAST);
         receiver = new FishingLogBroadcastReceiver();
+        logReceiver=new LoadFishLogBroadcastReceiver();
         localBroadcastManager.registerReceiver(receiver, intentFilter);
+        localBroadcastManager.registerReceiver(logReceiver,intentFiter1);
     }
 
     @Override
@@ -87,6 +91,7 @@ public class FishingLog extends BaseToolbarFragment implements OnItemClickListen
         super.onStop();
         LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(getActivity());
         localBroadcastManager.unregisterReceiver(receiver);
+        localBroadcastManager.unregisterReceiver(logReceiver);
     }
 
     @Override
@@ -95,9 +100,8 @@ public class FishingLog extends BaseToolbarFragment implements OnItemClickListen
         Bundle bundle = new Bundle();
         bundle.putString("nid", myFishLogArrayList.get(position).getNid());
         fragment.setArguments(bundle);
-        FragmentManager fm = getActivity().getSupportFragmentManager();
-        android.support.v4.app.FragmentTransaction fragmentTransaction = fm.beginTransaction();
-        fragmentTransaction.add(R.id.content_frame, fragment).hide(FishingLog.this).addToBackStack(null).commit();
+        FragmentManager fm= getActivity().getSupportFragmentManager();
+        fm.beginTransaction().add(R.id.content_frame, fragment).hide(this).addToBackStack(null).commit();
 
     }
 
@@ -114,7 +118,15 @@ public class FishingLog extends BaseToolbarFragment implements OnItemClickListen
             });
         }
     }
+    class LoadFishLogBroadcastReceiver extends BroadcastReceiver {
 
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction().equalsIgnoreCase(AppConstants.LOAD_FISH_LOG_CALLBACK_BROADCAST)) {
+                loaderManager.initLoader(R.id.loader_fish_log, null, new FishingLogCallback(((AbstractActivity) getActivity()),true));
+            }
+        }
+    }
 
     class FishingLogBroadcastReceiver extends BroadcastReceiver {
 

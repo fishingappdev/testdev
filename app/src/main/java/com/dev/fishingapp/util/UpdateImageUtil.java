@@ -262,6 +262,7 @@ public class UpdateImageUtil {
                 if (intent.getSerializableExtra("data") != null) {
                     AddFishResponse response = (AddFishResponse) intent.getSerializableExtra("data");
                     if (response.getStatus().equalsIgnoreCase(getContext().getString(R.string.success_txt))) {
+
                         final DisplayImageOptions displayImageOptions = new DisplayImageOptions.Builder()
                                 .displayer(new RoundedBitmapDisplayer((int) getContext().getResources().getDimension(R.dimen.dp_100)))
                                 .showImageOnLoading(R.drawable.user_icon)
@@ -271,7 +272,12 @@ public class UpdateImageUtil {
                                 .bitmapConfig(Bitmap.Config.RGB_565).build();
                         FishingAppHelper.removeImageFromCache(finalUri.toString());
                         FishingAppHelper.getImageLoader().displayImage(finalUri.toString(), imageView, displayImageOptions);
-                  } else {
+                       if(response.getProfilepic()!=null && !response.getProfilepic().isEmpty()){
+                           FishingPreferences.getInstance().setProfileImageUrl(response.getProfilepic());
+
+                       }
+
+                    } else {
                         dialog = new AlertMessageDialog(((HomeActivity) getContext()), getContext().getString(R.string.error_txt), response.getMessage());
                         dialog.setAcceptButtonText(getContext().getString(R.string.ok_txt));
                         dialog.show();

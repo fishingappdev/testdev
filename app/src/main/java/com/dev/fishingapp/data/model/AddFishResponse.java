@@ -10,6 +10,16 @@ public class AddFishResponse implements Serializable {
     private String status;
     private String message;
 
+    public String getProfilepic() {
+        return profilepic;
+    }
+
+    public void setProfilepic(String profilepic) {
+        this.profilepic = profilepic;
+    }
+
+    private String profilepic;
+
     public String getFaultcode() {
         return faultcode;
     }

@@ -10,6 +10,7 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
@@ -282,7 +283,11 @@ public class AddFishFragment extends BaseToolbarFragment implements OnClickListe
                 if (intent.getSerializableExtra("data") != null) {
                     Intent intent1 = new Intent(AppConstants.LOAD_FISH_CALLBACK_BROADCAST);
                     LocalBroadcastManager.getInstance((AbstractActivity) getActivity()).sendBroadcast(intent1);
-                    getActivity().getSupportFragmentManager().popBackStack();
+                    FragmentManager fm = getActivity().getSupportFragmentManager();
+                    for(int i = 0; i < fm.getBackStackEntryCount(); ++i) {
+                        fm.popBackStack();
+                    }
+                  //  getActivity().getSupportFragmentManager().popBackStack();
 
                 } else {
                     dialog = new AlertMessageDialog(((HomeActivity) getActivity()), getActivity().getString(R.string.error_txt), getString(R.string.empty_list));
