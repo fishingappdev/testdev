@@ -68,7 +68,7 @@
                     android:layout_marginTop="@dimen/dp_10"
                     android:paddingLeft="@dimen/dp_10"
                     android:paddingRight="@dimen/dp_10"
-                    android:text="Dummy text Dummy text Dummy text Dummy text Dummy text " />
+                    />
 
 
                 <TextView
@@ -85,7 +85,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dp_5"
                     android:paddingLeft="@dimen/dp_10"
-                    android:text="@string/temp_desc"
                     android:textColor="@color/black" />
 
                 <LinearLayout
