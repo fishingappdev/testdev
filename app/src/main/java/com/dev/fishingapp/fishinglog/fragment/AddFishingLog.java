@@ -192,9 +192,9 @@ public class AddFishingLog extends BaseToolbarFragment implements View.OnClickLi
         public void onReceive(Context context, Intent intent) {
             if (intent.getAction().equalsIgnoreCase(AppConstants.ADD_FISHING_LOG_CALLBACK_BROADCAST)) {
                 if (intent.getSerializableExtra("data") != null) {
-                        Intent intent1 = new Intent(AppConstants.LOAD_FISH_LOG_CALLBACK_BROADCAST);
+                        /*Intent intent1 = new Intent(AppConstants.LOAD_FISH_LOG_CALLBACK_BROADCAST);
                         LocalBroadcastManager.getInstance((AbstractActivity) getActivity()).sendBroadcast(intent1);
-                        FragmentManager fm = getActivity().getSupportFragmentManager();
+*/                        FragmentManager fm = getActivity().getSupportFragmentManager();
                         for(int i = 0; i < fm.getBackStackEntryCount(); ++i) {
                             fm.popBackStack();
                         }
