@@ -124,8 +124,8 @@ public class MyFriendsFragment extends BaseToolbarFragment implements AdapterVie
     }
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
+    public void onResume() {
+        super.onResume();
         LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(getActivity());
         IntentFilter intentFilter = new IntentFilter(AppConstants.FRIEND_CALLBACK_BROADCAST);
         receiver = new FriendBroadcastReceiver();
@@ -133,8 +133,8 @@ public class MyFriendsFragment extends BaseToolbarFragment implements AdapterVie
     }
 
     @Override
-    public void onDetach() {
-        super.onDetach();
+    public void onPause() {
+        super.onPause();
         LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(getActivity());
         localBroadcastManager.unregisterReceiver(receiver);
     }
