@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.dev.fishingapp.R;
@@ -19,10 +20,12 @@ public class FishLogListAdapter extends BaseAdapter {
     private ArrayList<FishingLogData> myFishArrayList;
     private Context context;
     LayoutInflater inflater;
-    public FishLogListAdapter(Context context,ArrayList<FishingLogData> myFishList){
+    boolean showDetails;
+    public FishLogListAdapter(Context context, ArrayList<FishingLogData> myFishList, boolean toShowDetails){
         this.context=context;
         this.myFishArrayList=myFishList;
         inflater = LayoutInflater.from(this.context);
+        this.showDetails=toShowDetails;
     }
     @Override
     public int getCount() {
@@ -54,21 +57,22 @@ public class FishLogListAdapter extends BaseAdapter {
         mViewHolder.tvLogDetail.setText(myFishArrayList.get(position).getDescription());
         mViewHolder.tvLogDate.setText(myFishArrayList.get(position).getDate());
         mViewHolder.tvLogLocation.setText(myFishArrayList.get(position).getLocation());
-
-
-
+        if (!showDetails)  {
+            mViewHolder.arrow.setVisibility(View.GONE);
+        }
         return convertView;
     }
 
     private class MyViewHolder {
         TextView tvLogTitle, tvLogDetail,tvLogDate,tvLogLocation;
+        ImageView arrow;
 
         public MyViewHolder(View item) {
             tvLogTitle = (TextView) item.findViewById(R.id.fishlog_title);
             tvLogDetail = (TextView) item.findViewById(R.id.log_detail);
             tvLogDate = (TextView) item.findViewById(R.id.log_date);
             tvLogLocation=(TextView)item.findViewById(R.id.place);
-
+            arrow = (ImageView) item.findViewById(R.id.arrow);
         }
     }
 }

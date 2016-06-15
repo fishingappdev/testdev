@@ -47,6 +47,7 @@ public class MyFriendsFragment extends BaseToolbarFragment implements AdapterVie
     private boolean isNavigation;
     private String uid;
     private boolean find_friends;
+    private boolean toShowDetails;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -81,10 +82,10 @@ public class MyFriendsFragment extends BaseToolbarFragment implements AdapterVie
         loaderManager = getActivity().getSupportLoaderManager();
         loaderManager.initLoader(R.id.loader_friends, null, new FriendsCallback((AppCompatActivity) getActivity(), true, "all", uid, find_friends));
         mFriendList = new ArrayList<>();
-        boolean myfrens=uid.equals(FishingPreferences.getInstance().getCurrentUserId());
-        myFriendsListAdapter = new MyFriendsListAdapter(getActivity(), mFriendList, myfrens);
+        toShowDetails = uid.equals(FishingPreferences.getInstance().getCurrentUserId());
+        myFriendsListAdapter = new MyFriendsListAdapter(getActivity(), mFriendList, toShowDetails);
         mFriendListView.setAdapter(myFriendsListAdapter);
-        if (myfrens) {
+        if (toShowDetails) {
             mFriendListView.setOnItemClickListener(this);
         } else {
             mFriendListView.setEnabled(false);
@@ -95,9 +96,9 @@ public class MyFriendsFragment extends BaseToolbarFragment implements AdapterVie
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            Intent intent = new Intent(getActivity(), FriendDetailsActivity.class);
-            intent.putExtra("userId", mFriendList.get(position).getUid());
-            startActivity(intent);
+        Intent intent = new Intent(getActivity(), FriendDetailsActivity.class);
+        intent.putExtra("userId", mFriendList.get(position).getUid());
+        startActivity(intent);
     }
 
     class FriendBroadcastReceiver extends BroadcastReceiver {
@@ -172,4 +173,7 @@ public class MyFriendsFragment extends BaseToolbarFragment implements AdapterVie
         super.onCreateOptionsMenu(menu, inflater);
     }
 
+    public boolean isToShowDetails() {
+        return toShowDetails;
+    }
 }

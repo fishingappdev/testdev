@@ -44,6 +44,7 @@ public class FishingLog extends BaseToolbarFragment implements OnItemClickListen
     private LoadFishLogBroadcastReceiver logReceiver;
     private boolean isNavigation;
     private String uid;
+    private boolean toShowDetails;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -69,7 +70,7 @@ public class FishingLog extends BaseToolbarFragment implements OnItemClickListen
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ((HomeActivity) getActivity()).setToolBarTitle(getResources().getString(R.string.header_fishinglog));
-        if (uid.equals(FishingPreferences.getInstance().getCurrentUserId())) {
+        if (toShowDetails) {
             ((HomeActivity) getActivity()).showRightOption(HomeActivity.ADD_LOG_OPTION, new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -89,8 +90,12 @@ public class FishingLog extends BaseToolbarFragment implements OnItemClickListen
         } else {
             loaderManager.restartLoader(R.id.loader_fish_log, null, new FishingLogCallback(((AbstractActivity) getActivity()), true, uid));
         }
-
-        mLogList.setOnItemClickListener(this);
+        if (toShowDetails) {
+            mLogList.setOnItemClickListener(this);
+        } else {
+            mLogList.setEnabled(false);
+            mLogList.setOnItemClickListener(null);
+        }
     }
 
     @Override
@@ -116,7 +121,6 @@ public class FishingLog extends BaseToolbarFragment implements OnItemClickListen
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        if (uid.equals(FishingPreferences.getInstance().getCurrentUserId())) {
             Fragment fragment = new FishingLogDetail();
             Bundle bundle = new Bundle();
             bundle.putString("nid", myFishLogArrayList.get(position).getNid());
@@ -124,7 +128,6 @@ public class FishingLog extends BaseToolbarFragment implements OnItemClickListen
             addFragmentWithBackStack(fragment);
             /*FragmentManager fm = getActivity().getSupportFragmentManager();
             fm.beginTransaction().add(R.id.content_frame, fragment).hide(this).addToBackStack(null).commit();*/
-        }
     }
 
     @Override
@@ -161,7 +164,7 @@ public class FishingLog extends BaseToolbarFragment implements OnItemClickListen
                 if (intent.getSerializableExtra("data") != null) {
                     myFishLogArrayList = (FishingLogResponse) intent.getSerializableExtra("data");
                     if (myFishLogArrayList.size() > 0) {
-                        mFishLogAdapter = new FishLogListAdapter(getActivity(), myFishLogArrayList);
+                        mFishLogAdapter = new FishLogListAdapter(getActivity(), myFishLogArrayList, toShowDetails);
                         mLogList.setAdapter(mFishLogAdapter);
                     } else {
                         dialog = new AlertMessageDialog(((HomeActivity) getActivity()), getActivity().getString(R.string.error_txt), getString(R.string.empty_list));
@@ -174,5 +177,13 @@ public class FishingLog extends BaseToolbarFragment implements OnItemClickListen
 
             }
         }
+    }
+
+    public boolean isNavigation() {
+        return isNavigation;
+    }
+
+    public boolean isToShowDetails() {
+        return toShowDetails;
     }
 }

@@ -25,11 +25,12 @@ public class MyAlbumListAdapter extends BaseAdapter {
     LayoutInflater inflater;
     private DotsProgressBar dotsProgressBar;
     DisplayImageOptions options;
-
-    public MyAlbumListAdapter(Context context, ArrayList<MyAlbum> myAlbums) {
+    boolean showDetails;
+    public MyAlbumListAdapter(Context context, ArrayList<MyAlbum> myAlbums, boolean toShowDetails) {
         this.context = context;
         this.myAlbumArrayList = myAlbums;
         inflater = LayoutInflater.from(this.context);
+        this.showDetails=toShowDetails;
     }
 
     @Override
@@ -72,18 +73,23 @@ public class MyAlbumListAdapter extends BaseAdapter {
                 .cacheOnDisc(true)
                 .build();
         FishingAppHelper.getImageLoader().displayImage(currentAlbum.getImageurl(), mViewHolder.ivIcon, options);
+        if (!showDetails) {
+            mViewHolder.arrow.setVisibility(View.GONE);
+        }
         return convertView;
     }
 
     private class MyViewHolder {
         TextView tvTitle, tvDetails, tvLocation;
         ImageView ivIcon;
+        ImageView arrow;
 
         public MyViewHolder(View item) {
             tvTitle = (TextView) item.findViewById(R.id.title);
             tvDetails = (TextView) item.findViewById(R.id.details);
             tvLocation = (TextView) item.findViewById(R.id.location);
             ivIcon = (ImageView) item.findViewById(R.id.iv_icon);
+            arrow = (ImageView) item.findViewById(R.id.arrow);
         }
     }
 }

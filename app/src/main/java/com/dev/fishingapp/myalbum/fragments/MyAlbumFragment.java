@@ -42,6 +42,7 @@ public class MyAlbumFragment extends BaseToolbarFragment implements AdapterView.
     private LoadAlbumBroadcastReceiver loadAlbumBroadcastReceiver;
     private boolean isNavigation;
     private String uid;
+    private boolean toShowDetails;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -69,7 +70,8 @@ public class MyAlbumFragment extends BaseToolbarFragment implements AdapterView.
         ((HomeActivity) getActivity()).setCurrentFragment(MyAlbumFragment.this);
         ((HomeActivity) getActivity()).setToolBarTitle(getResources().getString(R.string.my_albums_header));
         mAlbumList = (ListView) view.findViewById(R.id.myalbum_list);
-        if (uid.equals(FishingPreferences.getInstance().getCurrentUserId())) {
+        toShowDetails = uid.equals(FishingPreferences.getInstance().getCurrentUserId());
+        if (toShowDetails) {
             ((HomeActivity) getActivity()).showRightOption(HomeActivity.CAMERA_OPTION, new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -85,14 +87,18 @@ public class MyAlbumFragment extends BaseToolbarFragment implements AdapterView.
         loaderManager = getActivity().getSupportLoaderManager();
         loaderManager.initLoader(R.id.loader_myalbum, null, new MyAlbumCallback((AppCompatActivity) getActivity(), true, uid));
         myAlbumArraylist = new ArrayList<>();
-        myAlbumListAdapter = new MyAlbumListAdapter(getActivity(), myAlbumArraylist);
+        myAlbumListAdapter = new MyAlbumListAdapter(getActivity(), myAlbumArraylist,toShowDetails);
         mAlbumList.setAdapter(myAlbumListAdapter);
-        mAlbumList.setOnItemClickListener(this);
+        if (toShowDetails) {
+            mAlbumList.setOnItemClickListener(this);
+        } else {
+            mAlbumList.setEnabled(false);
+            mAlbumList.setOnItemClickListener(null);
+        }
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        if (uid.equals(FishingPreferences.getInstance().getCurrentUserId())) {
             FragmentManager fm = getActivity().getSupportFragmentManager();
             Bundle bundle = new Bundle();
             bundle.putString("nid", myAlbumArraylist.get(position).getNid());
@@ -100,8 +106,6 @@ public class MyAlbumFragment extends BaseToolbarFragment implements AdapterView.
             frag.setArguments(bundle);
             ((HomeActivity) getActivity()).setCurrentFragment(frag);
             fm.beginTransaction().replace(R.id.content_frame, frag).addToBackStack("back").commit();
-        }
-
     }
 
     @Override
@@ -177,5 +181,13 @@ public class MyAlbumFragment extends BaseToolbarFragment implements AdapterView.
         intentFilter = new IntentFilter(AppConstants.LOAD_ALBUM_LIST_CALLBACK_BROADCAST);
         loadAlbumBroadcastReceiver = new LoadAlbumBroadcastReceiver();
         localBroadcastManager.registerReceiver(loadAlbumBroadcastReceiver, intentFilter);
+    }
+
+    public boolean isToShowDetails() {
+        return toShowDetails;
+    }
+
+    public void setToShowDetails(boolean toShowDetails) {
+        this.toShowDetails = toShowDetails;
     }
 }

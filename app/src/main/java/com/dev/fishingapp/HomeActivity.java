@@ -506,7 +506,7 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
     public void onBackPressed() {
         if (currentFragment instanceof MyFishFragment) {
             super.onBackPressed();
-        } else if (currentFragment instanceof MyProfile || currentFragment instanceof MyFriendsFragment || currentFragment instanceof MyAlbumFragment || currentFragment instanceof FishingLog || currentFragment instanceof MyEpisodeList || currentFragment instanceof FishingRecordFRagmnet || currentFragment instanceof ChangePassword) {
+        } else if (currentFragment instanceof MyProfile || (currentFragment instanceof MyFriendsFragment && ((MyFriendsFragment) currentFragment).isToShowDetails()) || (currentFragment instanceof MyAlbumFragment && ((MyAlbumFragment) currentFragment).isToShowDetails()) || (currentFragment instanceof FishingLog && ((FishingLog) currentFragment).isToShowDetails()) || currentFragment instanceof MyEpisodeList || currentFragment instanceof FishingRecordFRagmnet || currentFragment instanceof ChangePassword) {
             FragmentManager fm = getSupportFragmentManager();
             Fragment fragment = new MyFishFragment();
             fm.beginTransaction().replace(R.id.content_frame, fragment).commit();

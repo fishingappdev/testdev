@@ -12,6 +12,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -69,6 +70,18 @@ public class FriendDetailsActivity extends AbstractActivity {
         loaderManager = getSupportLoaderManager();
         loaderManager.initLoader(R.id.loader_friends_detail, null, new FriendDetailCallback(this, true, userId));
 
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     class FriendDetailBroadcastReceiver extends BroadcastReceiver {

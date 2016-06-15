@@ -76,9 +76,7 @@ public class MyFriendsListAdapter extends BaseAdapter implements Filterable {
                 .cacheOnDisc(true)
                 .build();
         FishingAppHelper.getImageLoader().displayImage(currentFriend.getPicture(), mViewHolder.ivIcon, options);
-        if (showDetails) {
-
-        } else {
+        if (!showDetails) {
             mViewHolder.arrow.setVisibility(View.GONE);
         }
         return convertView;
