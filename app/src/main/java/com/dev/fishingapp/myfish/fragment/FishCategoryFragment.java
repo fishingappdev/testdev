@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
@@ -59,9 +58,10 @@ public class FishCategoryFragment extends BaseToolbarFragment implements Adapter
         ((HomeActivity) getActivity()).showRightOption(HomeActivity.ADD_FISH_OPTION, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentManager fm = getActivity().getSupportFragmentManager();
+               /* FragmentManager fm = getActivity().getSupportFragmentManager();
                 android.support.v4.app.FragmentTransaction fragmentTransaction = fm.beginTransaction();
                 fragmentTransaction.add(R.id.content_frame, new AddFishFragment()).hide(FishCategoryFragment.this).addToBackStack(null).commit();
+*/            addFragmentWithBackStack(new AddFishFragment());
             }
         });
         mFishList=(ListView)view.findViewById(R.id.myfish_list);
@@ -90,6 +90,12 @@ public class FishCategoryFragment extends BaseToolbarFragment implements Adapter
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        ((HomeActivity)getActivity()).setCurrentFragment(FishCategoryFragment.this);
+    }
+
+    @Override
     public void onDetach() {
         super.onDetach();
         Log.d("My Fish category", "On stop");
@@ -102,8 +108,9 @@ public class FishCategoryFragment extends BaseToolbarFragment implements Adapter
         bundle.putString("nid", fishList.get(position).getNid());
         Fragment fragment=new FishDetailFragment();
         fragment.setArguments(bundle);
-        FragmentManager fm= getActivity().getSupportFragmentManager();
-        fm.beginTransaction().add(R.id.content_frame,fragment).hide(this).addToBackStack(null).commit();
+        addFragmentWithBackStack(fragment);
+      /*  FragmentManager fm= getActivity().getSupportFragmentManager();
+        fm.beginTransaction().add(R.id.content_frame,fragment).hide(this).addToBackStack(null).commit();*/
     }
 
     class FishCategoryBroadcastReceiver extends BroadcastReceiver {

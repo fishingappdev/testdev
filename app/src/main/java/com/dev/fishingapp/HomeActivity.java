@@ -46,6 +46,7 @@ import com.dev.fishingapp.util.UpdateImageUtil;
 import com.facebook.FacebookSdk;
 import com.facebook.login.LoginManager;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 
 import java.util.ArrayList;
 
@@ -194,9 +195,10 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
 
         dotsProgressBar = new DotsProgressBar(this, mProfilePic);
         options = new DisplayImageOptions.Builder()
+                .displayer(new RoundedBitmapDisplayer((int) getResources().getDimension(R.dimen.dp_100)))
                 .showImageOnLoading(dotsProgressBar)
-                .showImageForEmptyUri(R.drawable.cf_list_no_image_thumbnail)
-                .showImageOnFail(R.drawable.cf_list_no_image_thumbnail)
+                .showImageForEmptyUri(R.drawable.user_icon)
+                .showImageOnFail(R.drawable.user_icon)
                 .cacheInMemory(true)
                 .cacheOnDisc(true)
                 .build();
@@ -504,7 +506,7 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
     public void onBackPressed() {
         if (currentFragment instanceof MyFishFragment) {
             super.onBackPressed();
-        } else if (currentFragment instanceof MyProfile || currentFragment instanceof MyFriendsFragment || currentFragment instanceof MyAlbumFragment || currentFragment instanceof MyEpisodeList || currentFragment instanceof FishingRecordFRagmnet || currentFragment instanceof ChangePassword) {
+        } else if (currentFragment instanceof MyProfile || currentFragment instanceof MyFriendsFragment || currentFragment instanceof MyAlbumFragment || currentFragment instanceof FishingLog || currentFragment instanceof MyEpisodeList || currentFragment instanceof FishingRecordFRagmnet || currentFragment instanceof ChangePassword) {
             FragmentManager fm = getSupportFragmentManager();
             Fragment fragment = new MyFishFragment();
             fm.beginTransaction().replace(R.id.content_frame, fragment).commit();

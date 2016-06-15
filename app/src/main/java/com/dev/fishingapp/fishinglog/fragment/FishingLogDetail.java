@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
@@ -67,9 +66,10 @@ public class FishingLogDetail extends BaseToolbarFragment{
         ((HomeActivity) getActivity()).showRightOption(HomeActivity.ADD_LOG_OPTION, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentManager fm = getActivity().getSupportFragmentManager();
+              /*  FragmentManager fm = getActivity().getSupportFragmentManager();
                 fm.beginTransaction().add(R.id.content_frame, new AddFishingLog()).hide(FishingLogDetail.this).addToBackStack(null).commit();
-
+*/
+       addFragmentWithBackStack(new AddFishingLog());
             }
         });
 
@@ -114,6 +114,7 @@ public class FishingLogDetail extends BaseToolbarFragment{
     @Override
     public void onResume() {
         super.onResume();
+        ((HomeActivity)getActivity()).setCurrentFragment(FishingLogDetail.this);
         Log.d("onResume",">>>>");
         LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(getActivity());
         IntentFilter intentFilter = new IntentFilter(AppConstants.FISHING_LOG_DETAIL_CALLBACK_BROADCAST);
@@ -141,9 +142,10 @@ public class FishingLogDetail extends BaseToolbarFragment{
             ((HomeActivity) getActivity()).showRightOption(HomeActivity.ADD_LOG_OPTION, new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    FragmentManager fm = getActivity().getSupportFragmentManager();
+                   /* FragmentManager fm = getActivity().getSupportFragmentManager();
                     fm.beginTransaction().add(R.id.content_frame, new AddFishingLog()).hide(FishingLogDetail.this).addToBackStack(null).commit();
-
+*/
+           addFragmentWithBackStack(new AddFishingLog());
                 }
             });
         }
@@ -210,7 +212,7 @@ public class FishingLogDetail extends BaseToolbarFragment{
             TextView author=(TextView)layout2.findViewById(R.id.commentAuthor);
             title.setText(logDetailResponse.getComment().get(i).getSubject());
             description.setText(logDetailResponse.getComment().get(i).getComment_body());
-            author.setText(getString(R.string.submitted_by)+" "+logDetailResponse.getComment().get(i).getRegistered_name()+" on "+ Utils.ConvertMilliSecondsToFormattedDate(logDetailResponse.getComment().get(i).getCreated()));
+            author.setText(getString(R.string.submitted_by)+" "+logDetailResponse.getComment().get(i).getRegistered_name()+" on "+ Utils.ConvertMilliSecondsToFormattedDate(Long.valueOf(logDetailResponse.getComment().get(i).getCreated()).longValue()));
 
             mCommentLayout.addView(layout2);
         }

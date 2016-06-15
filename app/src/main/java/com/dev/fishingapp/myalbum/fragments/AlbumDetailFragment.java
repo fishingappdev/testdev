@@ -201,7 +201,7 @@ public class AlbumDetailFragment extends BaseToolbarFragment implements View.OnC
             TextView author = (TextView) layout2.findViewById(R.id.commentAuthor);
             title.setText(myAlbumDetails.getComment().get(i).getSubject());
             description.setText(myAlbumDetails.getComment().get(i).getComment_body());
-            author.setText(getString(R.string.submitted_by) + " " + myAlbumDetails.getComment().get(i).getRegistered_name() + " on " + Utils.ConvertMilliSecondsToFormattedDate(myAlbumDetails.getComment().get(i).getCreated()));
+            author.setText(getString(R.string.submitted_by) + " " + myAlbumDetails.getComment().get(i).getRegistered_name() + " on " + Utils.ConvertMilliSecondsToFormattedDate(Long.valueOf(myAlbumDetails.getComment().get(i).getCreated()).longValue()));
             mCommentLayout.addView(layout2);
         }
 

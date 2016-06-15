@@ -1,7 +1,8 @@
 package com.dev.fishingapp.support;
 
-import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +15,6 @@ import com.dev.fishingapp.R;
 import com.dev.fishingapp.data.model.EpisodeList;
 import com.dev.fishingapp.util.DotsProgressBar;
 import com.dev.fishingapp.util.FishingAppHelper;
-import com.dev.fishingapp.util.Utils;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 
 import java.util.ArrayList;
@@ -74,7 +74,10 @@ public class EpisodeListAdapter extends BaseAdapter {
         mViewHolder.platBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Utils.watchVideo(episodeList.get(position).getFull_video_url(), (Activity)context);
+               // Utils.watchVideo(episodeList.get(position).getFull_video_url(), (Activity)context);
+                Intent videoIntent = new Intent(Intent.ACTION_VIEW);
+                videoIntent.setDataAndType(Uri.parse(episodeList.get(position).getFull_video_url()), "video/*");
+                context.startActivity(Intent.createChooser(videoIntent, "Complete action using"));
             }
         });
 

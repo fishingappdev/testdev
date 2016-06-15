@@ -129,6 +129,7 @@ public class AddFishingLog extends BaseToolbarFragment implements View.OnClickLi
     @Override
     public void onResume() {
         super.onResume();
+        ((HomeActivity)getActivity()).setCurrentFragment(AddFishingLog.this);
         LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(getActivity());
         IntentFilter intentFilter = new IntentFilter(AppConstants.ADD_FISHING_LOG_CALLBACK_BROADCAST);
         receiver = new AddLogBroadcastReceiver();

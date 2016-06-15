@@ -31,8 +31,6 @@ import com.dev.fishingapp.util.FishingPreferences;
 
 import java.util.ArrayList;
 
-import retrofit.http.HEAD;
-
 /**
  * Created by user on 4/18/2016.
  */
@@ -98,6 +96,7 @@ public class FishingLog extends BaseToolbarFragment implements OnItemClickListen
     @Override
     public void onResume() {
         super.onResume();
+        ((HomeActivity)getActivity()).setCurrentFragment(FishingLog.this);
         LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(getActivity());
         IntentFilter intentFilter = new IntentFilter(AppConstants.FISHING_LOG_CALLBACK_BROADCAST);
         IntentFilter intentFiter1 = new IntentFilter(AppConstants.LOAD_FISH_LOG_CALLBACK_BROADCAST);
@@ -122,8 +121,9 @@ public class FishingLog extends BaseToolbarFragment implements OnItemClickListen
             Bundle bundle = new Bundle();
             bundle.putString("nid", myFishLogArrayList.get(position).getNid());
             fragment.setArguments(bundle);
-            FragmentManager fm = getActivity().getSupportFragmentManager();
-            fm.beginTransaction().add(R.id.content_frame, fragment).hide(this).addToBackStack(null).commit();
+            addFragmentWithBackStack(fragment);
+            /*FragmentManager fm = getActivity().getSupportFragmentManager();
+            fm.beginTransaction().add(R.id.content_frame, fragment).hide(this).addToBackStack(null).commit();*/
         }
     }
 
@@ -134,8 +134,10 @@ public class FishingLog extends BaseToolbarFragment implements OnItemClickListen
             ((HomeActivity) getActivity()).showRightOption(HomeActivity.ADD_LOG_OPTION, new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    FragmentManager fm = getActivity().getSupportFragmentManager();
+                    /*FragmentManager fm = getActivity().getSupportFragmentManager();
                     fm.beginTransaction().add(R.id.content_frame, new AddFishingLog()).hide(FishingLog.this).addToBackStack(null).commit();
+*/
+                addFragmentWithBackStack(new AddFishingLog());
                 }
             });
         }

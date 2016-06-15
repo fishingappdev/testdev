@@ -161,6 +161,12 @@ public class AddFishFragment extends BaseToolbarFragment implements OnClickListe
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        ((HomeActivity)getActivity()).setCurrentFragment(AddFishFragment.this);
+    }
+
+    @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         Log.d("Add Fish", "On Resume" + ">>>>>");

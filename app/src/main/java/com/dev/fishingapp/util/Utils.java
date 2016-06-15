@@ -11,8 +11,9 @@ import com.dev.fishingapp.R;
 import org.apache.commons.validator.routines.UrlValidator;
 
 import java.io.File;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Created by user on 5/2/2016.
@@ -53,10 +54,14 @@ public class Utils {
     }
 
 
-    public static String ConvertMilliSecondsToFormattedDate(String milliSeconds) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(Long.parseLong(milliSeconds));
-        return simpleDateFormat.format(calendar.getTime());
+
+
+
+    public static String ConvertMilliSecondsToFormattedDate(long milliSeconds){
+        Timestamp stamp = new Timestamp(milliSeconds*1000);
+        Date date = new Date(stamp.getTime());
+        return simpleDateFormat.format(date);
+
     }
 
 }

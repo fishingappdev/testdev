@@ -83,7 +83,7 @@ public class MyAlbumFragment extends BaseToolbarFragment implements AdapterView.
             });
         }
         loaderManager = getActivity().getSupportLoaderManager();
-        loaderManager.initLoader(R.id.loader_myalbum, null, new MyAlbumCallback((AppCompatActivity) getActivity(), true, FishingPreferences.getInstance().getCurrentUserId()));
+        loaderManager.initLoader(R.id.loader_myalbum, null, new MyAlbumCallback((AppCompatActivity) getActivity(), true, uid));
         myAlbumArraylist = new ArrayList<>();
         myAlbumListAdapter = new MyAlbumListAdapter(getActivity(), myAlbumArraylist);
         mAlbumList.setAdapter(myAlbumListAdapter);
@@ -133,7 +133,8 @@ public class MyAlbumFragment extends BaseToolbarFragment implements AdapterView.
                         myAlbumArraylist.clear();
                         myAlbumArraylist.addAll(response.getMyalbums());
                         myAlbumListAdapter.notifyDataSetChanged();
-                    } else {
+                    }
+                    else {
                         AlertMessageDialog dialog = new AlertMessageDialog(getActivity(), getString(R.string.error_txt), getString(R.string.some_error_occured));
                         dialog.setAcceptButtonText(getString(R.string.ok_txt));
                         dialog.show();

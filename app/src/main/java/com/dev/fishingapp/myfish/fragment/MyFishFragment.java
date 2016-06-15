@@ -54,9 +54,10 @@ public class MyFishFragment extends BaseToolbarFragment implements AdapterView.O
         ((HomeActivity) getActivity()).showRightOption(HomeActivity.ADD_FISH_OPTION, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentManager fm = getActivity().getSupportFragmentManager();
+                /*FragmentManager fm = getActivity().getSupportFragmentManager();
                 android.support.v4.app.FragmentTransaction fragmentTransaction = fm.beginTransaction();
                 fragmentTransaction.add(R.id.content_frame, new AddFishFragment()).hide(MyFishFragment.this).addToBackStack(null).commit();
+*/          addFragmentWithBackStack(new AddFishFragment());
             }
         });
         mFishList = (ListView) view.findViewById(R.id.myfish_list);
@@ -98,14 +99,25 @@ public class MyFishFragment extends BaseToolbarFragment implements AdapterView.O
         bundle.putString("catid", fishList.get(position).getCatid());
         Fragment fragment = new FishCategoryFragment();
         fragment.setArguments(bundle);
-        FragmentManager fm = getActivity().getSupportFragmentManager();
+        addFragmentWithBackStack(fragment);
+       /* FragmentManager fm = getActivity().getSupportFragmentManager();
         fm.beginTransaction().add(R.id.content_frame, fragment).hide(this).addToBackStack(null).commit();
+*/
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((HomeActivity)getActivity()).setCurrentFragment(MyFishFragment.this);
+        Log.d("onResume", "MyFish Fragment");
+
 
     }
 
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
+        ((HomeActivity)getActivity()).setCurrentFragment(MyFishFragment.this);
         Log.d("setUserVisibleHint", "MyFish Fragment" + hidden);
         if (!hidden) {
             ((HomeActivity) getActivity()).showRightOption(HomeActivity.ADD_FISH_OPTION, new View.OnClickListener() {

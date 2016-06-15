@@ -77,8 +77,9 @@ public class FishDetailFragment extends BaseToolbarFragment {
         ((HomeActivity) getActivity()).showRightOption(HomeActivity.ADD_FISH_OPTION, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentManager fm = getActivity().getSupportFragmentManager();
+               /* FragmentManager fm = getActivity().getSupportFragmentManager();
                 fm.beginTransaction().add(R.id.content_frame, new AddFishFragment()).hide(FishDetailFragment.this).addToBackStack(null).commit();
+*/            addFragmentWithBackStack(new AddFishFragment());
             }
         });
 
@@ -107,6 +108,7 @@ public class FishDetailFragment extends BaseToolbarFragment {
     @Override
     public void onResume() {
         super.onResume();
+        ((HomeActivity)getActivity()).setCurrentFragment(FishDetailFragment.this);
         LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(getActivity());
         IntentFilter intentFilter = new IntentFilter(AppConstants.FISH_DETAIL_CALLBACK_BROADCAST);
         receiver = new FishDetailBroadcastReceiver();

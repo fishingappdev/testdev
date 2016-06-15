@@ -48,7 +48,6 @@
                     android:layout_toLeftOf="@+id/tv_add_friemd"
                     android:layout_toRightOf="@id/iv_friend"
                     android:paddingLeft="@dimen/dp_5"
-                    android:text="BIG RED"
                     android:textColor="@color/drawer_bg"
                     android:textSize="@dimen/sp_20" />
 
@@ -61,7 +60,7 @@
                     android:layout_toLeftOf="@+id/tv_add_friemd"
                     android:layout_toRightOf="@id/iv_friend"
                     android:paddingLeft="@dimen/dp_5"
-                    android:text="Country: Australia" />
+                     />
 
                 <TextView
                     android:id="@+id/tv_add_friemd"
