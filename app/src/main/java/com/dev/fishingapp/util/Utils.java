@@ -17,25 +17,32 @@ import java.util.Calendar;
 /**
  * Created by user on 5/2/2016.
  */
-public class Utils{
+public class Utils {
 
-public static String dateFormat = " EEE dd/MM/yyyy hh:mm";
-private static SimpleDateFormat simpleDateFormat = new SimpleDateFormat(dateFormat);
+    public static String dateFormat = " EEE dd/MM/yyyy hh:mm";
+    private static SimpleDateFormat simpleDateFormat = new SimpleDateFormat(dateFormat);
+
     public static void watchVideo(String imageUrl, Activity activity) {
         if (imageUrl != null
                 && !imageUrl.isEmpty()
                 && UrlValidator.getInstance().isValid(imageUrl)) {
             FishingApplication app = FishingApplication.getInstance();
             if (app.checkCanOpenVideoMP4Url(imageUrl)) {
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-                String[] segments = imageUrl.split("/");
-                File file = new File(app.getFileCacheLocation(), segments[segments.length - 1]);
-                Uri uri = Uri.fromFile(file.getAbsoluteFile());
-                if (file.exists())
-                    intent.setDataAndType(uri, "video/*");
-                else
-                    intent.setDataAndType(Uri.parse(imageUrl), "video/mp4");
-                activity.startActivity(intent);
+                if (imageUrl.contains("vimeo")) {
+                    Intent i = new Intent(Intent.ACTION_VIEW);
+                    i.setData(Uri.parse(imageUrl));
+                    activity.startActivity(i);
+                } else {
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    String[] segments = imageUrl.split("/");
+                    File file = new File(app.getFileCacheLocation(), segments[segments.length - 1]);
+                    Uri uri = Uri.fromFile(file.getAbsoluteFile());
+                    if (file.exists())
+                        intent.setDataAndType(uri, "video/*");
+                    else
+                        intent.setDataAndType(Uri.parse(imageUrl), "video/mp4");
+                    activity.startActivity(intent);
+                }
             } else {
                 Toast.makeText(activity, R.string.VIDEO_PLAYER_ERROR, Toast.LENGTH_LONG).show();
                 Intent i = new Intent(Intent.ACTION_VIEW);
@@ -46,9 +53,7 @@ private static SimpleDateFormat simpleDateFormat = new SimpleDateFormat(dateForm
     }
 
 
-
-
-    public static String ConvertMilliSecondsToFormattedDate(String milliSeconds){
+    public static String ConvertMilliSecondsToFormattedDate(String milliSeconds) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(Long.parseLong(milliSeconds));
         return simpleDateFormat.format(calendar.getTime());

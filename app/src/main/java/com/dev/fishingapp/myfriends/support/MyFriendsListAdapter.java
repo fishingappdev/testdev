@@ -30,11 +30,13 @@ public class MyFriendsListAdapter extends BaseAdapter implements Filterable {
     DisplayImageOptions options;
     List<Friend> mOriginalValues;
     List<String> mListItem; // any k
+    boolean showDetails;
 
-    public MyFriendsListAdapter(Context context, ArrayList<Friend> myFriendsArrayList) {
+    public MyFriendsListAdapter(Context context, ArrayList<Friend> myFriendsArrayList, boolean showDetails) {
         this.context = context;
-        this.myFriendsArrayList = myFriendsArrayList;
         inflater = LayoutInflater.from(this.context);
+        this.myFriendsArrayList = myFriendsArrayList;
+        this.showDetails = showDetails;
     }
 
     @Override
@@ -74,6 +76,11 @@ public class MyFriendsListAdapter extends BaseAdapter implements Filterable {
                 .cacheOnDisc(true)
                 .build();
         FishingAppHelper.getImageLoader().displayImage(currentFriend.getPicture(), mViewHolder.ivIcon, options);
+        if (showDetails) {
+
+        } else {
+            mViewHolder.arrow.setVisibility(View.GONE);
+        }
         return convertView;
     }
 
@@ -146,10 +153,12 @@ public class MyFriendsListAdapter extends BaseAdapter implements Filterable {
     private class MyViewHolder {
         TextView tvTitle;
         ImageView ivIcon;
+        ImageView arrow;
 
         public MyViewHolder(View item) {
             tvTitle = (TextView) item.findViewById(R.id.title);
             ivIcon = (ImageView) item.findViewById(R.id.iv_icon);
+            arrow = (ImageView) item.findViewById(R.id.arrow);
         }
     }
 }

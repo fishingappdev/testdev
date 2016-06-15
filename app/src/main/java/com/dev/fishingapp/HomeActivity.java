@@ -507,7 +507,7 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
         } else if (currentFragment instanceof MyProfile || currentFragment instanceof MyFriendsFragment || currentFragment instanceof MyAlbumFragment || currentFragment instanceof MyEpisodeList || currentFragment instanceof FishingRecordFRagmnet || currentFragment instanceof ChangePassword) {
             FragmentManager fm = getSupportFragmentManager();
             Fragment fragment = new MyFishFragment();
-            fm.beginTransaction().replace(R.id.content_frame, fragment).addToBackStack(null).commit();
+            fm.beginTransaction().replace(R.id.content_frame, fragment).commit();
             // update selected item and title, then close the drawer
             mDrawerList.setItemChecked(1, true);
             mDrawerList.setSelection(1);

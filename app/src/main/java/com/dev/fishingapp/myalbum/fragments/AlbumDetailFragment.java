@@ -72,7 +72,7 @@ public class AlbumDetailFragment extends BaseToolbarFragment implements View.OnC
         prevBtn = (ImageView) view.findViewById(R.id.prevBtn);
         description = (TextView) view.findViewById(R.id.description);
         location = (TextView) view.findViewById(R.id.location);
-        country_list = (TextView) view.findViewById(R.id.country);
+        country_list = (TextView) view.findViewById(R.id.country_list);
         comment_list = (LinearLayout) view.findViewById(R.id.comment_list);
         mCommentBtn = (Button) view.findViewById(R.id.CommentBtn);
         mCommentLayout = (LinearLayout) view.findViewById(R.id.commentView);

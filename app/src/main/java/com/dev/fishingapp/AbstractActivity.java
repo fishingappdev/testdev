@@ -38,10 +38,10 @@ public abstract class AbstractActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         mHandler = new Handler();
 
-        if(savedInstanceState!=null) {
+        if (savedInstanceState != null) {
             String uri = savedInstanceState.getString("fileUri");
-            if (uri!=null)
-                fileUri= Uri.parse(uri);
+            if (uri != null)
+                fileUri = Uri.parse(uri);
         }
     }
 
@@ -53,12 +53,16 @@ public abstract class AbstractActivity extends AppCompatActivity {
 
 
     public void showDialogFragment(final DialogFragment dialogFragment) {
-        if(!isFinishing())
+        if (!isFinishing())
             mHandler.post(new Runnable() {
                 @Override
                 public void run() {
-                    if(!isFinishing())
-                        dialogFragment.show(getSupportFragmentManager(), dialogFragment.getClass().getSimpleName());
+                    if (!isFinishing())
+                        try {
+                            dialogFragment.show(getSupportFragmentManager(), dialogFragment.getClass().getSimpleName());
+                        } catch (IllegalStateException e) {
+
+                        }
                 }
             });
     }
@@ -130,7 +134,6 @@ public abstract class AbstractActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
     }
-
 
 
 }

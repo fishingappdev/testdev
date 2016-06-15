@@ -81,19 +81,23 @@ public class MyFriendsFragment extends BaseToolbarFragment implements AdapterVie
         loaderManager = getActivity().getSupportLoaderManager();
         loaderManager.initLoader(R.id.loader_friends, null, new FriendsCallback((AppCompatActivity) getActivity(), true, "all", uid, find_friends));
         mFriendList = new ArrayList<>();
-        myFriendsListAdapter = new MyFriendsListAdapter(getActivity(), mFriendList);
+        boolean myfrens=uid.equals(FishingPreferences.getInstance().getCurrentUserId());
+        myFriendsListAdapter = new MyFriendsListAdapter(getActivity(), mFriendList, myfrens);
         mFriendListView.setAdapter(myFriendsListAdapter);
-        mFriendListView.setOnItemClickListener(this);
+        if (myfrens) {
+            mFriendListView.setOnItemClickListener(this);
+        } else {
+            mFriendListView.setEnabled(false);
+            mFriendListView.setOnItemClickListener(null);
+        }
         mFriendListView.setTextFilterEnabled(true);
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        if (uid.equals(FishingPreferences.getInstance().getCurrentUserId())) {
             Intent intent = new Intent(getActivity(), FriendDetailsActivity.class);
             intent.putExtra("userId", mFriendList.get(position).getUid());
             startActivity(intent);
-        }
     }
 
     class FriendBroadcastReceiver extends BroadcastReceiver {
@@ -119,8 +123,8 @@ public class MyFriendsFragment extends BaseToolbarFragment implements AdapterVie
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
+    public void onAttach(Context context) {
+        super.onAttach(context);
         LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(getActivity());
         IntentFilter intentFilter = new IntentFilter(AppConstants.FRIEND_CALLBACK_BROADCAST);
         receiver = new FriendBroadcastReceiver();
@@ -128,8 +132,8 @@ public class MyFriendsFragment extends BaseToolbarFragment implements AdapterVie
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
+    public void onDetach() {
+        super.onDetach();
         LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(getActivity());
         localBroadcastManager.unregisterReceiver(receiver);
     }
