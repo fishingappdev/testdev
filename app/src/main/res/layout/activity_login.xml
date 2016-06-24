@@ -63,6 +63,7 @@
                             android:drawableLeft="@drawable/lock_ic"
                             android:drawablePadding="@dimen/dp_5"
                             android:hint="@string/password_hint"
+                            android:maxLength="6"
                             android:inputType="textPassword"
                             android:singleLine="true"
                             android:textColor="@color/white"

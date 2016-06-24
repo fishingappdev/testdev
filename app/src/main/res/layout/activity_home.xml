@@ -38,6 +38,7 @@
 
             <ImageView
                 android:id="@+id/profile_pic_edit"
+                android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@id/profile_pic"

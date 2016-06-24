@@ -190,7 +190,7 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
 
         //set username
         String username = FishingPreferences.getInstance().getCurrentUsername();
-        userName.setText(username);
+        userName.setText(username.toUpperCase());
         String profileImageUrl = FishingPreferences.getInstance().getProfileImageUrl();
 
         dotsProgressBar = new DotsProgressBar(this, mProfilePic);
@@ -244,7 +244,7 @@ public class HomeActivity extends AbstractActivity implements View.OnClickListen
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.profile_pic_edit: {
+            case R.id.profile_pic: {
                 showImageOptions();
             }
             break;
