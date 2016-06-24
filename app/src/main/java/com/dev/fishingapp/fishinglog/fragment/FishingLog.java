@@ -70,6 +70,7 @@ public class FishingLog extends BaseToolbarFragment implements OnItemClickListen
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ((HomeActivity) getActivity()).setToolBarTitle(getResources().getString(R.string.header_fishinglog));
+        toShowDetails = uid.equals(FishingPreferences.getInstance().getCurrentUserId());
         if (toShowDetails) {
             ((HomeActivity) getActivity()).showRightOption(HomeActivity.ADD_LOG_OPTION, new View.OnClickListener() {
                 @Override
@@ -93,7 +94,7 @@ public class FishingLog extends BaseToolbarFragment implements OnItemClickListen
         if (toShowDetails) {
             mLogList.setOnItemClickListener(this);
         } else {
-            mLogList.setEnabled(false);
+            //mLogList.setEnabled(false);
             mLogList.setOnItemClickListener(null);
         }
     }
